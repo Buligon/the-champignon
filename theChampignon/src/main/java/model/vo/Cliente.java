@@ -24,7 +24,7 @@ public class Cliente extends Pessoas {
     List<Venda> vendas;
     
     @Embedded
-    private Endereco endereco;
+    private Enderecos endereco;
 
 //    public String getNome() {
 //        return nome;

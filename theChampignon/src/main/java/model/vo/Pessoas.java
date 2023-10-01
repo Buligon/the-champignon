@@ -1,5 +1,6 @@
 package model.vo;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +16,9 @@ public class Pessoas {
     private String nome;
     private String email;
     private String telefone;
-    // todo: private Endereco endereco;
+    @Embedded
+    private Enderecos endereco;
+    
     private int cancelado;
 
     public String getCpf() {
@@ -53,6 +56,13 @@ public class Pessoas {
     public void setCancelado(int cancelado) {
         this.cancelado = cancelado;
     }
-    
+
+    public Enderecos getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Enderecos endereco) {
+        this.endereco = endereco;
+    }
     
 }
