@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
  * @author Giuvane Conti
  */
 @Entity
-public class Cliente extends Pessoa {
+public class Cliente extends Pessoas {
     
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long codCliente;
@@ -24,7 +24,7 @@ public class Cliente extends Pessoa {
     List<Venda> vendas;
     
     @Embedded
-    private Endereco endereco;
+    private Enderecos endereco;
 
 //    public String getNome() {
 //        return nome;

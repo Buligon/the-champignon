@@ -2,59 +2,59 @@ package model.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.connector.ConexaoJPQL;
-import model.vo.Especies;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import model.connector.ConexaoJPQL;
+import model.vo.Pessoas;
 
-public class EspeciesDAOImpl implements EspeciesDAO {
+public class PessoasDAOImpl implements PessoasDAO {
     EntityManager manager;
     
-    public EspeciesDAOImpl() {
+    public PessoasDAOImpl() {
         manager = ConexaoJPQL.getInstance();
     }
     
     @Override
-    public void salvar(Especies especie) {
+    public void salvar(Pessoas pessoa) {
         manager.getTransaction().begin();
-        manager.persist(especie);
+        manager.persist(pessoa);
         manager.getTransaction().commit();
     }
 
     @Override
-    public void atualizar(Especies especie) {
+    public void atualizar(Pessoas pessoa) {
         manager.getTransaction().begin();
-        manager.persist(especie);
+        manager.persist(pessoa);
         manager.getTransaction().commit();
     }
 
     @Override
-    public void excluir(Especies especie) {
-        especie.setCancelado(1);
+    public void excluir(Pessoas pessoa) {
+        pessoa.setCancelado(1);
         manager.getTransaction().begin();
-        manager.persist(especie);
+        manager.persist(pessoa);
         manager.getTransaction().commit();
     }
 
     @Override
-    public List<Especies> listarTodos() {
-        List<Especies> especies;
+    public List<Pessoas> listarTodos() {
+        List<Pessoas> pessoa;
         
         try {
-            TypedQuery<Especies> query = manager.createQuery("SELECT e FROM Especies e", Especies.class);
-            especies = query.getResultList();
+            TypedQuery<Pessoas> query = manager.createQuery("SELECT p FROM Pessoas p", Pessoas.class);
+            pessoa = query.getResultList();
         } catch (NoResultException e) {
-            especies = new ArrayList<>(); // Handle no results
+            pessoa = new ArrayList<>(); // Handle no results
         } catch (Exception e) {
-            especies = new ArrayList<>();
+            pessoa = new ArrayList<>();
         }
         
-        return especies;
+        return pessoa;
     }
     
     @Override
-    public List<Especies> filtrar() {
+    public List<Pessoas> filtrar() {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 }
