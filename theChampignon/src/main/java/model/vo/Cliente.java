@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
  * @author Giuvane Conti
  */
 @Entity
-public class Cliente extends Pessoa {
+public class Cliente extends Pessoas {
     
 //    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    private Long codCliente;
