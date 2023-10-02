@@ -24,6 +24,16 @@ public class Produtos {
     @Embedded
     private Unidades unidade;
     private float custo;
+
+    public Produtos(Long id, String descricao, int quantidade, Especies especie, Unidades unidade, float custo, float valor) {
+        this.id = id;
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.especie = especie;
+        this.unidade = unidade;
+        this.custo = custo;
+        this.valor = valor;
+    }
     private float valor;
     private int cancelado;
     

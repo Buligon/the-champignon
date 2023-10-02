@@ -14,9 +14,14 @@ public class Funcionario extends Pessoas{
     private float salario;
     private Date admissao;
     private Date demissao;
-    @Embedded
-    private Pessoas pessoa;
 
+    public Funcionario(float salario, Date admissao, Date demissao, Long id, String cpf, String nome, String email, String telefone, Enderecos endereco) {
+        super(id, cpf, nome, email, telefone, endereco);
+        this.salario = salario;
+        this.admissao = admissao;
+        this.demissao = demissao;
+    }
+    
     public float getSalario() {
         return salario;
     }

@@ -8,6 +8,10 @@ import javax.persistence.Id;
 @Embeddable
 public class Unidades {
     private String descricao;
+
+    public Unidades(String descricao) {
+        this.descricao = descricao;
+    }
     private int cancelado;
     
     public String getDescricao() {

@@ -7,6 +7,11 @@ import javax.persistence.Id;
 
 @Embeddable
 public class Especies {
+
+    public Especies(String descricao) {
+        this.descricao = descricao;
+    }
+    
     private String descricao;
     private int cancelado;
 
@@ -20,8 +25,5 @@ public class Especies {
 
     public void setCancelado(int cancelado) {
         this.cancelado = cancelado;
-    }
-    
-    
-    
+    } 
 }

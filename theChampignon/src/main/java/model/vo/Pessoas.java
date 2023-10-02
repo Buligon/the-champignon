@@ -11,6 +11,15 @@ public class Pessoas {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
+    public Pessoas(Long id, String cpf, String nome, String email, String telefone, Enderecos endereco) {
+        this.id = id;
+        this.cpf = cpf;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.endereco = endereco;
+    }
     
     private String cpf;
     private String nome;
