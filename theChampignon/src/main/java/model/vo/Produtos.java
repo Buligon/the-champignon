@@ -1,5 +1,6 @@
 package model.vo;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,11 +12,13 @@ import model.vo.Especies;
 public class Produtos {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)    
-    
     private Long id;
+    
     private String descricao;
     private int quantidade;
+    @Embedded
     private Especies especie;
+    @Embedded
     private Unidades unidade;
     private float custo;
     private float valor;
