@@ -1,12 +1,15 @@
 package model.vo;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import model.vo.Especies;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Produtos {
@@ -23,9 +26,25 @@ public class Produtos {
     private float custo;
     private float valor;
     private int cancelado;
-
+    
+    @ManyToMany
+    @JoinTable(
+        name = "fornecedores_produtos",
+        joinColumns = @JoinColumn(name = "produto_id"),
+        inverseJoinColumns = @JoinColumn(name = "fornecedor_id")
+    )
+    private List<Fornecedores> fornecedores = new ArrayList<>();
+    
     public String getDescricao() {
         return descricao;
+    }
+
+    public List<Fornecedores> getFornecedores() {
+        return fornecedores;
+    }
+
+    public void setFornecedores(List<Fornecedores> fornecedores) {
+        this.fornecedores = fornecedores;
     }
 
     public void setDescricao(String descricao) {

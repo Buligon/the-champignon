@@ -15,5 +15,7 @@
     <class>model.vo.Unidades</class>
     <class>model.vo.Pessoas</class>
     <class>model.vo.Clientes</class>
+    <class>model.vo.Fornecedores</class>
+    <class>model.vo.Produtos</class>
   </persistence-unit>
 </persistence>

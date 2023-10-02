@@ -6,6 +6,8 @@ import javax.persistence.Persistence;
 import model.dao.ClientesDAOImpl;
 import model.dao.ClientesDAO;
 import model.vo.Clientes;
+import model.vo.Fornecedores;
+import model.vo.Produtos;
 
 public class GerarBanco {
     public static void main(String[] args){
@@ -15,6 +17,14 @@ public class GerarBanco {
         
         Clientes esp1 = new Clientes();
         esp1.setNome("teste");
+        
+        Produtos produto = new Produtos();
+        Fornecedores fornecedor = new Fornecedores();
+        fornecedor.setRazaosocial("teste");
+        produto.setDescricao("Sample Product");
+        produto.setQuantidade(10);
+        
+        produto.getFornecedores().add(fornecedor);
         
         manager.getTransaction().begin();
         manager.persist(esp1);
