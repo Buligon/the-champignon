@@ -1,13 +1,12 @@
 package model.dao;
 
-import model.vo.Cliente;
+import model.vo.Clientes;
 import java.util.List;
 
 public interface ClientesDAO {
-    void salvar(Cliente cliente);
-    void atualizar(Cliente cliente);
-    void excluir(Cliente cliente);
-    void excluir(Long id);
-    List<Cliente> listarTodos();
-    Cliente listarUm(Long id);
+    void salvar(Clientes cliente);
+    void atualizar(Clientes cliente);
+    void excluir(Clientes cliente);
+    List<Clientes> listarTodos();
+    List<Clientes> filtrar();
 }
