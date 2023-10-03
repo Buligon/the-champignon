@@ -7,8 +7,12 @@ import javax.persistence.OneToMany;
 @Entity
 public class Clientes extends Pessoas {
 
-    public Clientes(Long id, String cpf, String nome, String email, String telefone, Enderecos endereco) {
-        super(id, cpf, nome, email, telefone, endereco);
+    public Clientes( String cpf, String nome, String email, String telefone, Enderecos endereco) {
+        super(cpf, nome, email, telefone, endereco);
+    }
+    
+    public Clientes() {
+
     }
     /*@OneToMany(mappedBy = "cliente")
     List<Venda> vendas;*/

@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Produtos {
@@ -19,14 +20,13 @@ public class Produtos {
     
     private String descricao;
     private int quantidade;
-    @Embedded
+    @ManyToOne
     private Especies especie;
-    @Embedded
+    @ManyToOne
     private Unidades unidade;
     private float custo;
 
-    public Produtos(Long id, String descricao, int quantidade, Especies especie, Unidades unidade, float custo, float valor) {
-        this.id = id;
+    public Produtos(String descricao, int quantidade, Especies especie, Unidades unidade, float custo, float valor) {
         this.descricao = descricao;
         this.quantidade = quantidade;
         this.especie = especie;
@@ -34,6 +34,11 @@ public class Produtos {
         this.custo = custo;
         this.valor = valor;
     }
+    
+    public Produtos() {
+
+    }
+    
     private float valor;
     private int cancelado;
     

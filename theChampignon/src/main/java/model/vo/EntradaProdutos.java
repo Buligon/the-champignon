@@ -1,5 +1,6 @@
 package model.vo;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -7,15 +8,15 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class VendaProdutos {
+public class EntradaProdutos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private Vendas venda;
+    private Entradas entrada;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Produtos produto;
 
     private double preco;
@@ -29,12 +30,12 @@ public class VendaProdutos {
         this.id = id;
     }
 
-    public Vendas getVenda() {
-        return venda;
+    public Entradas getEntrada() {
+        return entrada;
     }
 
-    public void setVenda(Vendas venda) {
-        this.venda = venda;
+    public void setEntrada(Entradas entrada) {
+        this.entrada = entrada;
     }
 
     public Produtos getProduto() {
@@ -61,13 +62,14 @@ public class VendaProdutos {
         this.quantidade = quantidade;
     }
 
-    public VendaProdutos(Vendas venda, Produtos produto, double preco, int quantidade) {
-        this.venda = venda;
+    public EntradaProdutos(Entradas entrada, Produtos produto, double preco, int quantidade) {
+        this.entrada = entrada;
         this.produto = produto;
         this.preco = preco;
         this.quantidade = quantidade;
     }
     
-    public VendaProdutos() {
+    public EntradaProdutos() {
     }
+    
 }

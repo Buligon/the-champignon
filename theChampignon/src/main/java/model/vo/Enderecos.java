@@ -15,6 +15,11 @@ public class Enderecos {
         this.complemento = complemento;
         this.cep = cep;
     }
+    
+    public Enderecos () {
+        
+    }
+    
     private String estado;
     private String cidade;
     private String logradouro;

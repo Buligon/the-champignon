@@ -18,13 +18,17 @@ public class Fornecedores {
     @Embedded
     private Enderecos endereco;
 
-    public Fornecedores(Long id, String cnpj, String razaosocial, String telefone, Enderecos endereco) {
-        this.id = id;
+    public Fornecedores( String cnpj, String razaosocial, String telefone, Enderecos endereco) {
         this.cnpj = cnpj;
         this.razaosocial = razaosocial;
         this.telefone = telefone;
         this.endereco = endereco;
     }
+    
+    public Fornecedores() {
+        
+    }
+    
     private int cancelado;
 
     public Long getId() {
