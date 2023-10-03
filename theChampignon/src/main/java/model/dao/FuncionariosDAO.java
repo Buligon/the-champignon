@@ -1,14 +1,14 @@
 package model.dao;
 
 import java.util.List;
-import model.vo.Funcionario;
+import model.vo.Funcionarios;
 
 public interface FuncionariosDAO{
     
-    void salvar(Funcionario funcionario);
-    void atualizar(Funcionario funcionario);
-    void excluir(Funcionario funcionario);
-    List<Funcionario> listarTodos();
-    List<Funcionario> filtrar();
+    void salvar(Funcionarios funcionario);
+    void atualizar(Funcionarios funcionario);
+    void excluir(Funcionarios funcionario);
+    List<Funcionarios> listarTodos();
+    List<Funcionarios> filtrar();
     
 }

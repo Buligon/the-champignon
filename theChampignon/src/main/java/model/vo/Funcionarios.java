@@ -1,16 +1,11 @@
 package model.vo;
 
 import java.util.Date;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 
 @Entity
-public class Funcionario extends Pessoas{
-   
+public class Funcionarios extends Pessoas{
     private float salario;
     private Date admissao;
     private Date demissao;

@@ -1,37 +1,52 @@
 package util;
 
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import model.dao.ClientesDAOImpl;
-import model.dao.ClientesDAO;
-import model.vo.Clientes;
-import model.vo.Fornecedores;
 import model.vo.Produtos;
+import model.vo.VendaProdutos;
+import model.vo.Vendas;
 
 public class GerarBanco {
-    public static void main(String[] args){
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("thechampignon");
+    public static void main(String[] args) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("thechampignon");
+        EntityManager em = emf.createEntityManager();
+
+     
+            EntityTransaction transaction = em.getTransaction();
+            transaction.begin();
+
+            // Create a Venda
+            Vendas venda = new Vendas();
+            venda.setDataVenda(new Date());
+
+            // Create some Produto
+            Produtos produto1 = new Produtos();
+            produto1.setDescricao("Product A");
+            produto1.setValor(10.0f);
+
+            Produtos produto2 = new Produtos();
+            produto2.setDescricao("Product B");
+            produto2.setValor(15.0f);
+            
+            em.persist(produto1);
+            em.persist(produto2);
+
+            // Create VendaProduto entries
+            VendaProdutos vendaProduto1 = new VendaProdutos(venda, produto1, produto1.getValor(), 2);
+
+            VendaProdutos vendaProduto2 = new VendaProdutos(venda, produto2, produto2.getValor(), 3);
+
+            // Add VendaProduto entries to the Venda
+            venda.getProdutos().add(vendaProduto1);
+            venda.getProdutos().add(vendaProduto2);
+
+            // Persist the Venda
+            em.persist(venda);
+
+            transaction.commit();
         
-        EntityManager manager = factory.createEntityManager();
-        
-        Clientes esp1 = new Clientes();
-        esp1.setNome("teste");
-        
-        Produtos produto = new Produtos();
-        Fornecedores fornecedor = new Fornecedores();
-        fornecedor.setRazaosocial("teste");
-        produto.setDescricao("Sample Product");
-        produto.setQuantidade(10);
-        
-        produto.getFornecedores().add(fornecedor);
-        
-        manager.getTransaction().begin();
-        manager.persist(esp1);
-        manager.getTransaction().commit();
-        
-        ClientesDAOImpl ClientesDAO = new ClientesDAOImpl();
-        ClientesDAO.salvar(esp1);
-        System.out.println(ClientesDAO.listarTodos());
     }
 }

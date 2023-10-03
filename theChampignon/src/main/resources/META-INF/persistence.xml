@@ -16,5 +16,8 @@
     <class>model.vo.Clientes</class>
     <class>model.vo.Fornecedores</class>
     <class>model.vo.Produtos</class>
+    <class>model.vo.Funcionarios</class>
+    <class>model.vo.Vendas</class>
+    <class>model.vo.VendaProdutos</class>
   </persistence-unit>
 </persistence>

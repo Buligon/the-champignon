@@ -3,7 +3,7 @@ package model.dao;
 import java.util.ArrayList;
 import java.util.List;
 import model.connector.ConexaoJPQL;
-import model.vo.Funcionario;
+import model.vo.Funcionarios;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -16,21 +16,21 @@ public class FuncionariosDAOImpl implements FuncionariosDAO {
     }
     
     @Override
-    public void salvar(Funcionario funcionario) {
+    public void salvar(Funcionarios funcionario) {
         manager.getTransaction().begin();
         manager.persist(funcionario);
         manager.getTransaction().commit();
     }
 
     @Override
-    public void atualizar(Funcionario funcionario) {
+    public void atualizar(Funcionarios funcionario) {
         manager.getTransaction().begin();
         manager.persist(funcionario);
         manager.getTransaction().commit();
     }
 
     @Override
-    public void excluir(Funcionario funcionario) {
+    public void excluir(Funcionarios funcionario) {
         funcionario.setCancelado(1);
         manager.getTransaction().begin();
         manager.persist(funcionario);
@@ -38,12 +38,12 @@ public class FuncionariosDAOImpl implements FuncionariosDAO {
     }
 
     @Override
-    public List<Funcionario> listarTodos() {
-        List<Funcionario> funcionarios;
+    public List<Funcionarios> listarTodos() {
+        List<Funcionarios> funcionarios;
         
         try {
             // Create a JPQL query to select all records from the "Funcionario" entity
-            TypedQuery<Funcionario> query = manager.createQuery("SELECT e FROM Funcionario e", Funcionario.class);
+            TypedQuery<Funcionarios> query = manager.createQuery("SELECT e FROM Funcionario e", Funcionarios.class);
 
             // Execute the query and get the results
             funcionarios = query.getResultList();
@@ -59,7 +59,7 @@ public class FuncionariosDAOImpl implements FuncionariosDAO {
     
     
     @Override
-    public List<Funcionario> filtrar() {
+    public List<Funcionarios> filtrar() {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
 }
