@@ -1,4 +1,4 @@
-package util;
+package utils;
 
 import java.util.Date;
 import javax.persistence.EntityManager;
