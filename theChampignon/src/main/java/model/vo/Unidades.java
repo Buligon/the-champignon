@@ -21,6 +21,10 @@ public class Unidades {
     public Unidades() {
     }
     
+    public long getId() {
+        return id;
+    }
+    
     public String getDescricao() {
         return descricao;
     }

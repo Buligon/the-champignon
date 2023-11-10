@@ -87,9 +87,12 @@ public class TelaInicial {
 
         frameTela.setJMenuBar(menuBar);
 
-        // Add action listener for "Espécies" menu item
         especiesMenuItem.addActionListener((ActionEvent e) -> {
             abreTela(0, frameTela);
+        });
+        
+        unidadesMenuItem.addActionListener((ActionEvent e) -> {
+            abreTela(1, frameTela);
         });
         
         frameTela.setVisible(true);
@@ -98,12 +101,15 @@ public class TelaInicial {
     private static void abreTela(int telaNum, JFrame frameTela) {
         SwingUtilities.invokeLater(() -> {
             switch (telaNum) {
-                case 0:
+                case 0 -> {
                     TelaEspecies tela = new TelaEspecies(frameTela);
                     tela.setVisible(true);
-                    break;
-                default:
-                    throw new AssertionError();
+                }
+                case 1 -> {
+                    TelaUnidades tela = new TelaUnidades(frameTela);
+                    tela.setVisible(true);
+                }
+                default -> throw new AssertionError();
             }
         });
     }

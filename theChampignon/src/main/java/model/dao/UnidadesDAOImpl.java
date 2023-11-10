@@ -18,43 +18,45 @@ public class UnidadesDAOImpl implements UnidadesDAO {
     @Override
     public void salvar(Unidades unidade) {
         manager.getTransaction().begin();
+        
         manager.persist(unidade);
+        
         manager.getTransaction().commit();
     }
 
     @Override
-    public void atualizar(Unidades unidade) {
-        manager.getTransaction().begin();
-        manager.persist(unidade);
+    public void atualizar(long idUnidade, String descricaoNova) {
+         manager.getTransaction().begin();
+         
+        Unidades unidade = manager.find(Unidades.class, idUnidade);
+
+        if (unidade != null) {
+            unidade.setDescricao(descricaoNova);
+            manager.merge(unidade);
+        }
+        
         manager.getTransaction().commit();
     }
 
     @Override
-    public void excluir(Unidades unidade) {
-        unidade.setCancelado(1);
+    public void excluir(long idUnidade) {
         manager.getTransaction().begin();
-        manager.persist(unidade);
+        
+        Unidades unidade = manager.find(Unidades.class, idUnidade);
+
+        if (unidade != null) {
+            unidade.setCancelado(1);
+            manager.merge(unidade);
+        }
+        
         manager.getTransaction().commit();
     }
 
     @Override
     public List<Unidades> listarTodos() {
-        List<Unidades> unidades;
-        
-        try {
-            // Create a JPQL query to select all records from the "Especies" entity
-            TypedQuery<Unidades> query = manager.createQuery("SELECT e FROM Unidades e", Unidades.class);
-
-            // Execute the query and get the results
-            unidades = query.getResultList();
-        } catch (NoResultException e) {
-            unidades = new ArrayList<>(); // Handle no results, if needed
-        } catch (Exception e) {
-            // Handle other exceptions as needed
-            unidades = new ArrayList<>();
-        }
-        
-        return unidades;
+        // Não retorna os registros onde cancelado == 1
+        TypedQuery<Unidades> query = manager.createQuery("SELECT u FROM Unidades u WHERE u.cancelado <> 1", Unidades.class);
+        return query.getResultList();
     }
     
     

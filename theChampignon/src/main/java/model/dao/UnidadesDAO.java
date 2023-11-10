@@ -5,8 +5,8 @@ import model.vo.Unidades;
 
 public interface UnidadesDAO {
     void salvar(Unidades unidade);
-    void atualizar(Unidades unidade);
-    void excluir(Unidades unidade);
+    void atualizar(long idUnidade, String descricaoNova);
+    void excluir(long idUnidade);
     List<Unidades> listarTodos();
     List<Unidades> filtrar();
 }
