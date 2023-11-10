@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Clientes extends Pessoas {
+public class Clientes extends PessoaFisica {
 
     public Clientes( String cpf, String nome, String email, String telefone, Enderecos endereco) {
         super(cpf, nome, email, telefone, endereco);

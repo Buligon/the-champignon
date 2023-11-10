@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 
 
 @Entity
-public class Funcionarios extends Pessoas{
+public class Funcionarios extends PessoaFisica{
     private float salario;
     private Date admissao;
     private Date demissao;

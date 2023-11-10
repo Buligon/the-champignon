@@ -12,8 +12,7 @@ public class Pessoas {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    public Pessoas(String cpf, String nome, String email, String telefone, Enderecos endereco) {
-        this.cpf = cpf;
+    public Pessoas(String nome, String email, String telefone, Enderecos endereco) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
@@ -24,7 +23,6 @@ public class Pessoas {
         
     }
     
-    private String cpf;
     private String nome;
     private String email;
     private String telefone;
@@ -32,14 +30,6 @@ public class Pessoas {
     private Enderecos endereco;
     
     private int cancelado;
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 
     public String getNome() {
         return nome;
