@@ -67,14 +67,18 @@ public class CadUnidades extends JFrame {
         });
 
         btn_adicionar.addActionListener((ActionEvent e) -> {
-            String descricao = txtfield_desc.getText();
+            String descricao = txtfield_desc.getText().trim();
             
-            UnidadesRN unidadesRN = new UnidadesRN();
-            unidadesRN.adicionarUnidade(descricao);
-            
-            parent.listarUnidades();
-            
-            dispose();
+            if (!descricao.isEmpty()) {
+                UnidadesRN unidadesRN = new UnidadesRN();
+                unidadesRN.adicionarUnidade(descricao);
+
+                parent.listarUnidades();
+
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, insira uma descrição!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            }
         });
 
         pack();

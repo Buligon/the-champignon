@@ -70,14 +70,18 @@ public class EdtUnidades extends JFrame {
         });
 
         btn_salvar.addActionListener((ActionEvent e) -> {
-            String descricaoNova = txtfield_desc.getText();
+            String descricaoNova = txtfield_desc.getText().trim();
+            
+            if (!descricaoNova.isEmpty()) {
+                UnidadesRN unidadesRN = new UnidadesRN();
+                unidadesRN.editarUnidade(idUnidade, descricaoNova);
 
-            UnidadesRN unidadesRN = new UnidadesRN();
-            unidadesRN.editarUnidade(idUnidade, descricaoNova);
+                parent.listarUnidades();
 
-            parent.listarUnidades();
-
-            dispose();
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, insira uma descrição!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            }
         });
 
         pack();

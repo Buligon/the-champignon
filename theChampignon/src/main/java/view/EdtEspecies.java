@@ -70,14 +70,18 @@ public class EdtEspecies extends JFrame {
         });
 
         btn_salvar.addActionListener((ActionEvent e) -> {
-            String descricaoNova = txtfield_desc.getText();
+            String descricaoNova = txtfield_desc.getText().trim();
 
-            EspeciesRN especiesRN = new EspeciesRN();
-            especiesRN.editarEspecie(idEspecie, descricaoNova);
+            if (!descricaoNova.isEmpty()) {
+                EspeciesRN especiesRN = new EspeciesRN();
+                especiesRN.editarEspecie(idEspecie, descricaoNova);
 
-            parent.listarEspecies();
+                parent.listarEspecies();
 
-            dispose();
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, insira uma descrição!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            }
         });
 
         pack();

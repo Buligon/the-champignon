@@ -67,14 +67,18 @@ public class CadEspecies extends JFrame {
         });
 
         btn_adicionar.addActionListener((ActionEvent e) -> {
-            String descricao = txtfield_desc.getText();
+            String descricao = txtfield_desc.getText().trim();
             
-            EspeciesRN especiesRN = new EspeciesRN();
-            especiesRN.adicionarEspecie(descricao);
-            
-            parent.listarEspecies();
-            
-            dispose();
+            if (!descricao.isEmpty()) {
+                EspeciesRN especiesRN = new EspeciesRN();
+                especiesRN.adicionarEspecie(descricao);
+
+                parent.listarEspecies();
+
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Por favor, insira uma descrição!", "Atenção", JOptionPane.WARNING_MESSAGE);
+            }
         });
 
         pack();
