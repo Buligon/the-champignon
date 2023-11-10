@@ -3,107 +3,113 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.net.URL;
 
 public class TelaInicial {
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> createAndShowGUI());
+    private static ImageIcon redimensionaIcone(String path, int tamanho) {
+        ImageIcon icon = new ImageIcon(path);
+        
+        Image image = icon.getImage().getScaledInstance(tamanho, tamanho, Image.SCALE_SMOOTH);
+        
+        return new ImageIcon(image);
     }
 
-    private static void createAndShowGUI() {
-        JFrame frame = new JFrame("The Champignon");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.setResizable(true);
+    private static void init() {
+        JFrame frameTela = new JFrame("The Champignon");
+        frameTela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frameTela.setSize(800, 600);
+        frameTela.setResizable(true);
+        frameTela.setLocationRelativeTo(null);
 
-        // Load the image for the background
-        ImageIcon imageIcon = new ImageIcon("src/main/java/utils/background.jpg");
+        // Seleciona a imagem para o background da tela inicial e sobrescreve o fundo original
+        ImageIcon image = new ImageIcon("src/main/java/utils/background.jpg");
 
-        // Create a JLabel for the background
-        JLabel background = new JLabel(imageIcon) {
+        JLabel background = new JLabel(image) {
             @Override
             public void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                if (imageIcon.getImage() != null) {
-                    g.drawImage(imageIcon.getImage(), 0, 0, getWidth(), getHeight(), this);
+                if (image.getImage() != null) {
+                    g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), this);
                 }
             }
         };
 
-        // Set the layout to null to allow manual placement of components
         background.setLayout(null);
+        frameTela.setContentPane(background);
 
-        frame.setContentPane(background);
-
-        // Create the menu bar
+        // Cria a barra para o menu
         JMenuBar menuBar = new JMenuBar();
 
-        // Create icon ImageIcons for the menu items
-        // Create and resize icon ImageIcons for the menu items
-        ImageIcon pessoasIcon = resizeIcon("src/main/java/utils/icon_person.png", 30, 30);
-        ImageIcon movimentacoesIcon = resizeIcon("src/main/java/utils/icon_movimentacao.png", 30, 30);
-        ImageIcon estoqueIcon = resizeIcon("src/main/java/utils/icon_cogumelo.png", 30, 30);
+        // Cria e redimensiona os ícones para os itens do menu
+        int tamanhoIcones = 30;
+        ImageIcon pessoasIcon = redimensionaIcone("src/main/java/utils/icon_person.png", tamanhoIcones);
+        ImageIcon movimentacoesIcon = redimensionaIcone("src/main/java/utils/icon_movimentacao.png", tamanhoIcones);
+        ImageIcon estoqueIcon = redimensionaIcone("src/main/java/utils/icon_cogumelo.png", tamanhoIcones);
 
-         // Menu "Pessoas" with icon
+        // Criação dos menus e seus itens
+        // Menu pessoas
         JMenu pessoasMenu = new JMenu("");
         pessoasMenu.setIcon(pessoasIcon);
 
-        // Sub-menu items under "Pessoas"
         JMenuItem funcionariosMenuItem = new JMenuItem("Funcionários");
         JMenuItem fornecedoresMenuItem = new JMenuItem("Fornecedores");
         JMenuItem clientesMenuItem = new JMenuItem("Clientes");
 
-        // Add sub-menu items to "Pessoas"
         pessoasMenu.add(funcionariosMenuItem);
         pessoasMenu.add(fornecedoresMenuItem);
         pessoasMenu.add(clientesMenuItem);
 
-        // Menu "Movimentações" with icon
+        // Menu movimentações
         JMenu movimentacoesMenu = new JMenu("");
         movimentacoesMenu.setIcon(movimentacoesIcon);
 
-        // Sub-menu items under "Movimentações"
         JMenuItem compraMenuItem = new JMenuItem("Compra");
         JMenuItem vendaMenuItem = new JMenuItem("Venda");
 
-        // Add sub-menu items to "Movimentações"
         movimentacoesMenu.add(compraMenuItem);
         movimentacoesMenu.add(vendaMenuItem);
 
-        // Menu "Estoque" with icon
+        // Menu estoque
         JMenu estoqueMenu = new JMenu("");
         estoqueMenu.setIcon(estoqueIcon);
 
-        // Sub-menu items under "Estoque"
         JMenuItem cogumelosMenuItem = new JMenuItem("Cogumelos");
-        JMenuItem classesMenuItem = new JMenuItem("Classes");
+        JMenuItem especiesMenuItem = new JMenuItem("Espécies");
         JMenuItem unidadesMenuItem = new JMenuItem("Unidades");
 
-        // Add sub-menu items to "Estoque"
         estoqueMenu.add(cogumelosMenuItem);
-        estoqueMenu.add(classesMenuItem);
+        estoqueMenu.add(especiesMenuItem);
         estoqueMenu.add(unidadesMenuItem);
 
-        // Add menus to the menu bar
+        // Adição dos menus na barra
         menuBar.add(pessoasMenu);
         menuBar.add(movimentacoesMenu);
         menuBar.add(estoqueMenu);
 
-        // Add the menu bar to the frame
-        frame.setJMenuBar(menuBar);
+        frameTela.setJMenuBar(menuBar);
 
-        // Add action listeners for menu items if needed
-        // ...
+        // Add action listener for "Espécies" menu item
+        especiesMenuItem.addActionListener((ActionEvent e) -> {
+            abreTela(0, frameTela);
+        });
         
-        
-
-        frame.setVisible(true);
+        frameTela.setVisible(true);
     }
     
-    // Helper method to resize an ImageIcon
-    private static ImageIcon resizeIcon(String path, int width, int height) {
-        ImageIcon icon = new ImageIcon(path);
-        Image image = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        return new ImageIcon(image);
+    private static void abreTela(int telaNum, JFrame frameTela) {
+        SwingUtilities.invokeLater(() -> {
+            switch (telaNum) {
+                case 0:
+                    TelaEspecies tela = new TelaEspecies(frameTela);
+                    tela.setVisible(true);
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        });
     }
+    
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> init());
+    }
+    
 }

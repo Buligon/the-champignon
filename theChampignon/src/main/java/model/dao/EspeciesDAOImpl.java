@@ -1,11 +1,9 @@
 package model.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 import model.connector.ConexaoJPQL;
 import model.vo.Especies;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 public class EspeciesDAOImpl implements EspeciesDAO {
@@ -18,39 +16,45 @@ public class EspeciesDAOImpl implements EspeciesDAO {
     @Override
     public void salvar(Especies especie) {
         manager.getTransaction().begin();
+        
         manager.persist(especie);
+        
         manager.getTransaction().commit();
     }
 
     @Override
-    public void atualizar(Especies especie) {
-        manager.getTransaction().begin();
-        manager.persist(especie);
+    public void atualizar(long idEspecie, String descricaoNova) {
+         manager.getTransaction().begin();
+         
+        Especies especie = manager.find(Especies.class, idEspecie);
+
+        if (especie != null) {
+            especie.setDescricao(descricaoNova);
+            manager.merge(especie);
+        }
+        
         manager.getTransaction().commit();
     }
 
     @Override
-    public void excluir(Especies especie) {
-        especie.setCancelado(1);
+    public void excluir(long idEspecie) {
         manager.getTransaction().begin();
-        manager.persist(especie);
+        
+        Especies especie = manager.find(Especies.class, idEspecie);
+
+        if (especie != null) {
+            especie.setCancelado(1);
+            manager.merge(especie);
+        }
+        
         manager.getTransaction().commit();
     }
 
     @Override
     public List<Especies> listarTodos() {
-        List<Especies> especies;
-        
-        try {
-            TypedQuery<Especies> query = manager.createQuery("SELECT e FROM Especies e", Especies.class);
-            especies = query.getResultList();
-        } catch (NoResultException e) {
-            especies = new ArrayList<>(); // Handle no results
-        } catch (Exception e) {
-            especies = new ArrayList<>();
-        }
-        
-        return especies;
+        // Não retorna os registros onde cancelado == 1
+        TypedQuery<Especies> query = manager.createQuery("SELECT e FROM Especies e WHERE e.cancelado <> 1", Especies.class);
+        return query.getResultList();
     }
     
     @Override

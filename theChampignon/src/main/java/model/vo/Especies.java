@@ -21,7 +21,11 @@ public class Especies {
     
     private String descricao;
     private int cancelado;
-
+    
+    public Long getId() {
+        return id;
+    }
+    
     public String getDescricao() {
         return descricao;
     }
