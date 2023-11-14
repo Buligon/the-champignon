@@ -72,11 +72,11 @@ public class TelaInicial {
         JMenu estoqueMenu = new JMenu("");
         estoqueMenu.setIcon(estoqueIcon);
 
-        JMenuItem cogumelosMenuItem = new JMenuItem("Cogumelos");
+        JMenuItem produtosMenuItem = new JMenuItem("Produtos");
         JMenuItem especiesMenuItem = new JMenuItem("Espécies");
         JMenuItem unidadesMenuItem = new JMenuItem("Unidades");
 
-        estoqueMenu.add(cogumelosMenuItem);
+        estoqueMenu.add(produtosMenuItem);
         estoqueMenu.add(especiesMenuItem);
         estoqueMenu.add(unidadesMenuItem);
 
@@ -95,6 +95,10 @@ public class TelaInicial {
             abreTela(1, frameTela);
         });
         
+        produtosMenuItem.addActionListener((ActionEvent e) -> {
+            abreTela(2, frameTela);
+        });
+        
         frameTela.setVisible(true);
     }
     
@@ -107,6 +111,10 @@ public class TelaInicial {
                 }
                 case 1 -> {
                     TelaUnidades tela = new TelaUnidades(frameTela);
+                    tela.setVisible(true);
+                }
+                case 2 -> {
+                    TelaProdutos tela = new TelaProdutos(frameTela);
                     tela.setVisible(true);
                 }
                 default -> throw new AssertionError();

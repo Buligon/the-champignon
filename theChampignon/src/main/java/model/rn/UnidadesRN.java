@@ -24,4 +24,16 @@ public class UnidadesRN {
     public List<Unidades> listarUnidades() {
         return dao.listarTodos();
     }
+    
+    public Unidades obterUnidadePelaDescricao(String descricao) {
+        List<Unidades> unidades = dao.listarTodos();
+
+        for (Unidades unidade : unidades) {
+            if (unidade.getDescricao().equals(descricao)) {
+                return unidade;
+            }
+        }
+
+        return null;
+    }
 }

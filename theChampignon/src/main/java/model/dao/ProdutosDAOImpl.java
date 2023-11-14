@@ -30,20 +30,26 @@ public class ProdutosDAOImpl implements ProdutosDAO {
     }
 
     @Override
-    public void excluir(Produtos produto) {
-        produto.setCancelado(1);
+    public void excluir(long idProduto) {
         manager.getTransaction().begin();
-        manager.persist(produto);
+        
+        Produtos produto = manager.find(Produtos.class, idProduto);
+
+        if (produto != null) {
+            produto.setCancelado(1);
+            manager.merge(produto);
+        }
+        
         manager.getTransaction().commit();
     }
 
     @Override
     public List<Produtos> listarTodos() {
         List<Produtos> produtos;
-        
+
         try {
-            // Create a JPQL query to select all records from the "Produtos" entity
-            TypedQuery<Produtos> query = manager.createQuery("SELECT e FROM Produtos e", Produtos.class);
+            // Create a JPQL query to select records from the "Produtos" entity where cancelado is not equal to 1
+            TypedQuery<Produtos> query = manager.createQuery("SELECT e FROM Produtos e WHERE e.cancelado <> 1", Produtos.class);
 
             // Execute the query and get the results
             produtos = query.getResultList();
@@ -53,10 +59,20 @@ public class ProdutosDAOImpl implements ProdutosDAO {
             // Handle other exceptions as needed
             produtos = new ArrayList<>();
         }
-        
+
         return produtos;
     }
     
+    @Override
+    public Produtos obterPorId(long idProduto) {
+        TypedQuery<Produtos> query = manager.createQuery(
+            "SELECT p FROM Produtos p WHERE p.id = :idProduto", Produtos.class
+        );
+
+        query.setParameter("idProduto", idProduto);
+
+        return query.getSingleResult();
+    }
     
     @Override
     public List<Produtos> filtrar() {

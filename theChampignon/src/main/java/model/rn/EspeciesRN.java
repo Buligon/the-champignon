@@ -24,4 +24,17 @@ public class EspeciesRN {
     public List<Especies> listarEspecies() {
         return dao.listarTodos();
     }
+    
+    public Especies obterEspeciePelaDescricao(String descricao) {
+        List<Especies> especies = dao.listarTodos();
+
+        for (Especies especie : especies) {
+            if (especie.getDescricao().equals(descricao)) {
+                return especie;
+            }
+        }
+
+        return null;
+    }
+
 }

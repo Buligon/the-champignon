@@ -26,9 +26,8 @@ public class Produtos {
     private Unidades unidade;
     private float custo;
 
-    public Produtos(String descricao, int quantidade, Especies especie, Unidades unidade, float custo, float valor) {
+    public Produtos(String descricao, Especies especie, Unidades unidade, float custo, float valor) {
         this.descricao = descricao;
-        this.quantidade = quantidade;
         this.especie = especie;
         this.unidade = unidade;
         this.custo = custo;
@@ -74,6 +73,10 @@ public class Produtos {
         this.quantidade = quantidade;
     }
 
+    public Long getId() {
+        return id;
+    }
+    
     public Especies getEspecie() {
         return especie;
     }
