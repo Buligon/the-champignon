@@ -17,7 +17,6 @@ public class GerarBanco {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("thechampignon");
         EntityManager em = emf.createEntityManager();
 
-       
 
         // Close the EntityManager and EntityManagerFactory
         em.close();

@@ -30,27 +30,48 @@ public class ClientesDAOImpl implements ClientesDAO {
     }
 
     @Override
-    public void excluir(Clientes cliente) {
-        cliente.setCancelado(1);
+    public void excluir(long idPessoa) {
         manager.getTransaction().begin();
-        manager.persist(cliente);
+        
+        Clientes cliente = manager.find(Clientes.class, idPessoa);
+
+        if (cliente != null) {
+            cliente.setCancelado(1);
+            manager.merge(cliente);
+        }
+        
         manager.getTransaction().commit();
     }
 
     @Override
     public List<Clientes> listarTodos() {
-        List<Clientes> pessoa;
-        
+        List<Clientes> clientes;
+
         try {
-            TypedQuery<Clientes> query = manager.createQuery("SELECT c FROM Clientes c", Clientes.class);
-            pessoa = query.getResultList();
+            // Create a JPQL query to select records from the "Produtos" entity where cancelado is not equal to 1
+            TypedQuery<Clientes> query = manager.createQuery("SELECT e FROM Clientes e WHERE e.cancelado <> 1", Clientes.class);
+
+            // Execute the query and get the results
+            clientes = query.getResultList();
         } catch (NoResultException e) {
-            pessoa = new ArrayList<>(); // Handle no results
+            clientes = new ArrayList<>(); // Handle no results, if needed
         } catch (Exception e) {
-            pessoa = new ArrayList<>();
+            // Handle other exceptions as needed
+            clientes = new ArrayList<>();
         }
-        
-        return pessoa;
+
+        return clientes;
+    }
+    
+    @Override
+    public Clientes obterPorId(long idPessoa) {
+        TypedQuery<Clientes> query = manager.createQuery(
+            "SELECT e FROM Clientes e WHERE e.id = :idPessoa", Clientes.class
+        );
+
+        query.setParameter("idPessoa", idPessoa);
+
+        return query.getSingleResult();
     }
     
     @Override

@@ -10,8 +10,8 @@ public class Funcionarios extends PessoaFisica{
     private Date admissao;
     private Date demissao;
 
-    public Funcionarios(float salario, Date admissao, Date demissao, String cpf, String nome, String email, String telefone, Enderecos endereco) {
-        super(cpf, nome, email, telefone, endereco);
+    public Funcionarios(String nome, String cpf, String email, String telefone, Enderecos endereco, float salario, Date admissao, Date demissao) {
+        super(nome, email, telefone, endereco, cpf);
         this.salario = salario;
         this.admissao = admissao;
         this.demissao = demissao;

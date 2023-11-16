@@ -9,16 +9,16 @@ import javax.persistence.Id;
 @Entity
 public class PessoaFisica extends Pessoas{
 
-    public PessoaFisica(String cpf, String nome, String email, String telefone, Enderecos endereco) {
+    private String cpf;
+
+    public PessoaFisica(String nome, String email, String telefone, Enderecos endereco, String cpf) {
         super(nome, email, telefone, endereco);
         this.cpf = cpf;
     }
     
-     public PessoaFisica() {
-     }
+    public PessoaFisica() {
+    }
     
-    private String cpf;
-
     public String getCpf() {
         return cpf;
     }

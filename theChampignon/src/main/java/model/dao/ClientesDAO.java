@@ -6,7 +6,9 @@ import java.util.List;
 public interface ClientesDAO {
     void salvar(Clientes cliente);
     void atualizar(Clientes cliente);
-    void excluir(Clientes cliente);
+    void excluir(long idPessoa);
     List<Clientes> listarTodos();
     List<Clientes> filtrar();
+    Clientes obterPorId(long idPessoa);
+
 }

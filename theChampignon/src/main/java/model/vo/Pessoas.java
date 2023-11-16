@@ -30,6 +30,10 @@ public class Pessoas {
     private Enderecos endereco;
     
     private int cancelado;
+    
+    public Long getId() {
+        return id;
+    }
 
     public String getNome() {
         return nome;
