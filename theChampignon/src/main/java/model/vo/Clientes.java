@@ -1,17 +1,30 @@
 package model.vo;
 
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import model.vo.PessoaFisica;
+import javax.persistence.DiscriminatorValue;
+
+
 
 @Entity
-public class Clientes extends PessoaFisica {
+@DiscriminatorValue("CL") // Valor para identificar PessoaFisica
+public class Clientes extends Pessoas{
     
+     private String cpf;
+
     public Clientes(String nome, String email, String telefone, Enderecos endereco, String cpf) {
-        super(nome, email, telefone, endereco, cpf);
+        super(nome, email, telefone, endereco);
+        this.cpf = cpf;
     }
     
     public Clientes() {
+    }
+    
+    public String getCpf() {
+        return cpf;
+    }
 
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }
