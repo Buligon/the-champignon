@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import model.rn.ClientesRN;
 import model.vo.Enderecos;
@@ -16,9 +18,16 @@ public class CadClientes extends JFrame {
     private javax.swing.JTextField txtfield_email;
     private javax.swing.JLabel label_telefone;
     private javax.swing.JTextField txtfield_telefone; 
+    private javax.swing.JLabel label_endereco;
+    private javax.swing.JLabel label_txtEndereco;
+    
     private javax.swing.JButton btn_adicionar;
     private javax.swing.JButton btn_cancelar;
+    private javax.swing.JButton btn_endereco;
+
     private TelaClientes parent;
+    private Enderecos endereco;
+
 
     public CadClientes(TelaClientes parent) {
         this.parent = parent;
@@ -30,10 +39,13 @@ public class CadClientes extends JFrame {
         label_email = new javax.swing.JLabel();
         txtfield_email = new javax.swing.JTextField();
         label_telefone = new javax.swing.JLabel();
-        txtfield_telefone = new javax.swing.JTextField();        
+        txtfield_telefone = new javax.swing.JTextField();  
+        label_endereco = new javax.swing.JLabel();
+        label_txtEndereco = new javax.swing.JLabel(); 
        
         btn_adicionar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
+        btn_endereco = new javax.swing.JButton();
 
         setTitle("Cadastro de Cliente");
         setResizable(false);
@@ -44,29 +56,31 @@ public class CadClientes extends JFrame {
         txtfield_nome.setColumns(20);
 
         label_cpf.setText("CPF:");
-        txtfield_cpf.setColumns(5);
-
+        txtfield_cpf.setColumns(10);
+        
         label_email.setText("Email:");
-        txtfield_email.setColumns(5);
+        txtfield_email.setColumns(10);
         
         label_telefone.setText("Telefone:");
-        txtfield_telefone.setColumns(5);
+        txtfield_telefone.setColumns(10);
+        
+        label_endereco.setText("Endereco: ");
+        label_txtEndereco.setText("Cidade, Rua, Número");
 
         btn_adicionar.setText("Adicionar");
         btn_cancelar.setText("Cancelar");
+        btn_endereco.setText("Adicionar Endereço");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
 
-        layout.setHorizontalGroup(layout.createSequentialGroup()
+layout.setHorizontalGroup(layout.createSequentialGroup()
                 .addContainerGap(35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(label_nome)
                         .addComponent(txtfield_nome)
-                        
-                        .addComponent(label_cpf)
+                        .addComponent(label_cpf)   
                         .addComponent(txtfield_cpf)
-                        
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                         .addComponent(label_email)
@@ -75,6 +89,11 @@ public class CadClientes extends JFrame {
                                         .addComponent(txtfield_telefone)
                                 )
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                        .addComponent(label_endereco)
+                                        .addComponent(label_txtEndereco)
+                                        .addComponent(btn_endereco)
+                                )
                         )
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(btn_cancelar)
@@ -88,11 +107,9 @@ public class CadClientes extends JFrame {
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(label_nome)
-                .addComponent(txtfield_nome)  
-                
+                .addComponent(txtfield_nome)
                 .addComponent(label_cpf)
                 .addComponent(txtfield_cpf)
-              
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addGroup(layout.createSequentialGroup()
@@ -100,6 +117,11 @@ public class CadClientes extends JFrame {
                                 .addComponent(txtfield_email)
                                 .addComponent(label_telefone)
                                 .addComponent(txtfield_telefone)
+                        )
+                        .addGroup(layout.createSequentialGroup()
+                                  .addComponent(label_endereco)
+                                  .addComponent(label_txtEndereco)
+                                  .addComponent(btn_endereco)
                         )
                 )
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
@@ -109,7 +131,15 @@ public class CadClientes extends JFrame {
                 )
                 .addContainerGap(20, Short.MAX_VALUE)
         );
-
+                        
+        btn_endereco.addActionListener((ActionEvent e) -> {
+            CadEndereco tela = new CadEndereco(this);
+            endereco = tela.getEndereco();
+            tela.setVisible(true);
+        });
+        
+        
+        
         btn_cancelar.addActionListener((ActionEvent e) -> {
             dispose();
         });
@@ -119,19 +149,18 @@ public class CadClientes extends JFrame {
             String cpfText = txtfield_cpf.getText().trim();
             String emailText = txtfield_email.getText().trim();
             String telText = txtfield_telefone.getText().trim();
-           
             
+
             if (!nome.isEmpty()) {
                 try {
                     
-                    Enderecos endereco = null;
                     String cpf = cpfText;
                     String email = emailText;
                     String telefone = telText;
 
                     ClientesRN ClientesRN = new ClientesRN();
-                    ClientesRN.adicionarCliente(nome, cpf, email, telefone, endereco);
-
+                    ClientesRN.adicionarCliente(nome, email, telefone, endereco, cpf);
+                    System.out.println("aqui !!!" + endereco);
                     parent.listarClientes();
 
                     dispose();

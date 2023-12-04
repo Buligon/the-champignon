@@ -69,7 +69,7 @@ public class TelaInicial {
         movimentacoesMenu.add(vendaMenuItem);
 
         // Menu estoque
-        JMenu estoqueMenu = new JMenu("");
+        JMenu estoqueMenu = new JMenu(  "");
         estoqueMenu.setIcon(estoqueIcon);
 
         JMenuItem produtosMenuItem = new JMenuItem("Produtos");

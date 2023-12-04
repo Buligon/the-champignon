@@ -8,14 +8,10 @@ import model.dao.ClientesDAOImpl;
 public class ClientesRN {
     ClientesDAOImpl dao = new ClientesDAOImpl();
     
-    public void adicionarCliente(String nome, String cpf, String email, String telefone, Enderecos endereco ) {
+    public void adicionarCliente(String nome, String email, String telefone, Enderecos endereco, String cpf) {
         
-        //Ajustar futuramente
-        //EnderecoRN EnerecoRN = new EnerecoRN();
-
-        //Enderecos endereco = EnderecoRN.obterEspeciePelaDescricao(especieSelecionada);
+        EnderecoRN EnderecoRN = new EnderecoRN();
         
-        //Funcionalidade aplicada futuramente, por isso só deixei desta forma para que seja preenchido        
         Clientes novocliente = new Clientes(nome, email, telefone, endereco, cpf);
 
         dao.salvar(novocliente);

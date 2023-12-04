@@ -10,7 +10,7 @@ import javax.persistence.DiscriminatorValue;
 @DiscriminatorValue("CL") // Valor para identificar PessoaFisica
 public class Clientes extends Pessoas{
     
-     private String cpf;
+    private String cpf;
 
     public Clientes(String nome, String email, String telefone, Enderecos endereco, String cpf) {
         super(nome, email, telefone, endereco);

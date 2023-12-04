@@ -1,16 +1,23 @@
 package model.vo;
 
-import javax.persistence.Embedded;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Pessoas {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+        
+    private String nome;
+    private String email;
+    private String telefone;
+    @ManyToOne
+    private Enderecos endereco;
 
     public Pessoas(String nome, String email, String telefone, Enderecos endereco) {
         this.nome = nome;
@@ -22,13 +29,6 @@ public class Pessoas {
      public Pessoas() {
         
     }
-    
-    private String nome;
-    private String email;
-    private String telefone;
-    @Embedded
-    private Enderecos endereco;
-    
     private int cancelado;
     
     public Long getId() {
@@ -70,5 +70,4 @@ public class Pessoas {
     public void setEndereco(Enderecos endereco) {
         this.endereco = endereco;
     }
-    
 }

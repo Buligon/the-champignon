@@ -12,6 +12,7 @@
     </properties>
     
     <class>model.vo.Especies</class>
+    <class>model.vo.Enderecos</class>
     <class>model.vo.Unidades</class>
     <class>model.vo.Pessoas</class>
     <class>model.vo.Clientes</class>

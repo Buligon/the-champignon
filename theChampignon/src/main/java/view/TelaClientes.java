@@ -21,6 +21,7 @@ public class TelaClientes extends javax.swing.JFrame{
     private javax.swing.JTable tab_clientes;
     private javax.swing.JTextField txtfield_pesquisa;
     private javax.swing.table.DefaultTableModel tableModel;
+    
     private int registroSelecionado = -1;
     
     public TelaClientes(JFrame callingFrame) {
@@ -45,9 +46,11 @@ public class TelaClientes extends javax.swing.JFrame{
         tableModel.addColumn("ID");
         tableModel.addColumn("Nome");
         tableModel.addColumn("CPF");
-        tableModel.addColumn("email");
-        tableModel.addColumn("telefone");
-
+        tableModel.addColumn("Email");
+        tableModel.addColumn("Telefone");
+        tableModel.addColumn("Cidade");
+        tableModel.addColumn("Rua");
+        tableModel.addColumn("Numero");
        
         tab_clientes.getSelectionModel().addListSelectionListener(evt -> registroSelecionado(evt));
         listarClientes();
@@ -156,6 +159,10 @@ public class TelaClientes extends javax.swing.JFrame{
                 cliente.getCpf(),
                 cliente.getEmail(),
                 cliente.getTelefone(),
+                cliente.getEndereco().getCidade(),
+                cliente.getEndereco().getRua(),
+                cliente.getEndereco().getNumero()
+                
             };
             tableModel.addRow(dadosLinha);
         }
