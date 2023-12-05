@@ -2,7 +2,9 @@ package view;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.text.ParseException;
 import java.util.List;
+import javax.swing.text.MaskFormatter;
 import model.rn.EnderecoRN;
 import model.vo.Enderecos;
 
@@ -81,6 +83,7 @@ public class CadEndereco extends JFrame {
         txtfield_logradouro.setColumns(10);
         
         label_cep.setText("CEP: ");
+        txtfield_cep = new JFormattedTextField(createCEPFormatter());
         txtfield_cep.setColumns(10);
 
         btn_adicionar.setText("Adicionar");
@@ -173,7 +176,7 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
             String pais = txtfield_pais.getText().trim();
             String estado  = txtfield_estado.getText().trim();
             String cidade  = txtfield_cidade.getText().trim();
-            //String bairroText  = txtfield_bairro.getText().trim();
+            String bairro  = txtfield_bairro.getText().trim();
             String rua  = txtfield_rua.getText().trim();
             String numeroTxt  = txtfield_numero.getText().trim();
             String logradouro  = txtfield_logradouro.getText().trim();
@@ -185,12 +188,12 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
                 Integer cep = Integer.parseInt(cepTxt);
                 
                 EnderecoRN EnderecosRN = new EnderecoRN();
-                endereco = EnderecosRN.adicionarEndereco(pais,  estado,  cidade,  rua, logradouro,  numero,  cep);
+                endereco = EnderecosRN.adicionarEndereco(pais,  estado,  cidade,  rua, logradouro,  numero,  cep, bairro);
 
                 dispose();
                 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos para Custo e Valor", "Atenção", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos para Numero e Cep", "Atenção", JOptionPane.WARNING_MESSAGE);
             }
             
         });
@@ -201,5 +204,16 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
     }
      public Enderecos getEndereco() {
         return endereco;
-     } 
+     }
+     
+     private MaskFormatter createCEPFormatter() {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter("#####-###");
+            formatter.setPlaceholderCharacter(' '); 
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatter;
+    }
 }

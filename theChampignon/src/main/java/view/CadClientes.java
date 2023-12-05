@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
 import java.util.List;
+import javax.swing.text.MaskFormatter;
 import model.rn.ClientesRN;
 import model.vo.Enderecos;
 import model.vo.PessoaFisica;
@@ -56,12 +58,14 @@ public class CadClientes extends JFrame {
         txtfield_nome.setColumns(20);
 
         label_cpf.setText("CPF:");
+        txtfield_cpf = new JFormattedTextField(createCPFFormatter());
         txtfield_cpf.setColumns(10);
         
         label_email.setText("Email:");
         txtfield_email.setColumns(10);
         
         label_telefone.setText("Telefone:");
+        txtfield_telefone = new JFormattedTextField(createTelefoneFormatter());
         txtfield_telefone.setColumns(10);
         
         label_endereco.setText("Endereco: ");
@@ -134,11 +138,17 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
                         
         btn_endereco.addActionListener((ActionEvent e) -> {
             CadEndereco tela = new CadEndereco(this);
-            endereco = tela.getEndereco();
             tela.setVisible(true);
+            
+            tela.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    endereco = tela.getEndereco();
+                    System.out.println("\n\n\naqui !!!" + endereco);
+                }   
+            });
+            
         });
-        
-        
         
         btn_cancelar.addActionListener((ActionEvent e) -> {
             dispose();
@@ -160,7 +170,6 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
 
                     ClientesRN ClientesRN = new ClientesRN();
                     ClientesRN.adicionarCliente(nome, email, telefone, endereco, cpf);
-                    System.out.println("aqui !!!" + endereco);
                     parent.listarClientes();
 
                     dispose();
@@ -174,5 +183,28 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
 
 
         pack();
+    }
+    
+    private MaskFormatter createCPFFormatter() {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter("###.###.###-##");
+            formatter.setPlaceholderCharacter(' '); // Opcional: substitui espaços vazios por 'X'
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatter;
+    }
+    
+    private MaskFormatter createTelefoneFormatter() {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter("(##) #####-####");
+            formatter.setPlaceholderCharacter(' '); // Opcional: substitui espaços vazios por 'X'
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatter;
     }   
+ 
 }
