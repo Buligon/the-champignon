@@ -1,5 +1,6 @@
 package model.vo;
 
+import java.util.Date;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +12,8 @@ public class Fornecedores extends Pessoas{
 
     private String cnpj;
 
-    public Fornecedores(String nome, String email ,String telefone, Enderecos endereco, String cnpj) {
-        super(nome, email, telefone, endereco);
+    public Fornecedores(String nome, String email ,String telefone, Enderecos endereco, String cnpj, Date nascimento) {
+        super(nome, email, telefone, endereco, nascimento);
         this.cnpj = cnpj;
     }
     

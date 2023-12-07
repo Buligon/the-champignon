@@ -37,6 +37,9 @@ public class CadFuncionarios extends JFrame {
     private javax.swing.JLabel label_demissao;
     private javax.swing.JTextField txtfield_demissao;
     
+    private javax.swing.JLabel label_nascimento;
+    private javax.swing.JTextField txtfield_nascimento;
+    
     private javax.swing.JButton btn_adicionar;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_endereco;
@@ -71,6 +74,9 @@ public class CadFuncionarios extends JFrame {
         
         label_demissao = new javax.swing.JLabel();
         txtfield_demissao = new javax.swing.JTextField();
+        
+        label_nascimento = new javax.swing.JLabel();
+        txtfield_nascimento = new javax.swing.JTextField();
        
         btn_adicionar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
@@ -107,6 +113,10 @@ public class CadFuncionarios extends JFrame {
         
         label_demissao.setText("Demissão:");
         txtfield_demissao.setColumns(10);
+        
+        label_nascimento.setText("Nascimento:");
+        txtfield_nascimento = new JFormattedTextField(createAdmissaoFormatter());
+        txtfield_nascimento.setColumns(10);
 
         btn_adicionar.setText("Adicionar");
         btn_cancelar.setText("Cancelar");
@@ -120,8 +130,18 @@ public class CadFuncionarios extends JFrame {
         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addComponent(label_nome)
             .addComponent(txtfield_nome)
-            .addComponent(label_cpf)
-            .addComponent(txtfield_cpf)
+            .addGap(10)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                    .addComponent(label_cpf)
+                    .addComponent(txtfield_cpf)
+                )
+                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                    .addComponent(label_nascimento)
+                    .addComponent(txtfield_nascimento)
+                )
+            )
             .addGap(10)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -162,8 +182,15 @@ public class CadFuncionarios extends JFrame {
         .addContainerGap(20, Short.MAX_VALUE)
         .addComponent(label_nome)
         .addComponent(txtfield_nome)
-        .addComponent(label_cpf)
-        .addComponent(txtfield_cpf)
+        .addGap(10)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+            .addComponent(label_cpf)
+            .addComponent(label_nascimento)
+        )
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+            .addComponent(txtfield_cpf)
+            .addComponent(txtfield_nascimento)
+        )    
         .addGap(10)
         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addComponent(label_admissao)
@@ -213,24 +240,44 @@ public class CadFuncionarios extends JFrame {
         });
 
         btn_adicionar.addActionListener((ActionEvent e) -> {
+            
+            Calendar calendar = Calendar.getInstance();
+            
             String nome = txtfield_nome.getText().trim();
             String cpf = txtfield_cpf.getText().trim();
             String email = txtfield_email.getText().trim();
             String tel = txtfield_telefone.getText().trim();
             String salText = txtfield_salario.getText().trim();
             
+            //Configuração dos campos com data
+            
+            
+            //ADMISSÃO
             String[] data = txtfield_admissao.getText().split("/");
             
             Integer dia = Integer.parseInt(data[0]);
             Integer mes = Integer.parseInt(data[1]);
             Integer ano = Integer.parseInt(data[2]);
 
-            Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.DAY_OF_MONTH, dia);
             calendar.set(Calendar.MONTH, mes-1);
             calendar.set(Calendar.YEAR, ano);
             
             Date admissao = calendar.getTime();
+            
+            //NASCIMENTO
+            data = txtfield_nascimento.getText().split("/");
+            
+            dia = Integer.parseInt(data[0]);
+            mes = Integer.parseInt(data[1]);
+            ano = Integer.parseInt(data[2]);
+            
+            calendar.set(Calendar.DAY_OF_MONTH, dia);
+            calendar.set(Calendar.MONTH, mes-1);
+            calendar.set(Calendar.YEAR, ano);
+            
+            Date nascimento = calendar.getTime();
+            
             
             if (!nome.isEmpty()) {
                 try {
@@ -238,7 +285,7 @@ public class CadFuncionarios extends JFrame {
                     FuncionariosRN FuncionariosRN = new FuncionariosRN();
                     
                     float salario = Float.parseFloat(salText);
-                    FuncionariosRN.adicionarFuncionario(nome, cpf, email, tel, endereco, salario,  admissao, null);
+                    FuncionariosRN.adicionarFuncionario(nome, cpf, email, tel, endereco, salario,  admissao, null, nascimento);
                     parent.listarFuncionarios();
 
                     dispose();

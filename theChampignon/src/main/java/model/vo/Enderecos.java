@@ -30,7 +30,7 @@ public class Enderecos {
         this.logradouro = logradouro;
         this.numero = numero;
         this.cep = cep;
-        this.bairro = bairro;
+        this.bairro = Bairro;
     }
     
     public Enderecos(){

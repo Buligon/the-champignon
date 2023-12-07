@@ -9,11 +9,10 @@ import model.vo.Enderecos;
 public class FuncionariosRN {
     FuncionariosDAOImpl dao = new FuncionariosDAOImpl();
     
-    public void adicionarFuncionario(String nome, String cpf, String email, String telefone, Enderecos endereco, float salario, Date admissao, Date demissao) {
-        
+    public void adicionarFuncionario(String nome, String cpf, String email, String telefone, Enderecos endereco, float salario, Date admissao, Date demissao, Date nascimento) {
         EnderecoRN EnderecoRN = new EnderecoRN();
         
-        Funcionarios novofuncionario = new Funcionarios(nome, cpf, email, telefone, endereco, salario, admissao, demissao);
+        Funcionarios novofuncionario = new Funcionarios(nome, cpf, email, telefone, endereco, salario, admissao, demissao, nascimento);
 
         dao.salvar(novofuncionario);
     }

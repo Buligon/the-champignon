@@ -1,5 +1,6 @@
 package model.vo;
 
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,18 +15,20 @@ public class Pessoas {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-        
+    
+    private Date nascimento;
     private String nome;
     private String email;
     private String telefone;
     @ManyToOne
     private Enderecos endereco;
 
-    public Pessoas(String nome, String email, String telefone, Enderecos endereco) {
+    public Pessoas(String nome, String email, String telefone, Enderecos endereco, Date nascimento) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
+        this.nascimento = nascimento;
     }
     
      public Pessoas() {
@@ -72,4 +75,14 @@ public class Pessoas {
     public void setEndereco(Enderecos endereco) {
         this.endereco = endereco;
     }
+
+    public Date getNascimento() {
+        return nascimento;
+    }
+
+    public void setNascimento(Date nascimento) {
+        this.nascimento = nascimento;
+    }
+    
+    
 }
