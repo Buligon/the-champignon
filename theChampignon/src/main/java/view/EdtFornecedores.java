@@ -2,20 +2,20 @@ package view;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.text.MaskFormatter;
-import model.rn.ClientesRN;
+import model.rn.FornecedoresRN;
+import model.vo.Fornecedores;
 import model.vo.Enderecos;
 
-public class CadClientes extends JFrame {
+public class EdtFornecedores extends JFrame {
     private javax.swing.JLabel label_nome;
     private javax.swing.JTextField txtfield_nome;
-    private javax.swing.JLabel label_cpf;
-    private javax.swing.JTextField txtfield_cpf;
+    private javax.swing.JLabel label_cnpj;
+    private javax.swing.JTextField txtfield_cnpj;
     private javax.swing.JLabel label_email;
     private javax.swing.JTextField txtfield_email;
     private javax.swing.JLabel label_telefone;
@@ -24,21 +24,24 @@ public class CadClientes extends JFrame {
     private javax.swing.JLabel label_txtEndereco;
     private javax.swing.JLabel label_nascimento;
     private javax.swing.JTextField txtfield_nascimento;
-    private javax.swing.JButton btn_adicionar;
+    
+    private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_endereco;
 
-    private TelaClientes parent;
+    private TelaFornecedores parent;
     private Enderecos endereco;
+    private final long idPessoa;
 
-
-    public CadClientes(TelaClientes parent) {
+    
+    public EdtFornecedores(TelaFornecedores parent, long idPessoa) {
         this.parent = parent;
+        this.idPessoa = idPessoa; 
         
         label_nome = new javax.swing.JLabel();
         txtfield_nome = new javax.swing.JTextField();
-        label_cpf = new javax.swing.JLabel();
-        txtfield_cpf = new javax.swing.JTextField();
+        label_cnpj = new javax.swing.JLabel();
+        txtfield_cnpj = new javax.swing.JTextField();
         label_email = new javax.swing.JLabel();
         txtfield_email = new javax.swing.JTextField();
         label_telefone = new javax.swing.JLabel();
@@ -47,11 +50,14 @@ public class CadClientes extends JFrame {
         label_txtEndereco = new javax.swing.JLabel(); 
         label_nascimento = new javax.swing.JLabel();
         txtfield_nascimento = new javax.swing.JTextField(); 
-        btn_adicionar = new javax.swing.JButton();
+        btn_editar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         btn_endereco = new javax.swing.JButton();
 
-        setTitle("Cadastro de Cliente");
+        FornecedoresRN fornecedorsRN = new FornecedoresRN();
+        Fornecedores fornecedorEdicao = fornecedorsRN.obterFornecedorPorId(idPessoa);
+        
+        setTitle("Edição de Fornecedor");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -59,9 +65,9 @@ public class CadClientes extends JFrame {
         label_nome.setText("Nome:");
         txtfield_nome.setColumns(20);
 
-        label_cpf.setText("CPF:");
-        txtfield_cpf = new JFormattedTextField(createCPFFormatter());
-        txtfield_cpf.setColumns(10);
+        label_cnpj.setText("CNPJ:");
+        txtfield_cnpj = new JFormattedTextField(createCNPJFormatter());
+        txtfield_cnpj.setColumns(10);
         
         label_email.setText("Email:");
         txtfield_email.setColumns(10);
@@ -76,10 +82,22 @@ public class CadClientes extends JFrame {
         label_nascimento.setText("Nascimento:");
         txtfield_nascimento = new JFormattedTextField(createDateFormatter());
         txtfield_nascimento.setColumns(10);
-        
-        btn_adicionar.setText("Adicionar");
+
+        btn_editar.setText("Editar");
         btn_cancelar.setText("Cancelar");
-        btn_endereco.setText("Adicionar Endereço");
+        btn_endereco.setText("Editar Endereço");
+        
+        
+        if (fornecedorEdicao != null) {
+            txtfield_nome.setText(fornecedorEdicao.getNome());
+            txtfield_cnpj.setText(String.valueOf(fornecedorEdicao.getCnpj()));
+            txtfield_email.setText(String.valueOf(fornecedorEdicao.getEmail()));
+            txtfield_telefone.setText(String.valueOf(fornecedorEdicao.getTelefone()));
+            
+            Calendar cal = Calendar.getInstance();
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            txtfield_nascimento.setText(formato.format(fornecedorEdicao.getNascimento()));
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,8 +110,8 @@ public class CadClientes extends JFrame {
                             .addGap(10)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                    .addComponent(label_cpf)
-                                    .addComponent(txtfield_cpf)
+                                    .addComponent(label_cnpj)
+                                    .addComponent(txtfield_cnpj)
                                 )
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -118,7 +136,7 @@ public class CadClientes extends JFrame {
                             .addGroup(layout.createSequentialGroup()
                                     .addComponent(btn_cancelar)
                                     .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btn_adicionar)
+                                    .addComponent(btn_editar)
                             )
                     )
                     .addContainerGap(35, Short.MAX_VALUE)
@@ -130,11 +148,11 @@ public class CadClientes extends JFrame {
                         .addComponent(txtfield_nome)
                         .addGap(10)
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                            .addComponent(label_cpf)
+                            .addComponent(label_cnpj)
                             .addComponent(label_nascimento)
                         )
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                            .addComponent(txtfield_cpf)
+                            .addComponent(txtfield_cnpj)
                             .addComponent(txtfield_nascimento)
                         )
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
@@ -154,99 +172,96 @@ public class CadClientes extends JFrame {
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(btn_cancelar)
-                                .addComponent(btn_adicionar)
+                                .addComponent(btn_editar)
                         )
                         .addContainerGap(20, Short.MAX_VALUE)
-                );
+        );
+                
+        btn_endereco.addActionListener((ActionEvent e) -> {
+            EdtEnderecos tela = new EdtEnderecos(null, null, this, fornecedorEdicao.getEndereco().getIdEndereco());
+            tela.setVisible(true);                    
+        });
 
-                btn_endereco.addActionListener((ActionEvent e) -> {
-                    CadEndereco tela = new CadEndereco(this, null, null);
-                    tela.setVisible(true);
+        btn_cancelar.addActionListener((ActionEvent e) -> {
+            dispose();
+        });
 
-                    tela.addWindowListener(new WindowAdapter() {
-                        @Override
-                        public void windowClosed(WindowEvent e) {
-                            endereco = tela.getEndereco();
-                        }   
-                    });
+        btn_editar.addActionListener((ActionEvent e) -> {
+            if (fornecedorEdicao != null) {
+                
+                Calendar calendar = Calendar.getInstance();
+                
+                String nome = txtfield_nome.getText().trim();
+                String cnpj = txtfield_cnpj.getText().trim();
+                String email = txtfield_email.getText().trim();
+                String telefone = txtfield_telefone.getText().trim();
+                
+                //NASCIMENTO
+                String[] data = txtfield_nascimento.getText().split("/");
 
-                });
+                Integer dia = Integer.parseInt(data[0]);
+                Integer mes = Integer.parseInt(data[1]);
+                Integer ano = Integer.parseInt(data[2]);
 
-                btn_cancelar.addActionListener((ActionEvent e) -> {
+                calendar.set(Calendar.DAY_OF_MONTH, dia);
+                calendar.set(Calendar.MONTH, mes-1);
+                calendar.set(Calendar.YEAR, ano);
+
+                Date nascimento = calendar.getTime();
+                
+                if (!nome.isEmpty()) {
+                    
+                    fornecedorEdicao.setNome(nome);
+                    fornecedorEdicao.setCnpj(cnpj);
+                    fornecedorEdicao.setEmail(email);
+                    fornecedorEdicao.setTelefone(telefone);
+                    fornecedorEdicao.setNascimento(nascimento);
+
+                    fornecedorsRN.editarFornecedor(fornecedorEdicao);
+                    parent.listarFornecedores();
+
                     dispose();
-                });
-
-                btn_adicionar.addActionListener((ActionEvent e) -> {
-                    
-                    Calendar calendar = Calendar.getInstance();
-                    
-                    String nome = txtfield_nome.getText().trim();
-                    String cpfText = txtfield_cpf.getText().trim();
-                    String emailText = txtfield_email.getText().trim();
-                    String telText = txtfield_telefone.getText().trim();
-                    //NASCIMENTO
-                    String[] data = txtfield_nascimento.getText().split("/");
-
-                    Integer dia = Integer.parseInt(data[0]);
-                    Integer mes = Integer.parseInt(data[1]);
-                    Integer ano = Integer.parseInt(data[2]);
-
-                    calendar.set(Calendar.DAY_OF_MONTH, dia);
-                    calendar.set(Calendar.MONTH, mes-1);
-                    calendar.set(Calendar.YEAR, ano);
-
-                    Date nascimento = calendar.getTime();
-
-                    if (!nome.isEmpty()) {
-
-                        String cpf = cpfText;
-                        String email = emailText;
-                        String telefone = telText;
-
-                        ClientesRN ClientesRN = new ClientesRN();
-                        ClientesRN.adicionarCliente(nome, email, telefone, endereco, cpf, nascimento);
-                        parent.listarClientes();
-
-                        dispose();
-
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Por favor, insira um Nome!", "Atenção", JOptionPane.WARNING_MESSAGE);
-                    }
-                });
-
-
-                pack();
-            }
-
-            private MaskFormatter createCPFFormatter() {
-                MaskFormatter formatter = null;
-                try {
-                    formatter = new MaskFormatter("###.###.###-##");
-                    formatter.setPlaceholderCharacter(' '); 
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                     
+                } else {
+                    JOptionPane.showMessageDialog(this, "Por favor, insira um nome !", "Atenção", JOptionPane.WARNING_MESSAGE);
                 }
-                return formatter;
             }
-
-            private MaskFormatter createTelefoneFormatter() {
-                MaskFormatter formatter = null;
-                try {
-                    formatter = new MaskFormatter("(##) #####-####");
-                    formatter.setPlaceholderCharacter(' ');
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                return formatter;
-            }   
-            private MaskFormatter createDateFormatter() {
-                   MaskFormatter formatter = null;
-                   try {
-                       formatter = new MaskFormatter("##/##/####");
-                       formatter.setPlaceholderCharacter(' ');
-                   } catch (ParseException e) {
-                       e.printStackTrace();
-                   }
-                   return formatter;
-               }
+        });       
+        
+        pack();
+    }
+    
+    private MaskFormatter createCNPJFormatter() {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter("##.###.###/####-##");
+            formatter.setPlaceholderCharacter(' '); 
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatter;
+    }
+    
+    private MaskFormatter createTelefoneFormatter() {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter("(##) #####-####");
+            formatter.setPlaceholderCharacter(' ');
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatter;
+    }
+    
+    private MaskFormatter createDateFormatter() {
+        MaskFormatter formatter = null;
+        try {
+            formatter = new MaskFormatter("##/##/####");
+            formatter.setPlaceholderCharacter(' ');
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return formatter;
+    }
 }
+

@@ -30,10 +30,16 @@ public class FornecedoresDAOImpl implements FornecedoresDAO {
     }
 
     @Override
-    public void excluir(Fornecedores fornecedor) {
-        fornecedor.setCancelado(1);
+    public void excluir(long idPessoa) {
         manager.getTransaction().begin();
-        manager.persist(fornecedor);
+        
+        Fornecedores fornecedor = manager.find(Fornecedores.class, idPessoa);
+
+        if (fornecedor != null) {
+            fornecedor.setCancelado(1);
+            manager.merge(fornecedor);
+        }
+        
         manager.getTransaction().commit();
     }
 
@@ -42,21 +48,28 @@ public class FornecedoresDAOImpl implements FornecedoresDAO {
         List<Fornecedores> produtos;
         
         try {
-            // Create a JPQL query to select all records from the "Produtos" entity
-            TypedQuery<Fornecedores> query = manager.createQuery("SELECT f FROM Fornecedores f", Fornecedores.class);
+            TypedQuery<Fornecedores> query = manager.createQuery("SELECT f FROM Fornecedores f WHERE f.cancelado <> 1", Fornecedores.class);
 
-            // Execute the query and get the results
             produtos = query.getResultList();
         } catch (NoResultException e) {
-            produtos = new ArrayList<>(); // Handle no results, if needed
+            produtos = new ArrayList<>(); 
         } catch (Exception e) {
-            // Handle other exceptions as needed
             produtos = new ArrayList<>();
         }
         
         return produtos;
     }
     
+    @Override
+    public Fornecedores obterPorId(long idPessoa) {
+        TypedQuery<Fornecedores> query = manager.createQuery(
+            "SELECT e FROM Fornecedores e WHERE e.id = :idPessoa", Fornecedores.class
+        );
+
+        query.setParameter("idPessoa", idPessoa);
+
+        return query.getSingleResult();
+    }
     
     @Override
     public List<Fornecedores> filtrar() {

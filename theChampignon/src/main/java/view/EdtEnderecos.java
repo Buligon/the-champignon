@@ -32,15 +32,17 @@ public class EdtEnderecos extends JFrame {
     
     private EdtClientes parentCliente;
     private EdtFuncionarios parentFuncionario;
-    //private EdtFuncionarios parent;
+    private EdtFornecedores parentFornecedor;
+
     private final long idEndereco;
     
     private Enderecos endereco;
     
-    public EdtEnderecos(EdtClientes parentCliente, EdtFuncionarios parentFuncionario ,long idEndereco) {
+    public EdtEnderecos(EdtClientes parentCliente, EdtFuncionarios parentFuncionario, EdtFornecedores parentFornecedor,long idEndereco) {
         this.parentCliente = parentCliente;
-        //this.parentFuncionario = parentFuncionario;
-        
+        this.parentFuncionario = parentFuncionario;
+        this.parentFornecedor = parentFornecedor;
+
         this.idEndereco = idEndereco; 
         
         label_pais = new javax.swing.JLabel();

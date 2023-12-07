@@ -223,7 +223,7 @@ public class CadFuncionarios extends JFrame {
     );
                         
         btn_endereco.addActionListener((ActionEvent e) -> {
-            CadEndereco tela = new CadEndereco(null, this);
+            CadEndereco tela = new CadEndereco(null, this, null);
             tela.setVisible(true);
             
             tela.addWindowListener(new WindowAdapter() {
@@ -280,18 +280,15 @@ public class CadFuncionarios extends JFrame {
             
             
             if (!nome.isEmpty()) {
-                try {
                     
-                    FuncionariosRN FuncionariosRN = new FuncionariosRN();
-                    
-                    float salario = Float.parseFloat(salText);
-                    FuncionariosRN.adicionarFuncionario(nome, cpf, email, tel, endereco, salario,  admissao, null, nascimento);
-                    parent.listarFuncionarios();
+                FuncionariosRN FuncionariosRN = new FuncionariosRN();
 
-                    dispose();
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos para Custo e Valor", "Atenção", JOptionPane.WARNING_MESSAGE);
-                }
+                float salario = Float.parseFloat(salText);
+                FuncionariosRN.adicionarFuncionario(nome, cpf, email, tel, endereco, salario,  admissao, null, nascimento);
+                parent.listarFuncionarios();
+
+                dispose();
+               
             } else {
                 JOptionPane.showMessageDialog(this, "Por favor, insira uma descrição!", "Atenção", JOptionPane.WARNING_MESSAGE);
             }

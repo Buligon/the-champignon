@@ -178,7 +178,7 @@ public class EdtClientes extends JFrame {
         );
                 
         btn_endereco.addActionListener((ActionEvent e) -> {
-            EdtEnderecos tela = new EdtEnderecos(this, null,clienteEdicao.getEndereco().getIdEndereco());
+            EdtEnderecos tela = new EdtEnderecos(this, null, null,clienteEdicao.getEndereco().getIdEndereco());
             tela.setVisible(true);                    
         });
 

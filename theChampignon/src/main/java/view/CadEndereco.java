@@ -32,12 +32,14 @@ public class CadEndereco extends JFrame {
 
     private CadClientes parentCliente;
     private CadFuncionarios parentFuncionario;
+    private CadFornecedores parentFornecedores;
     
     private Enderecos endereco;
     
-    public CadEndereco(CadClientes parentCliente, CadFuncionarios parentFuncionario) {
+    public CadEndereco(CadClientes parentCliente, CadFuncionarios parentFuncionario, CadFornecedores parentFornecedores) {
         this.parentCliente = parentCliente;
         this.parentFuncionario = parentFuncionario;
+        this.parentFornecedores = parentFornecedores;
         
         label_pais = new javax.swing.JLabel();
         txtfield_pais = new javax.swing.JTextField();

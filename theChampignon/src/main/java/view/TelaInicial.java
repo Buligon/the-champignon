@@ -107,6 +107,9 @@ public class TelaInicial {
             abreTela(4, frameTela);
         });
         
+        fornecedoresMenuItem.addActionListener((ActionEvent e) -> {
+            abreTela(5, frameTela);
+        });
         
         frameTela.setVisible(true);
     }
@@ -134,6 +137,11 @@ public class TelaInicial {
                     TelaFuncionarios tela = new TelaFuncionarios(frameTela);
                     tela.setVisible(true);
                 }
+                case 5 -> {
+                    TelaFornecedores tela = new TelaFornecedores(frameTela);
+                    tela.setVisible(true);
+                }
+                
                 default -> throw new AssertionError();
             }
         });

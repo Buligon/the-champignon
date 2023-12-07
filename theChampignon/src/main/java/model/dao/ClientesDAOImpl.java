@@ -48,15 +48,12 @@ public class ClientesDAOImpl implements ClientesDAO {
         List<Clientes> clientes;
 
         try {
-            // Create a JPQL query to select records from the "Produtos" entity where cancelado is not equal to 1
             TypedQuery<Clientes> query = manager.createQuery("SELECT e FROM Clientes e WHERE e.cancelado <> 1", Clientes.class);
 
-            // Execute the query and get the results
             clientes = query.getResultList();
         } catch (NoResultException e) {
-            clientes = new ArrayList<>(); // Handle no results, if needed
+            clientes = new ArrayList<>(); 
         } catch (Exception e) {
-            // Handle other exceptions as needed
             clientes = new ArrayList<>();
         }
 

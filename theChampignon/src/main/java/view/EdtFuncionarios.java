@@ -243,7 +243,7 @@ public class EdtFuncionarios extends JFrame {
         );
                 
         btn_endereco.addActionListener((ActionEvent e) -> {
-            EdtEnderecos tela = new EdtEnderecos(null,this, funcionarioEdicao.getEndereco().getIdEndereco());
+            EdtEnderecos tela = new EdtEnderecos(null,this,null,funcionarioEdicao.getEndereco().getIdEndereco());
             tela.setVisible(true);                    
         });
 
