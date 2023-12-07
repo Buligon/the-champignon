@@ -30,10 +30,16 @@ public class FuncionariosDAOImpl implements FuncionariosDAO {
     }
 
     @Override
-    public void excluir(Funcionarios funcionario) {
-        funcionario.setCancelado(1);
+    public void excluir(long idPessoa) {
         manager.getTransaction().begin();
-        manager.persist(funcionario);
+        
+        Funcionarios funcionario = manager.find(Funcionarios.class, idPessoa);
+
+        if (funcionario != null) {
+            funcionario.setCancelado(1);
+            manager.merge(funcionario);
+        }
+        
         manager.getTransaction().commit();
     }
 
@@ -42,24 +48,34 @@ public class FuncionariosDAOImpl implements FuncionariosDAO {
         List<Funcionarios> funcionarios;
         
         try {
-            // Create a JPQL query to select all records from the "Funcionario" entity
-            TypedQuery<Funcionarios> query = manager.createQuery("SELECT e FROM Funcionario e", Funcionarios.class);
+            
+            TypedQuery<Funcionarios> query = manager.createQuery("SELECT f FROM Funcionarios f WHERE f.cancelado <> 1", Funcionarios.class);
 
-            // Execute the query and get the results
             funcionarios = query.getResultList();
         } catch (NoResultException e) {
-            funcionarios = new ArrayList<>(); // Handle no results, if needed
+            funcionarios = new ArrayList<>(); 
         } catch (Exception e) {
-            // Handle other exceptions as needed
+            
             funcionarios = new ArrayList<>();
         }
         
         return funcionarios;
     }
     
+    @Override
+    public Funcionarios obterPorId(long idPessoa) {
+        TypedQuery<Funcionarios> query = manager.createQuery(
+            "SELECT f FROM Funcionarios f WHERE f.id = :idPessoa", Funcionarios.class
+        );
+
+        query.setParameter("idPessoa", idPessoa);
+
+        return query.getSingleResult();
+    }
     
     @Override
     public List<Funcionarios> filtrar() {
         throw new UnsupportedOperationException("Not supported yet."); 
     }
+
 }

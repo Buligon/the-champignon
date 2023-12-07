@@ -1,13 +1,8 @@
 package model.vo;
 
 import javax.persistence.Entity;
-import model.vo.PessoaFisica;
-import javax.persistence.DiscriminatorValue;
-
-
 
 @Entity
-@DiscriminatorValue("CL") // Valor para identificar PessoaFisica
 public class Clientes extends Pessoas{
     
     private String cpf;

@@ -23,6 +23,7 @@ public class EdtProdutos extends JFrame {
     private javax.swing.JComboBox<String> combo_especies;
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_cancelar;
+    
     private TelaProdutos parent;
     private long idProduto;
 

@@ -43,8 +43,9 @@ public class EnderecosDAOImpl implements EnderecoDAO {
 
     @Override
     public Enderecos obterPorId(long idEndereco) {
+        System.out.println("\n\n\n" + idEndereco);
         TypedQuery<Enderecos> query = manager.createQuery(
-            "SELECT e FROM Enderecos e WHERE e.id = :idEndereco", Enderecos.class
+            "SELECT e FROM Enderecos e WHERE e.idEndereco = :idEndereco", Enderecos.class
         );
 
         query.setParameter("idEndereco", idEndereco);

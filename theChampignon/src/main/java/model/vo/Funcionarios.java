@@ -5,16 +5,19 @@ import javax.persistence.Entity;
 
 
 @Entity
-public class Funcionarios extends PessoaFisica{
+public class Funcionarios extends Pessoas{
+    
     private float salario;
     private Date admissao;
     private Date demissao;
+    private String cpf;
 
     public Funcionarios(String nome, String cpf, String email, String telefone, Enderecos endereco, float salario, Date admissao, Date demissao) {
-        super(nome, email, telefone, endereco, cpf);
+        super(nome, email, telefone, endereco);
         this.salario = salario;
         this.admissao = admissao;
         this.demissao = demissao;
+        this.cpf = cpf;
     }
     
     public Funcionarios() {
@@ -44,5 +47,15 @@ public class Funcionarios extends PessoaFisica{
     public void setDemissao(Date demissao) {
         this.demissao = demissao;
     }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+    
+    
 
 }

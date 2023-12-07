@@ -1,15 +1,16 @@
 package view;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
-import model.rn.ClientesRN;
-import model.vo.Clientes;
-import model.vo.PessoaFisica;
+import model.rn.FuncionariosRN;
+import model.vo.Funcionarios;
 
-public class TelaClientes extends javax.swing.JFrame{
+public class TelaFuncionarios extends javax.swing.JFrame{
     private javax.swing.JButton btn_adicionar;
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_excluir;
@@ -18,17 +19,17 @@ public class TelaClientes extends javax.swing.JFrame{
     private javax.swing.JScrollPane scrollpanel_tabela;
     private javax.swing.JLabel label_filtros;
     private javax.swing.JLabel label_pesquisa;
-    private javax.swing.JTable tab_clientes;
+    private javax.swing.JTable tab_funcionarios;
     private javax.swing.JTextField txtfield_pesquisa;
     private javax.swing.table.DefaultTableModel tableModel;
     
     private int registroSelecionado = -1;
     
-    public TelaClientes(JFrame callingFrame) {
+    public TelaFuncionarios(JFrame callingFrame) {
         panel_tela = new javax.swing.JPanel();
         btn_adicionar = new javax.swing.JButton();
         scrollpanel_tabela = new javax.swing.JScrollPane();
-        tab_clientes= new javax.swing.JTable();
+        tab_funcionarios= new javax.swing.JTable();
         btn_excluir = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
         txtfield_pesquisa = new javax.swing.JTextField();
@@ -38,24 +39,27 @@ public class TelaClientes extends javax.swing.JFrame{
         tableModel = new DefaultTableModel();
         
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Clientes");
+        setTitle("Funcionários");
         setResizable(true);
         setLocationRelativeTo(null);
         
-        tab_clientes.setModel(tableModel);
+        tab_funcionarios.setModel(tableModel);
         tableModel.addColumn("ID");
         tableModel.addColumn("Nome");
         tableModel.addColumn("CPF");
         tableModel.addColumn("Email");
         tableModel.addColumn("Telefone");
+        tableModel.addColumn("Salário");
+        tableModel.addColumn("Admissão");
+        tableModel.addColumn("Demissão");
         tableModel.addColumn("Cidade");
         tableModel.addColumn("Rua");
         tableModel.addColumn("Numero");
        
-        tab_clientes.getSelectionModel().addListSelectionListener(evt -> registroSelecionado(evt));
-        listarClientes();
+        tab_funcionarios.getSelectionModel().addListSelectionListener(evt -> registroSelecionado(evt));
+        listarFuncionarios();
  
-        scrollpanel_tabela.setViewportView(tab_clientes);
+        scrollpanel_tabela.setViewportView(tab_funcionarios);
         
         btn_excluir.setText("Excluir");
         btn_excluir.addActionListener(evt -> btn_excluirPressionado(evt));
@@ -145,22 +149,27 @@ public class TelaClientes extends javax.swing.JFrame{
     }
     
     
-    void listarClientes() {
-        ClientesRN clientesRN = new ClientesRN();
+    void listarFuncionarios() {
+        FuncionariosRN funcionariosRN = new FuncionariosRN();
         
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         tableModel.setRowCount(0);
 
-        List<Clientes> clientes = clientesRN.listarClientes();
-        for (Clientes cliente : clientes) {
+        List<Funcionarios> funcionarios = funcionariosRN.listarFuncionario();
+        for (Funcionarios funcionario : funcionarios) {
             Object[] dadosLinha = {
-                cliente.getId(),
-                cliente.getNome(),
-                cliente.getCpf(),
-                cliente.getEmail(),
-                cliente.getTelefone(),
-                cliente.getEndereco().getCidade(),
-                cliente.getEndereco().getRua(),
-                cliente.getEndereco().getNumero()
+                funcionario.getId(),
+                funcionario.getNome(),
+                funcionario.getCpf(),
+                funcionario.getEmail(),
+                funcionario.getTelefone(),
+                funcionario.getSalario(),
+                formato.format(funcionario.getAdmissao()),
+                funcionario.getDemissao(),
+                funcionario.getEndereco().getCidade(),
+                funcionario.getEndereco().getRua(),
+                funcionario.getEndereco().getNumero()
                 
             };
             tableModel.addRow(dadosLinha);
@@ -168,8 +177,8 @@ public class TelaClientes extends javax.swing.JFrame{
     }      
 
     private void btn_adicionarPressionado(java.awt.event.ActionEvent evt) { 
-        CadClientes telaClientes = new CadClientes(this);
-        telaClientes.setVisible(true);
+        CadFuncionarios telaFuncionarios = new CadFuncionarios(this);
+        telaFuncionarios.setVisible(true);
     }
                                                                               
 
@@ -177,7 +186,7 @@ public class TelaClientes extends javax.swing.JFrame{
         if (registroSelecionado >= 0) {
             long id = (long) tableModel.getValueAt(registroSelecionado, 0);
             
-            EdtClientes telaEditar = new EdtClientes(this, id);
+            EdtFuncionarios telaEditar = new EdtFuncionarios(this, id);
             telaEditar.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Selecione um registro para editar!", "Nenhum registro selecionado", JOptionPane.WARNING_MESSAGE);
@@ -188,17 +197,17 @@ public class TelaClientes extends javax.swing.JFrame{
         if (registroSelecionado >= 0) {
             long idPessoa = (long) tableModel.getValueAt(registroSelecionado, 0);
 
-            ClientesRN clientesRN = new ClientesRN();
-            clientesRN.excluirCliente(idPessoa);
+            FuncionariosRN funcionariosRN = new FuncionariosRN();
+            funcionariosRN.excluirFuncionario(idPessoa);
 
-            listarClientes();
+            listarFuncionarios();
         } else {
             JOptionPane.showMessageDialog(this, "Selecione um registro para excluir!", "Nenhum registro selecionado", JOptionPane.WARNING_MESSAGE);
         }
     }      
     private void registroSelecionado(ListSelectionEvent evt) {
         if (!evt.getValueIsAdjusting()) {
-                registroSelecionado = tab_clientes.getSelectedRow();
+                registroSelecionado = tab_funcionarios.getSelectedRow();
         }
     }
     

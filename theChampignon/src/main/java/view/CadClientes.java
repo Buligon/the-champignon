@@ -78,133 +78,132 @@ public class CadClientes extends JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
 
-layout.setHorizontalGroup(layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+        layout.setHorizontalGroup(layout.createSequentialGroup()
+                        .addContainerGap(35, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addComponent(label_nome)
+                                .addComponent(txtfield_nome)
+                                .addComponent(label_cpf)   
+                                .addComponent(txtfield_cpf)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                .addComponent(label_email)
+                                                .addComponent(txtfield_email)
+                                                .addComponent(label_telefone)
+                                                .addComponent(txtfield_telefone)
+                                        )
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                                .addComponent(label_endereco)
+                                                .addComponent(label_txtEndereco)
+                                                .addComponent(btn_endereco)
+                                        )
+                                )
+                                .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btn_cancelar)
+                                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn_adicionar)
+                                )
+                        )
+                        .addContainerGap(35, Short.MAX_VALUE)
+                );
+
+                layout.setVerticalGroup(layout.createSequentialGroup()
+                        .addContainerGap(20, Short.MAX_VALUE)
                         .addComponent(label_nome)
                         .addComponent(txtfield_nome)
-                        .addComponent(label_cpf)   
+                        .addComponent(label_cpf)
                         .addComponent(txtfield_cpf)
-                        .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                .addGroup(layout.createSequentialGroup()
                                         .addComponent(label_email)
                                         .addComponent(txtfield_email)
                                         .addComponent(label_telefone)
                                         .addComponent(txtfield_telefone)
                                 )
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                        .addComponent(label_endereco)
-                                        .addComponent(label_txtEndereco)
-                                        .addComponent(btn_endereco)
+                                .addGroup(layout.createSequentialGroup()
+                                          .addComponent(label_endereco)
+                                          .addComponent(label_txtEndereco)
+                                          .addComponent(btn_endereco)
                                 )
                         )
-                        .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(btn_cancelar)
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_adicionar)
                         )
-                )
-                .addContainerGap(35, Short.MAX_VALUE)
-        );
+                        .addContainerGap(20, Short.MAX_VALUE)
+                );
 
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(label_nome)
-                .addComponent(txtfield_nome)
-                .addComponent(label_cpf)
-                .addComponent(txtfield_cpf)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addGroup(layout.createSequentialGroup()
-                                .addComponent(label_email)
-                                .addComponent(txtfield_email)
-                                .addComponent(label_telefone)
-                                .addComponent(txtfield_telefone)
-                        )
-                        .addGroup(layout.createSequentialGroup()
-                                  .addComponent(label_endereco)
-                                  .addComponent(label_txtEndereco)
-                                  .addComponent(btn_endereco)
-                        )
-                )
-                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(btn_cancelar)
-                        .addComponent(btn_adicionar)
-                )
-                .addContainerGap(20, Short.MAX_VALUE)
-        );
-                        
-        btn_endereco.addActionListener((ActionEvent e) -> {
-            CadEndereco tela = new CadEndereco(this);
-            tela.setVisible(true);
-            
-            tela.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    endereco = tela.getEndereco();
-                    System.out.println("\n\n\naqui !!!" + endereco);
-                }   
-            });
-            
-        });
-        
-        btn_cancelar.addActionListener((ActionEvent e) -> {
-            dispose();
-        });
+                btn_endereco.addActionListener((ActionEvent e) -> {
+                    CadEndereco tela = new CadEndereco(this, null);
+                    tela.setVisible(true);
 
-        btn_adicionar.addActionListener((ActionEvent e) -> {
-            String nome = txtfield_nome.getText().trim();
-            String cpfText = txtfield_cpf.getText().trim();
-            String emailText = txtfield_email.getText().trim();
-            String telText = txtfield_telefone.getText().trim();
-            
+                    tela.addWindowListener(new WindowAdapter() {
+                        @Override
+                        public void windowClosed(WindowEvent e) {
+                            endereco = tela.getEndereco();
+                        }   
+                    });
 
-            if (!nome.isEmpty()) {
-                try {
-                    
-                    String cpf = cpfText;
-                    String email = emailText;
-                    String telefone = telText;
+                });
 
-                    ClientesRN ClientesRN = new ClientesRN();
-                    ClientesRN.adicionarCliente(nome, email, telefone, endereco, cpf);
-                    parent.listarClientes();
-
+                btn_cancelar.addActionListener((ActionEvent e) -> {
                     dispose();
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos para Custo e Valor", "Atenção", JOptionPane.WARNING_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Por favor, insira uma descrição!", "Atenção", JOptionPane.WARNING_MESSAGE);
+                });
+
+                btn_adicionar.addActionListener((ActionEvent e) -> {
+                    String nome = txtfield_nome.getText().trim();
+                    String cpfText = txtfield_cpf.getText().trim();
+                    String emailText = txtfield_email.getText().trim();
+                    String telText = txtfield_telefone.getText().trim();
+
+
+                    if (!nome.isEmpty()) {
+                        try {
+
+                            String cpf = cpfText;
+                            String email = emailText;
+                            String telefone = telText;
+
+                            ClientesRN ClientesRN = new ClientesRN();
+                            ClientesRN.adicionarCliente(nome, email, telefone, endereco, cpf);
+                            parent.listarClientes();
+
+                            dispose();
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos para Custo e Valor", "Atenção", JOptionPane.WARNING_MESSAGE);
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Por favor, insira um Nome!", "Atenção", JOptionPane.WARNING_MESSAGE);
+                    }
+                });
+
+
+                pack();
             }
-        });
 
+            private MaskFormatter createCPFFormatter() {
+                MaskFormatter formatter = null;
+                try {
+                    formatter = new MaskFormatter("###.###.###-##");
+                    formatter.setPlaceholderCharacter(' '); 
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return formatter;
+            }
 
-        pack();
-    }
-    
-    private MaskFormatter createCPFFormatter() {
-        MaskFormatter formatter = null;
-        try {
-            formatter = new MaskFormatter("###.###.###-##");
-            formatter.setPlaceholderCharacter(' '); // Opcional: substitui espaços vazios por 'X'
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return formatter;
-    }
-    
-    private MaskFormatter createTelefoneFormatter() {
-        MaskFormatter formatter = null;
-        try {
-            formatter = new MaskFormatter("(##) #####-####");
-            formatter.setPlaceholderCharacter(' '); // Opcional: substitui espaços vazios por 'X'
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return formatter;
-    }   
+            private MaskFormatter createTelefoneFormatter() {
+                MaskFormatter formatter = null;
+                try {
+                    formatter = new MaskFormatter("(##) #####-####");
+                    formatter.setPlaceholderCharacter(' ');
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                return formatter;
+            }   
  
 }

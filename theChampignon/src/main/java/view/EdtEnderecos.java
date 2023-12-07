@@ -8,8 +8,8 @@ import javax.swing.text.MaskFormatter;
 import model.rn.EnderecoRN;
 import model.vo.Enderecos;
 
-public class CadEndereco extends JFrame {
-
+public class EdtEnderecos extends JFrame {
+    
     private javax.swing.JLabel label_pais;
     private javax.swing.JTextField txtfield_pais;
     private javax.swing.JLabel label_estado;
@@ -27,17 +27,21 @@ public class CadEndereco extends JFrame {
     private javax.swing.JLabel label_cep;
     private javax.swing.JTextField txtfield_cep;
     
-    private javax.swing.JButton btn_adicionar;
+    private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_cancelar;
-
-    private CadClientes parentCliente;
-    private CadFuncionarios parentFuncionario;
+    
+    private EdtClientes parentCliente;
+    private EdtFuncionarios parentFuncionario;
+    //private EdtFuncionarios parent;
+    private final long idEndereco;
     
     private Enderecos endereco;
     
-    public CadEndereco(CadClientes parentCliente, CadFuncionarios parentFuncionario) {
+    public EdtEnderecos(EdtClientes parentCliente, EdtFuncionarios parentFuncionario ,long idEndereco) {
         this.parentCliente = parentCliente;
-        this.parentFuncionario = parentFuncionario;
+        //this.parentFuncionario = parentFuncionario;
+        
+        this.idEndereco = idEndereco; 
         
         label_pais = new javax.swing.JLabel();
         txtfield_pais = new javax.swing.JTextField();
@@ -56,10 +60,13 @@ public class CadEndereco extends JFrame {
         label_cep = new javax.swing.JLabel();
         txtfield_cep = new javax.swing.JTextField(); 
        
-        btn_adicionar = new javax.swing.JButton();
+        btn_editar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         
-        setTitle("Cadastro de Endereco");
+        EnderecoRN enderecosRN = new EnderecoRN();
+        Enderecos enderecoEdicao = enderecosRN.obterEnderecoPorId(idEndereco);
+        
+        setTitle("Editar de Endereco");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -89,8 +96,20 @@ public class CadEndereco extends JFrame {
         txtfield_cep = new JFormattedTextField(createCEPFormatter());
         txtfield_cep.setColumns(10);
 
-        btn_adicionar.setText("Adicionar");
+        btn_editar.setText("Editar");
         btn_cancelar.setText("Cancelar");
+        
+        if (enderecoEdicao != null) {
+            txtfield_pais.setText(enderecoEdicao.getPais());
+            txtfield_estado.setText(String.valueOf(enderecoEdicao.getEstado()));
+            txtfield_cidade.setText(String.valueOf(enderecoEdicao.getCidade()));
+            txtfield_bairro.setText(String.valueOf(enderecoEdicao.getBairro()));
+            txtfield_rua.setText(String.valueOf(enderecoEdicao.getRua()));
+            txtfield_numero.setText(String.valueOf(enderecoEdicao.getNumero()));
+            txtfield_cep.setText(String.valueOf(enderecoEdicao.getCep()));
+            txtfield_logradouro.setText(String.valueOf(enderecoEdicao.getLogradouro()));
+
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,7 +147,7 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(btn_cancelar)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_adicionar)
+                                .addComponent(btn_editar)
                         )
                 )
                 .addContainerGap(35, Short.MAX_VALUE)
@@ -164,7 +183,7 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(btn_cancelar)
-                        .addComponent(btn_adicionar)
+                        .addComponent(btn_editar)
                 )
                 .addContainerGap(35, Short.MAX_VALUE)
             )
@@ -175,30 +194,34 @@ layout.setHorizontalGroup(layout.createSequentialGroup()
             dispose();
         });
         
-        btn_adicionar.addActionListener((ActionEvent e) -> {
-            String pais = txtfield_pais.getText().trim();
-            String estado  = txtfield_estado.getText().trim();
-            String cidade  = txtfield_cidade.getText().trim();
-            String bairro  = txtfield_bairro.getText().trim();
-            String rua  = txtfield_rua.getText().trim();
-            String numeroTxt  = txtfield_numero.getText().trim();
-            String logradouro  = txtfield_logradouro.getText().trim();
-            String cep = txtfield_cep.getText().trim();
-
-            try {
+        btn_editar.addActionListener((ActionEvent e) -> {
+            if (enderecoEdicao != null) {
                 
-                Integer numero = Integer.parseInt(numeroTxt);
+                String pais = txtfield_pais.getText().trim();
+                String estado = txtfield_estado.getText().trim();
+                String cidade = txtfield_cidade.getText().trim();
+                String bairro = txtfield_bairro.getText().trim();
+                String rua = txtfield_rua.getText().trim();
+                String logradouro = txtfield_logradouro.getText().trim();
+                String cep = txtfield_cep.getText().trim();
+                String numero = txtfield_numero.getText().trim();
+                   
+                Enderecos endereco = null;
                 
-                EnderecoRN EnderecosRN = new EnderecoRN();
-                endereco = EnderecosRN.adicionarEndereco(pais,  estado,  cidade,  rua, logradouro,  numero,  cep, bairro);
+                enderecoEdicao.setPais(pais);
+                enderecoEdicao.setEstado(estado);
+                enderecoEdicao.setCidade(cidade);
+                enderecoEdicao.setBairro(bairro);
+                enderecoEdicao.setRua(rua);
+                enderecoEdicao.setLogradouro(logradouro);
+                enderecoEdicao.setCep(cep);
+                enderecoEdicao.setNumero(Integer.parseInt(numero));
 
+                enderecosRN.editarEndereco(enderecoEdicao);
                 dispose();
-                
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Por favor, insira valores numéricos para Numero", "Atenção", JOptionPane.WARNING_MESSAGE);
             }
-            
         });
+        
 
 
         pack();

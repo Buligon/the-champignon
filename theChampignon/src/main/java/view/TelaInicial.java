@@ -103,6 +103,11 @@ public class TelaInicial {
             abreTela(3, frameTela);
         });
         
+        funcionariosMenuItem.addActionListener((ActionEvent e) -> {
+            abreTela(4, frameTela);
+        });
+        
+        
         frameTela.setVisible(true);
     }
     
@@ -123,6 +128,10 @@ public class TelaInicial {
                 }
                 case 3 -> {
                     TelaClientes tela = new TelaClientes(frameTela);
+                    tela.setVisible(true);
+                }
+                case 4 -> {
+                    TelaFuncionarios tela = new TelaFuncionarios(frameTela);
                     tela.setVisible(true);
                 }
                 default -> throw new AssertionError();

@@ -7,8 +7,9 @@ public interface FuncionariosDAO{
     
     void salvar(Funcionarios funcionario);
     void atualizar(Funcionarios funcionario);
-    void excluir(Funcionarios funcionario);
+    void excluir(long idPessoa);
     List<Funcionarios> listarTodos();
     List<Funcionarios> filtrar();
+    Funcionarios obterPorId(long idPessoa);
     
 }

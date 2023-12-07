@@ -18,10 +18,10 @@ public class Enderecos {
     private String rua;
     private String logradouro;
     private Integer numero;
-    private Integer cep;
-    private Integer bairro;
+    private String cep;
+    private String bairro;
    
-    public Enderecos(String pais, String estado, String cidade, String rua, String logradouro, Integer numero, Integer cep, String Bairro) {
+    public Enderecos(String pais, String estado, String cidade, String rua, String logradouro, Integer numero, String cep, String Bairro) {
         
         this.pais = pais;
         this.estado = estado;
@@ -72,6 +72,10 @@ public class Enderecos {
         return logradouro;
     }
 
+    public Long getIdEndereco() {
+        return idEndereco;
+    }
+
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
     }
@@ -84,19 +88,19 @@ public class Enderecos {
         this.numero = numero;
     }
 
-    public Integer getCep() {
+    public String getCep() {
         return cep;
     }
 
-    public void setCep(Integer cep) {
+    public void setCep(String cep) {
         this.cep = cep;
     }
     
-    public Integer getBairro() {
+    public String getBairro() {
         return bairro;
     }
 
-    public void setBairro(Integer bairro) {
+    public void setBairro(String bairro) {
         this.bairro = bairro;
     }
 
