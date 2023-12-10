@@ -13,11 +13,6 @@ import model.vo.Pessoas;
 public class PessoaFisica extends Pessoas{
 
     private String cpf;
-
-    public PessoaFisica(String nome, String email, String telefone, Enderecos endereco, String cpf) {
-        super(nome, email, telefone, endereco);
-        this.cpf = cpf;
-    }
     
     public PessoaFisica() {
     }
