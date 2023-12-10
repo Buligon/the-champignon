@@ -5,8 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 import javax.swing.text.MaskFormatter;
 import model.rn.FornecedoresRN;
 import model.vo.Enderecos;
@@ -22,8 +20,6 @@ public class CadFornecedores extends JFrame {
     private javax.swing.JTextField txtfield_telefone; 
     private javax.swing.JLabel label_endereco;
     private javax.swing.JLabel label_txtEndereco;
-    private javax.swing.JLabel label_nascimento;
-    private javax.swing.JTextField txtfield_nascimento;
     private javax.swing.JButton btn_adicionar;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_endereco;
@@ -44,8 +40,6 @@ public class CadFornecedores extends JFrame {
         txtfield_telefone = new javax.swing.JTextField();  
         label_endereco = new javax.swing.JLabel();
         label_txtEndereco = new javax.swing.JLabel(); 
-        label_nascimento = new javax.swing.JLabel();
-        txtfield_nascimento = new javax.swing.JTextField(); 
         btn_adicionar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         btn_endereco = new javax.swing.JButton();
@@ -71,11 +65,7 @@ public class CadFornecedores extends JFrame {
         
         label_endereco.setText("Endereco: ");
         label_txtEndereco.setText("Cidade, Rua, Número");
-        
-        label_nascimento.setText("Nascimento:");
-        txtfield_nascimento = new JFormattedTextField(createDateFormatter());
-        txtfield_nascimento.setColumns(10);
-        
+       
         btn_adicionar.setText("Adicionar");
         btn_cancelar.setText("Cancelar");
         btn_endereco.setText("Adicionar Endereço");
@@ -89,17 +79,9 @@ public class CadFornecedores extends JFrame {
                         .addComponent(label_nome)
                         .addComponent(txtfield_nome)
                         .addGap(10)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(label_cnpj)
-                                .addComponent(txtfield_cnpj)
-                            )
-                            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(label_nascimento)
-                                .addComponent(txtfield_nascimento)
-                            )
-                        )
+                        .addComponent(label_cnpj)
+                        .addComponent(txtfield_cnpj)                           
+                        
                         .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                         .addComponent(label_email)
@@ -128,14 +110,9 @@ public class CadFornecedores extends JFrame {
                     .addComponent(label_nome)
                     .addComponent(txtfield_nome)
                     .addGap(10)
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(label_cnpj)
-                        .addComponent(label_nascimento)
-                    )
-                    .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(txtfield_cnpj)
-                        .addComponent(txtfield_nascimento)
-                    )
+                    .addComponent(label_cnpj)
+                    .addComponent(txtfield_cnpj)
+                    
                     .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                             .addGroup(layout.createSequentialGroup()
@@ -177,34 +154,19 @@ public class CadFornecedores extends JFrame {
 
             btn_adicionar.addActionListener((ActionEvent e) -> {
 
-                Calendar calendar = Calendar.getInstance();
-
                 String nome = txtfield_nome.getText().trim();
                 String cnpjText = txtfield_cnpj.getText().trim();
                 String emailText = txtfield_email.getText().trim();
                 String telText = txtfield_telefone.getText().trim();
-                //NASCIMENTO
-                String[] data = txtfield_nascimento.getText().split("/");
-
-                Integer dia = Integer.parseInt(data[0]);
-                Integer mes = Integer.parseInt(data[1]);
-                Integer ano = Integer.parseInt(data[2]);
-
-                calendar.set(Calendar.DAY_OF_MONTH, dia);
-                calendar.set(Calendar.MONTH, mes-1);
-                calendar.set(Calendar.YEAR, ano);
-
-                Date nascimento = calendar.getTime();
-
+              
                 if (!nome.isEmpty()) {
-                    
 
                     String cnpj = cnpjText;
                     String email = emailText;
                     String telefone = telText;
 
                     FornecedoresRN FornecedoresRN = new FornecedoresRN();
-                    FornecedoresRN.adicionarFornecedor(nome, cnpj, email, telefone, endereco, nascimento);
+                    FornecedoresRN.adicionarFornecedor(nome, cnpj, email, telefone, endereco);
                     parent.listarFornecedores();
 
                     dispose();
@@ -239,15 +201,4 @@ public class CadFornecedores extends JFrame {
         }
         return formatter;
     }
-
-    private MaskFormatter createDateFormatter() {
-           MaskFormatter formatter = null;
-           try {
-               formatter = new MaskFormatter("##/##/####");
-               formatter.setPlaceholderCharacter(' ');
-           } catch (ParseException e) {
-               e.printStackTrace();
-           }
-           return formatter;
-       }
 }

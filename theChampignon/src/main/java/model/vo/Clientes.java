@@ -6,21 +6,10 @@ import javax.persistence.Entity;
 @Entity
 public class Clientes extends Pessoas{
     
-    private String cpf;
-
     public Clientes(String nome, String email, String telefone, Enderecos endereco, String cpf, Date nascimento) {
-        super(nome, email, telefone, endereco, nascimento);
-        this.cpf = cpf;
+        super(nome, cpf, email, telefone, endereco, nascimento);
     }
     
     public Clientes() {
-    }
-    
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
+    }   
 }

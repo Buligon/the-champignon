@@ -10,21 +10,17 @@ public class Funcionarios extends Pessoas{
     private float salario;
     private Date admissao;
     private Date demissao;
-    private String cpf;
 
     public Funcionarios(String nome, String cpf, String email, String telefone, Enderecos endereco, float salario, Date admissao, Date demissao, Date nascimento) {
-        super(nome, email, telefone, endereco, nascimento);
+        super(nome, cpf, email, telefone, endereco, nascimento);
         this.salario = salario;
         this.admissao = admissao;
         this.demissao = demissao;
-        this.cpf = cpf;
     }
     
     public Funcionarios() {
 
     }
-    
-    
     
     public float getSalario() {
         return salario;
@@ -49,15 +45,4 @@ public class Funcionarios extends Pessoas{
     public void setDemissao(Date demissao) {
         this.demissao = demissao;
     }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-    
-    
-
 }

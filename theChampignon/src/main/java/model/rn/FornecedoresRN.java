@@ -1,6 +1,5 @@
 package model.rn;
 
-import java.util.Date;
 import java.util.List;
 import model.vo.Fornecedores;
 import model.dao.FornecedoresDAOImpl;
@@ -9,10 +8,10 @@ import model.vo.Enderecos;
 public class FornecedoresRN {
     FornecedoresDAOImpl dao = new FornecedoresDAOImpl();
     
-    public void adicionarFornecedor(String nome, String cnpj, String email, String telefone, Enderecos endereco, Date nascimento) {
+    public void adicionarFornecedor(String nome, String cnpj, String email, String telefone, Enderecos endereco) {
         EnderecoRN EnderecoRN = new EnderecoRN();
         
-        Fornecedores novofornecedor = new Fornecedores(nome, cnpj, email, telefone, endereco, nascimento);
+        Fornecedores novofornecedor = new Fornecedores(nome, cnpj, email, telefone, endereco);
 
         dao.salvar(novofornecedor);
     }

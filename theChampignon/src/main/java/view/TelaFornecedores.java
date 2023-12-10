@@ -145,7 +145,7 @@ public class TelaFornecedores extends javax.swing.JFrame{
         for (Fornecedores fornecedor : fornecedores) {
             Object[] dadosLinha = {
                 fornecedor.getId(),
-                fornecedor.getNome(),
+                fornecedor.getRazaoSocial(),
                 fornecedor.getCnpj(),
                 fornecedor.getEmail(),
                 fornecedor.getTelefone(),

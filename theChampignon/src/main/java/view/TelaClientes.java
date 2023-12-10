@@ -7,7 +7,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import model.rn.ClientesRN;
 import model.vo.Clientes;
-import model.vo.PessoaFisica;
 
 public class TelaClientes extends javax.swing.JFrame{
     private javax.swing.JButton btn_adicionar;

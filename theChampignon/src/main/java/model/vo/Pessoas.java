@@ -20,15 +20,18 @@ public class Pessoas {
     private String nome;
     private String email;
     private String telefone;
+    private String cpf;
     @ManyToOne
     private Enderecos endereco;
 
-    public Pessoas(String nome, String email, String telefone, Enderecos endereco, Date nascimento) {
+    public Pessoas(String nome,String cpf, String email, String telefone, Enderecos endereco, Date nascimento) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
         this.nascimento = nascimento;
+        this.cpf = cpf;
+     
     }
     
      public Pessoas() {
@@ -47,6 +50,16 @@ public class Pessoas {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+    
+    
 
     public String getEmail() {
         return email;
