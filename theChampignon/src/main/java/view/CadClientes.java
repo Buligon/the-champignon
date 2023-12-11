@@ -22,8 +22,6 @@ public class CadClientes extends JFrame {
     private javax.swing.JTextField txtfield_telefone; 
     private javax.swing.JLabel label_endereco;
     private javax.swing.JLabel label_txtEndereco;
-    private javax.swing.JLabel label_nascimento;
-    private javax.swing.JTextField txtfield_nascimento;
     private javax.swing.JButton btn_adicionar;
     private javax.swing.JButton btn_cancelar;
     private javax.swing.JButton btn_endereco;
@@ -45,8 +43,7 @@ public class CadClientes extends JFrame {
         txtfield_telefone = new javax.swing.JTextField();  
         label_endereco = new javax.swing.JLabel();
         label_txtEndereco = new javax.swing.JLabel(); 
-        label_nascimento = new javax.swing.JLabel();
-        txtfield_nascimento = new javax.swing.JTextField(); 
+ 
         btn_adicionar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         btn_endereco = new javax.swing.JButton();
@@ -73,10 +70,7 @@ public class CadClientes extends JFrame {
         label_endereco.setText("Endereco: ");
         label_txtEndereco.setText("Cidade, Rua, Número");
         
-        label_nascimento.setText("Nascimento:");
-        txtfield_nascimento = new JFormattedTextField(createDateFormatter());
-        txtfield_nascimento.setColumns(10);
-        
+
         btn_adicionar.setText("Adicionar");
         btn_cancelar.setText("Cancelar");
         btn_endereco.setText("Adicionar Endereço");
@@ -90,17 +84,10 @@ public class CadClientes extends JFrame {
                             .addComponent(label_nome)
                             .addComponent(txtfield_nome)
                             .addGap(10)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                    .addComponent(label_cpf)
-                                    .addComponent(txtfield_cpf)
-                                )
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                    .addComponent(label_nascimento)
-                                    .addComponent(txtfield_nascimento)
-                                )
-                            )
+                            .addComponent(label_cpf)
+                            .addComponent(txtfield_cpf)
+                                                            
+                            
                             .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                             .addComponent(label_email)
@@ -128,15 +115,10 @@ public class CadClientes extends JFrame {
                         .addContainerGap(20, Short.MAX_VALUE)
                         .addComponent(label_nome)
                         .addComponent(txtfield_nome)
-                        .addGap(10)
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                            .addComponent(label_cpf)
-                            .addComponent(label_nascimento)
-                        )
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                            .addComponent(txtfield_cpf)
-                            .addComponent(txtfield_nascimento)
-                        )
+                        .addGap(10)                       
+                        .addComponent(label_cpf)
+                        .addComponent(txtfield_cpf)
+                        
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addGroup(layout.createSequentialGroup()
@@ -177,34 +159,19 @@ public class CadClientes extends JFrame {
                 });
 
                 btn_adicionar.addActionListener((ActionEvent e) -> {
-                    
-                    Calendar calendar = Calendar.getInstance();
-                    
+                                     
                     String nome = txtfield_nome.getText().trim();
-                    String cpfText = txtfield_cpf.getText().trim();
-                    String emailText = txtfield_email.getText().trim();
-                    String telText = txtfield_telefone.getText().trim();
-                    //NASCIMENTO
-                    String[] data = txtfield_nascimento.getText().split("/");
-
-                    Integer dia = Integer.parseInt(data[0]);
-                    Integer mes = Integer.parseInt(data[1]);
-                    Integer ano = Integer.parseInt(data[2]);
-
-                    calendar.set(Calendar.DAY_OF_MONTH, dia);
-                    calendar.set(Calendar.MONTH, mes-1);
-                    calendar.set(Calendar.YEAR, ano);
-
-                    Date nascimento = calendar.getTime();
-
+                    String cpf = txtfield_cpf.getText().trim();
+                    String email = txtfield_email.getText().trim();
+                    String telefone = txtfield_telefone.getText().trim();
+                                        
                     if (!nome.isEmpty()) {
 
-                        String cpf = cpfText;
-                        String email = emailText;
-                        String telefone = telText;
+                        cpf = cpf.replaceAll("[^0-9]", "");
+                        telefone = telefone.replaceAll("[^0-9]", "");
 
                         ClientesRN ClientesRN = new ClientesRN();
-                        ClientesRN.adicionarCliente(nome, email, telefone, endereco, cpf, nascimento);
+                        ClientesRN.adicionarCliente(nome, email, telefone, endereco, cpf);
                         parent.listarClientes();
 
                         dispose();

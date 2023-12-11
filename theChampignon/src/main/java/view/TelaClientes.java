@@ -81,7 +81,7 @@ public class TelaClientes extends javax.swing.JFrame{
         btn_adicionar.addActionListener(evt -> btn_adicionarPressionado(evt)); 
         
         label_filtros.setText("Filtros:");
-        ComboBoxFiltroClientes();
+        PreencheComboFiltro();
         
         label_pesquisa.setText("Pesquisa:");
         txtfield_pesquisa.addKeyListener(new KeyAdapter() {
@@ -167,7 +167,7 @@ public class TelaClientes extends javax.swing.JFrame{
     }
     
         
-    private void ComboBoxFiltroClientes(){
+    private void PreencheComboFiltro(){
         ClientesRN clientesRN = new ClientesRN();
         EnderecoRN enderecosRN = new EnderecoRN();
         

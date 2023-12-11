@@ -10,11 +10,11 @@ import model.dao.ClientesDAOImpl;
 public class ClientesRN {
     ClientesDAOImpl dao = new ClientesDAOImpl();
     
-    public void adicionarCliente(String nome, String email, String telefone, Enderecos endereco, String cpf, Date nascimento) {
+    public void adicionarCliente(String nome, String email, String telefone, Enderecos endereco, String cpf) {
         
         EnderecoRN EnderecoRN = new EnderecoRN();
         
-        Clientes novocliente = new Clientes(nome, email, telefone, endereco, cpf, nascimento);
+        Clientes novocliente = new Clientes(nome, email, telefone, endereco, cpf);
 
         dao.salvar(novocliente);
     }

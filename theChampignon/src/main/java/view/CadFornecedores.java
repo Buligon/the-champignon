@@ -155,16 +155,15 @@ public class CadFornecedores extends JFrame {
             btn_adicionar.addActionListener((ActionEvent e) -> {
 
                 String nome = txtfield_nome.getText().trim();
-                String cnpjText = txtfield_cnpj.getText().trim();
-                String emailText = txtfield_email.getText().trim();
-                String telText = txtfield_telefone.getText().trim();
+                String cnpj = txtfield_cnpj.getText().trim();
+                String email = txtfield_email.getText().trim();
+                String telefone = txtfield_telefone.getText().trim();
               
                 if (!nome.isEmpty()) {
 
-                    String cnpj = cnpjText;
-                    String email = emailText;
-                    String telefone = telText;
-
+                    cnpj = cnpj.replaceAll("[^0-9]", "");
+                    telefone = telefone.replaceAll("[^0-9]", "");
+                    
                     FornecedoresRN FornecedoresRN = new FornecedoresRN();
                     FornecedoresRN.adicionarFornecedor(nome, cnpj, email, telefone, endereco);
                     parent.listarFornecedores();

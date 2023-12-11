@@ -16,7 +16,6 @@ public class Pessoas {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
-    private Date nascimento;
     private String nome;
     private String email;
     private String telefone;
@@ -24,12 +23,11 @@ public class Pessoas {
     @ManyToOne
     private Enderecos endereco;
 
-    public Pessoas(String nome,String cpf, String email, String telefone, Enderecos endereco, Date nascimento) {
+    public Pessoas(String nome,String cpf, String email, String telefone, Enderecos endereco) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
-        this.nascimento = nascimento;
         this.cpf = cpf;
      
     }
@@ -87,15 +85,5 @@ public class Pessoas {
 
     public void setEndereco(Enderecos endereco) {
         this.endereco = endereco;
-    }
-
-    public Date getNascimento() {
-        return nascimento;
-    }
-
-    public void setNascimento(Date nascimento) {
-        this.nascimento = nascimento;
-    }
-    
-    
+    }   
 }

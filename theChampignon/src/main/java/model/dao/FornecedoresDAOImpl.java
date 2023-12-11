@@ -1,11 +1,13 @@
 package model.dao;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import model.connector.ConexaoJPQL;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import model.vo.Enderecos;
 import model.vo.Fornecedores;
 
 public class FornecedoresDAOImpl implements FornecedoresDAO {
@@ -61,6 +63,13 @@ public class FornecedoresDAOImpl implements FornecedoresDAO {
     }
     
     @Override
+    public Field[] listarCampos() {
+
+        Field[] campos = Fornecedores.class.getDeclaredFields();      
+        return campos;
+    }
+    
+    @Override
     public Fornecedores obterPorId(long idPessoa) {
         TypedQuery<Fornecedores> query = manager.createQuery(
             "SELECT e FROM Fornecedores e WHERE e.id = :idPessoa", Fornecedores.class
@@ -72,7 +81,46 @@ public class FornecedoresDAOImpl implements FornecedoresDAO {
     }
     
     @Override
-    public List<Fornecedores> filtrar() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public List<Fornecedores> filtrar(String campo, String filtro) {
+        
+        String stringQuery = "";
+        List<Fornecedores> fornecedores = new ArrayList<>();
+        Field[] camposEndereco = Enderecos.class.getDeclaredFields(); 
+        List<String> camposEnd = new ArrayList<>();
+        
+        // Cria o array com os campos em endereco
+        for(Field campoEnd : camposEndereco) {
+            camposEnd.add(campoEnd.getName());
+        }
+       
+        String stringCampos = String.join(" ", camposEnd);
+        
+        
+        //verifica se algum campo de endereco esta sendo filtrado
+        if(stringCampos.contains(campo) == false || campo == "id"){            
+            stringQuery = "SELECT c FROM Fornecedores c WHERE c."+campo+" LIKE '"+filtro+"%'";
+        }
+        else if(stringCampos.contains(campo) == true && campo != "id"){             
+            stringQuery = "SELECT c FROM Fornecedores c INNER JOIN c.endereco e WHERE e."+campo+" LIKE '"+filtro+"%'";
+            
+        }
+                
+        if(filtro.length() != 0){
+            try {
+                TypedQuery<Fornecedores> query = (TypedQuery<Fornecedores>) manager.createQuery(stringQuery);
+
+                fornecedores = query.getResultList();
+            } catch (NoResultException e) {
+                fornecedores = new ArrayList<>(); 
+            } catch (Exception e) {
+                fornecedores = new ArrayList<>();
+            }
+            
+        }
+        else{
+             fornecedores = listarTodos();}
+        
+        return fornecedores;
+        
     }
 }

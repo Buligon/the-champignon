@@ -1,5 +1,10 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -7,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
+import model.rn.EnderecoRN;
 import model.rn.FuncionariosRN;
 import model.vo.Funcionarios;
 
@@ -34,6 +40,12 @@ public class TelaFuncionarios extends javax.swing.JFrame{
         btn_editar = new javax.swing.JButton();
         txtfield_pesquisa = new javax.swing.JTextField();
         combo_filtros = new javax.swing.JComboBox<>();
+        combo_filtros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                atualizaTelaFiltros();
+            }
+        });
         label_pesquisa = new javax.swing.JLabel();
         label_filtros = new javax.swing.JLabel();
         tableModel = new DefaultTableModel();
@@ -71,10 +83,17 @@ public class TelaFuncionarios extends javax.swing.JFrame{
         btn_adicionar.addActionListener(evt -> btn_adicionarPressionado(evt)); 
         
         label_filtros.setText("Filtros:");
+        PreencheComboFiltro();
         
         label_pesquisa.setText("Pesquisa:");
         txtfield_pesquisa.setToolTipText("Sua pesquisa");
-
+        txtfield_pesquisa.addKeyListener(new KeyAdapter() {
+        @Override
+            public void keyReleased(KeyEvent e) {
+                atualizaTelaFiltros();
+            }   
+        });
+              
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(panel_tela);
         panel_tela.setLayout(jPanel1Layout);
         
@@ -148,6 +167,25 @@ public class TelaFuncionarios extends javax.swing.JFrame{
         pack();
     }
     
+    private void PreencheComboFiltro(){
+        FuncionariosRN funcionariosRN = new FuncionariosRN();
+        EnderecoRN enderecosRN = new EnderecoRN();
+        
+        Field[] camposEndereco = enderecosRN.listarCamposEndereco();
+        Field[] camposFuncionarios = funcionariosRN.listarCamposFuncionarios();
+        
+        for (Field campo : camposFuncionarios) {
+            if(campo.getName() != "cancelado" && campo.getName() != "endereco"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+        
+        for (Field campo : camposEndereco) {
+            if(campo.getName() != "numero" && campo.getName() != "idEndereco"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+    } 
     
     void listarFuncionarios() {
         FuncionariosRN funcionariosRN = new FuncionariosRN();
@@ -166,7 +204,7 @@ public class TelaFuncionarios extends javax.swing.JFrame{
                 funcionario.getTelefone(),
                 funcionario.getSalario(),
                 formato.format(funcionario.getAdmissao()),
-                funcionario.getDemissao(),
+                funcionario.getDemissao() == null ? funcionario.getDemissao() : formato.format(funcionario.getDemissao()),
                 funcionario.getEndereco().getCidade(),
                 funcionario.getEndereco().getRua(),
                 funcionario.getEndereco().getNumero()
@@ -174,7 +212,41 @@ public class TelaFuncionarios extends javax.swing.JFrame{
             };
             tableModel.addRow(dadosLinha);
         }
-    }      
+    }
+    
+     private void atualizaTelaFiltros(){
+       FuncionariosRN funcionariosRN = new FuncionariosRN();
+       
+       String campo = (String) combo_filtros.getSelectedItem();
+       String filtro = txtfield_pesquisa.getText().trim();
+       
+       List<Funcionarios> funcionarios = funcionariosRN.filtrarFuncionario(campo, filtro);
+       
+       tableModel.setRowCount(0);
+       
+       Calendar cal = Calendar.getInstance();
+       SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+       
+       
+       
+       for (Funcionarios funcionario : funcionarios) {
+            Object[] dadosLinha = {
+                funcionario.getId(),
+                funcionario.getNome(),
+                funcionario.getCpf(),
+                funcionario.getEmail(),
+                funcionario.getTelefone(),
+                funcionario.getSalario(),
+                formato.format(funcionario.getAdmissao()),
+                funcionario.getDemissao() == null ? funcionario.getDemissao() : formato.format(funcionario.getDemissao()),              
+                funcionario.getEndereco().getCidade(),
+                funcionario.getEndereco().getRua(),
+                funcionario.getEndereco().getNumero()
+                
+            };
+            tableModel.addRow(dadosLinha);
+        }
+    }
 
     private void btn_adicionarPressionado(java.awt.event.ActionEvent evt) { 
         CadFuncionarios telaFuncionarios = new CadFuncionarios(this);
@@ -199,7 +271,7 @@ public class TelaFuncionarios extends javax.swing.JFrame{
 
             FuncionariosRN funcionariosRN = new FuncionariosRN();
             funcionariosRN.excluirFuncionario(idPessoa);
-
+            
             listarFuncionarios();
         } else {
             JOptionPane.showMessageDialog(this, "Selecione um registro para excluir!", "Nenhum registro selecionado", JOptionPane.WARNING_MESSAGE);

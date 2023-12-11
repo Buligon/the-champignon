@@ -36,8 +36,6 @@ public class EdtFuncionarios extends JFrame {
     private javax.swing.JLabel label_demissao;
     private javax.swing.JTextField txtfield_demissao;
     
-    private javax.swing.JLabel label_nascimento;
-    private javax.swing.JTextField txtfield_nascimento;
     
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_cancelar;
@@ -74,10 +72,7 @@ public class EdtFuncionarios extends JFrame {
         txtfield_admissao = new javax.swing.JTextField();
         
         label_demissao = new javax.swing.JLabel();
-        txtfield_demissao = new javax.swing.JTextField(); 
-        
-        label_nascimento = new javax.swing.JLabel();
-        txtfield_nascimento = new javax.swing.JTextField();
+        txtfield_demissao = new javax.swing.JTextField();        
        
         btn_editar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
@@ -112,15 +107,12 @@ public class EdtFuncionarios extends JFrame {
         txtfield_salario.setColumns(10);
         
         label_admissao.setText("Admissão:");
-        txtfield_admissao = new JFormattedTextField(createAdmissaoFormatter());
+        txtfield_admissao = new JFormattedTextField(createDateFormatter());
         txtfield_admissao.setColumns(10);
         
         label_demissao.setText("Demissão:");
+        txtfield_demissao = new JFormattedTextField(createDateFormatter());
         txtfield_demissao.setColumns(10);
-        
-        label_nascimento.setText("Nascimento:");
-        txtfield_nascimento = new JFormattedTextField(createAdmissaoFormatter());
-        txtfield_nascimento.setColumns(10);
 
         btn_editar.setText("Editar");
         btn_cancelar.setText("Cancelar");
@@ -136,9 +128,7 @@ public class EdtFuncionarios extends JFrame {
             
             Calendar cal = Calendar.getInstance();
             SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            System.out.println("\n\n" +funcionarioEdicao.getNascimento()+"\n\n");
             txtfield_admissao.setText(formato.format(funcionarioEdicao.getAdmissao()));
-            txtfield_nascimento.setText(formato.format(funcionarioEdicao.getNascimento()));
             
         }
 
@@ -150,7 +140,6 @@ public class EdtFuncionarios extends JFrame {
         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
             .addComponent(label_nome)
             .addComponent(txtfield_nome)
-            .addGap(10)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                     .addComponent(label_cpf)
@@ -158,10 +147,11 @@ public class EdtFuncionarios extends JFrame {
                 )
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(label_nascimento)
-                    .addComponent(txtfield_nascimento)
+                    .addComponent(label_salario)
+                    .addComponent(txtfield_salario)
                 )
             )
+            
             .addGap(10)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -170,8 +160,8 @@ public class EdtFuncionarios extends JFrame {
                 )
                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                    .addComponent(label_salario)
-                    .addComponent(txtfield_salario)
+                    .addComponent(label_demissao)
+                    .addComponent(txtfield_demissao)
                 )
             )
 
@@ -189,51 +179,52 @@ public class EdtFuncionarios extends JFrame {
                     .addComponent(btn_endereco)
                 )
             )
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(btn_cancelar)
-                    .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(btn_editar)
-                )
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(btn_cancelar)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_editar)
             )
-            .addContainerGap(35, Short.MAX_VALUE)
-        );
+        )
+        .addContainerGap(35, Short.MAX_VALUE)
+    );
 
-        layout.setVerticalGroup(layout.createSequentialGroup()
-            .addContainerGap(20, Short.MAX_VALUE)
-            .addComponent(label_nome)
-            .addComponent(txtfield_nome)
-            .addGap(10)
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(label_cpf)
-                .addComponent(label_nascimento)
+    layout.setVerticalGroup(layout.createSequentialGroup()
+        .addContainerGap(20, Short.MAX_VALUE)
+        .addComponent(label_nome)
+        .addComponent(txtfield_nome)
+        .addGap(10)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+            .addComponent(label_cpf)
+            .addComponent(label_salario)
+        )
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+            .addComponent(txtfield_cpf)
+            .addComponent(txtfield_salario)
+        ) 
+           
+        .addGap(10)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+            .addComponent(label_admissao)
+            .addComponent(label_demissao)
+        )
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+            .addComponent(txtfield_admissao)
+            .addComponent(txtfield_demissao)
+        )
+        .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(label_email)
+                .addComponent(txtfield_email)
+                .addComponent(label_telefone)
+                .addComponent(txtfield_telefone)
             )
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(txtfield_cpf)
-                .addComponent(txtfield_nascimento)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(label_endereco)
+                .addComponent(label_txtEndereco)
+                .addComponent(btn_endereco)
             )
-            .addGap(10)
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(label_admissao)
-                .addComponent(label_salario)
-            )
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(txtfield_admissao)
-                .addComponent(txtfield_salario)
-            )
-            .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-            .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(label_email)
-                    .addComponent(txtfield_email)
-                    .addComponent(label_telefone)
-                    .addComponent(txtfield_telefone)
-                )
-                .addGroup(layout.createSequentialGroup()
-                    .addComponent(label_endereco)
-                    .addComponent(label_txtEndereco)
-                    .addComponent(btn_endereco)
-                )
-            )
+        )
             .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
             .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                 .addComponent(btn_cancelar)
@@ -257,9 +248,9 @@ public class EdtFuncionarios extends JFrame {
                 Calendar calendar = Calendar.getInstance();
                 
                 String nome = txtfield_nome.getText().trim();
-                String cpfText = txtfield_cpf.getText().trim();
-                String emailText = txtfield_email.getText().trim();
-                String telText = txtfield_telefone.getText().trim();
+                String cpf = txtfield_cpf.getText().trim();
+                String email = txtfield_email.getText().trim();
+                String telefone= txtfield_telefone.getText().trim();
                 String salText = txtfield_salario.getText().trim();
                 //ADMISSÃO
                 String[] data = txtfield_admissao.getText().split("/");
@@ -273,9 +264,9 @@ public class EdtFuncionarios extends JFrame {
                 calendar.set(Calendar.YEAR, ano);
                 
                 Date admissao = calendar.getTime();
-              
-                //NASCIMENTO
-                data = txtfield_nascimento.getText().split("/");
+                
+                //Demissao
+                data = txtfield_admissao.getText().split("/");
 
                 dia = Integer.parseInt(data[0]);
                 mes = Integer.parseInt(data[1]);
@@ -284,24 +275,21 @@ public class EdtFuncionarios extends JFrame {
                 calendar.set(Calendar.DAY_OF_MONTH, dia);
                 calendar.set(Calendar.MONTH, mes-1);
                 calendar.set(Calendar.YEAR, ano);
-            
-                Date nascimento = calendar.getTime();
-                                
+                
+                Date demissao = calendar.getTime();
+                                             
                 if (!nome.isEmpty()) {
                    
-                    String cpf = cpfText;
-                    String email = emailText;
-                    String telefone = telText;
                     float salario = Float.parseFloat(salText);
                     
 
                     funcionarioEdicao.setNome(nome);
-                    funcionarioEdicao.setCpf(cpf);
+                    funcionarioEdicao.setCpf(cpf.replaceAll("[^0-9]", ""));
                     funcionarioEdicao.setEmail(email);
-                    funcionarioEdicao.setTelefone(telefone);
+                    funcionarioEdicao.setTelefone(telefone.replaceAll("[^0-9]", ""));
                     funcionarioEdicao.setSalario(salario);
                     funcionarioEdicao.setAdmissao(admissao);
-                    funcionarioEdicao.setNascimento(nascimento);
+                    funcionarioEdicao.setDemissao(demissao);
 
                     funcionariosRN.editarFuncionario(funcionarioEdicao);
                     parent.listarFuncionarios();
@@ -339,7 +327,7 @@ public class EdtFuncionarios extends JFrame {
         return formatter;
     }
     
-    private MaskFormatter createAdmissaoFormatter() {
+    private MaskFormatter createDateFormatter() {
         MaskFormatter formatter = null;
         try {
             formatter = new MaskFormatter("##/##/####");

@@ -1,13 +1,10 @@
 package model.dao;
 
-import com.mysql.cj.jdbc.result.ResultSetMetaData;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Tuple;
-import javax.persistence.TupleElement;
 import javax.persistence.TypedQuery;
 import model.connector.ConexaoJPQL;
 import model.vo.Clientes;
@@ -66,7 +63,8 @@ public class ClientesDAOImpl implements ClientesDAO {
         return clientes;
     }
     
-     public Field[] listarCampos() {
+    @Override
+    public Field[] listarCampos() {
 
         Field[] campos = Pessoas.class.getDeclaredFields();      
         return campos;
@@ -107,9 +105,7 @@ public class ClientesDAOImpl implements ClientesDAO {
             stringQuery = "SELECT c FROM Clientes c INNER JOIN c.endereco e WHERE e."+campo+" LIKE '"+filtro+"%'";
             
         }
-        
-        System.out.println("\n log query -> "+stringQuery);
-        
+                
         if(filtro.length() != 0){
             try {
                 TypedQuery<Clientes> query = (TypedQuery<Clientes>) manager.createQuery(stringQuery);

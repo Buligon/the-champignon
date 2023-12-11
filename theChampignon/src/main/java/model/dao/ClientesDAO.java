@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.lang.reflect.Field;
 import model.vo.Clientes;
 import java.util.List;
 
@@ -10,5 +11,6 @@ public interface ClientesDAO {
     List<Clientes> listarTodos();
     List<Clientes> filtrar(String campo, String filtro);
     Clientes obterPorId(long idPessoa);
+    Field[] listarCampos();
 
 }

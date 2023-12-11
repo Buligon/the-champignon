@@ -22,8 +22,6 @@ public class EdtClientes extends JFrame {
     private javax.swing.JTextField txtfield_telefone; 
     private javax.swing.JLabel label_endereco;
     private javax.swing.JLabel label_txtEndereco;
-    private javax.swing.JLabel label_nascimento;
-    private javax.swing.JTextField txtfield_nascimento;
     
     private javax.swing.JButton btn_editar;
     private javax.swing.JButton btn_cancelar;
@@ -47,9 +45,7 @@ public class EdtClientes extends JFrame {
         label_telefone = new javax.swing.JLabel();
         txtfield_telefone = new javax.swing.JTextField();  
         label_endereco = new javax.swing.JLabel();
-        label_txtEndereco = new javax.swing.JLabel(); 
-        label_nascimento = new javax.swing.JLabel();
-        txtfield_nascimento = new javax.swing.JTextField(); 
+        label_txtEndereco = new javax.swing.JLabel();  
         btn_editar = new javax.swing.JButton();
         btn_cancelar = new javax.swing.JButton();
         btn_endereco = new javax.swing.JButton();
@@ -78,10 +74,6 @@ public class EdtClientes extends JFrame {
         
         label_endereco.setText("Endereco: ");
         label_txtEndereco.setText("Cidade, Rua, Número");
-        
-        label_nascimento.setText("Nascimento:");
-        txtfield_nascimento = new JFormattedTextField(createAdmissaoFormatter());
-        txtfield_nascimento.setColumns(10);
 
         btn_editar.setText("Editar");
         btn_cancelar.setText("Cancelar");
@@ -92,11 +84,7 @@ public class EdtClientes extends JFrame {
             txtfield_nome.setText(clienteEdicao.getNome());
             txtfield_cpf.setText(String.valueOf(clienteEdicao.getCpf()));
             txtfield_email.setText(String.valueOf(clienteEdicao.getEmail()));
-            txtfield_telefone.setText(String.valueOf(clienteEdicao.getTelefone()));
-            
-            Calendar cal = Calendar.getInstance();
-            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-            txtfield_nascimento.setText(formato.format(clienteEdicao.getNascimento()));
+            txtfield_telefone.setText(String.valueOf(clienteEdicao.getTelefone()));           
         }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -108,17 +96,9 @@ public class EdtClientes extends JFrame {
                             .addComponent(label_nome)
                             .addComponent(txtfield_nome)
                             .addGap(10)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                    .addComponent(label_cpf)
-                                    .addComponent(txtfield_cpf)
-                                )
-                                .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                    .addComponent(label_nascimento)
-                                    .addComponent(txtfield_nascimento)
-                                )
-                            )
+                            .addComponent(label_cpf)
+                            .addComponent(txtfield_cpf)
+                                                     
                             .addGroup(layout.createSequentialGroup()
                                     .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                             .addComponent(label_email)
@@ -147,14 +127,10 @@ public class EdtClientes extends JFrame {
                         .addComponent(label_nome)
                         .addComponent(txtfield_nome)
                         .addGap(10)
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                            .addComponent(label_cpf)
-                            .addComponent(label_nascimento)
-                        )
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                            .addComponent(txtfield_cpf)
-                            .addComponent(txtfield_nascimento)
-                        )
+                        .addComponent(label_cpf)
+                        .addComponent(txtfield_cpf)
+                        
+
                         .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addGroup(layout.createSequentialGroup()
@@ -194,29 +170,14 @@ public class EdtClientes extends JFrame {
                 String nome = txtfield_nome.getText().trim();
                 String cpf = txtfield_cpf.getText().trim();
                 String email = txtfield_email.getText().trim();
-                String telefone = txtfield_telefone.getText().trim();
-                
-                //NASCIMENTO
-                String[] data = txtfield_nascimento.getText().split("/");
-
-                Integer dia = Integer.parseInt(data[0]);
-                Integer mes = Integer.parseInt(data[1]);
-                Integer ano = Integer.parseInt(data[2]);
-
-                calendar.set(Calendar.DAY_OF_MONTH, dia);
-                calendar.set(Calendar.MONTH, mes-1);
-                calendar.set(Calendar.YEAR, ano);
-
-                Date nascimento = calendar.getTime();
+                String telefone = txtfield_telefone.getText().trim();               
                 
                 if (!nome.isEmpty()) {
                     
                     clienteEdicao.setNome(nome);
-                    clienteEdicao.setCpf(cpf);
+                    clienteEdicao.setCpf(cpf.replaceAll("[^0-9]", ""));
                     clienteEdicao.setEmail(email);
-                    clienteEdicao.setTelefone(telefone);
-                    clienteEdicao.setNascimento(nascimento);
-
+                    clienteEdicao.setTelefone(telefone.replaceAll("[^0-9]", ""));
                     clientesRN.editarCliente(clienteEdicao);
                     parent.listarClientes();
 

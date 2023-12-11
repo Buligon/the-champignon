@@ -1,10 +1,16 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
+import model.rn.EnderecoRN;
 import model.rn.FornecedoresRN;
 import model.vo.Fornecedores;
 
@@ -17,7 +23,7 @@ public class TelaFornecedores extends javax.swing.JFrame{
     private javax.swing.JScrollPane scrollpanel_tabela;
     private javax.swing.JLabel label_filtros;
     private javax.swing.JLabel label_pesquisa;
-    private javax.swing.JTable tab_clientes;
+    private javax.swing.JTable tab_fornecedores;
     private javax.swing.JTextField txtfield_pesquisa;
     private javax.swing.table.DefaultTableModel tableModel;
     
@@ -27,11 +33,18 @@ public class TelaFornecedores extends javax.swing.JFrame{
         panel_tela = new javax.swing.JPanel();
         btn_adicionar = new javax.swing.JButton();
         scrollpanel_tabela = new javax.swing.JScrollPane();
-        tab_clientes= new javax.swing.JTable();
+        tab_fornecedores= new javax.swing.JTable();
         btn_excluir = new javax.swing.JButton();
         btn_editar = new javax.swing.JButton();
         txtfield_pesquisa = new javax.swing.JTextField();
         combo_filtros = new javax.swing.JComboBox<>();
+        combo_filtros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                atualizaTelaFiltros();
+            }
+        });
+        
         label_pesquisa = new javax.swing.JLabel();
         label_filtros = new javax.swing.JLabel();
         tableModel = new DefaultTableModel();
@@ -41,7 +54,7 @@ public class TelaFornecedores extends javax.swing.JFrame{
         setResizable(true);
         setLocationRelativeTo(null);
         
-        tab_clientes.setModel(tableModel);
+        tab_fornecedores.setModel(tableModel);
         tableModel.addColumn("ID");
         tableModel.addColumn("Razão Social");
         tableModel.addColumn("CNPJ");
@@ -51,10 +64,10 @@ public class TelaFornecedores extends javax.swing.JFrame{
         tableModel.addColumn("Rua");
         tableModel.addColumn("Numero");
        
-        tab_clientes.getSelectionModel().addListSelectionListener(evt -> registroSelecionado(evt));
+        tab_fornecedores.getSelectionModel().addListSelectionListener(evt -> registroSelecionado(evt));
         listarFornecedores();
  
-        scrollpanel_tabela.setViewportView(tab_clientes);
+        scrollpanel_tabela.setViewportView(tab_fornecedores);
         
         btn_excluir.setText("Excluir");
         btn_excluir.addActionListener(evt -> btn_excluirPressionado(evt));
@@ -66,9 +79,16 @@ public class TelaFornecedores extends javax.swing.JFrame{
         btn_adicionar.addActionListener(evt -> btn_adicionarPressionado(evt)); 
         
         label_filtros.setText("Filtros:");
+        PreencheComboFiltro();
         
         label_pesquisa.setText("Pesquisa:");
         txtfield_pesquisa.setToolTipText("Sua pesquisa");
+        txtfield_pesquisa.addKeyListener(new KeyAdapter() {
+        @Override
+            public void keyReleased(KeyEvent e) {
+                atualizaTelaFiltros();
+            }   
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(panel_tela);
         panel_tela.setLayout(jPanel1Layout);
@@ -135,6 +155,25 @@ public class TelaFornecedores extends javax.swing.JFrame{
         pack();
     }
     
+    private void PreencheComboFiltro(){
+        FornecedoresRN fornecedoresRN = new FornecedoresRN();
+        EnderecoRN enderecosRN = new EnderecoRN();
+        
+        Field[] camposEndereco = enderecosRN.listarCamposEndereco();
+        Field[] camposFornecedores = fornecedoresRN.listarCamposFornecedores();
+        
+        for (Field campo : camposFornecedores) {
+            if(campo.getName() != "cancelado" && campo.getName() != "endereco"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+        
+        for (Field campo : camposEndereco) {
+            if(campo.getName() != "numero" && campo.getName() != "idEndereco"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+    } 
     
     void listarFornecedores() {
         FornecedoresRN fornecedoresRN = new FornecedoresRN();
@@ -157,6 +196,32 @@ public class TelaFornecedores extends javax.swing.JFrame{
             tableModel.addRow(dadosLinha);
         }
     }      
+    
+    private void atualizaTelaFiltros(){
+       FornecedoresRN fornecedoresRN = new FornecedoresRN();
+       
+       String campo = (String) combo_filtros.getSelectedItem();
+       String filtro = txtfield_pesquisa.getText().trim();
+       
+       List<Fornecedores> fornecedores = fornecedoresRN.filtrarFornecedor(campo, filtro);
+       
+       tableModel.setRowCount(0);
+       
+       for (Fornecedores fornecedor : fornecedores) {
+            Object[] dadosLinha = {
+                fornecedor.getId(),
+                fornecedor.getRazaoSocial(),
+                fornecedor.getCnpj(),
+                fornecedor.getEmail(),
+                fornecedor.getTelefone(),
+                fornecedor.getEndereco().getCidade(),
+                fornecedor.getEndereco().getRua(),
+                fornecedor.getEndereco().getNumero()
+                
+            };
+            tableModel.addRow(dadosLinha);
+        }
+    }
 
     private void btn_adicionarPressionado(java.awt.event.ActionEvent evt) { 
         CadFornecedores telaFornecedores = new CadFornecedores(this);
@@ -189,7 +254,7 @@ public class TelaFornecedores extends javax.swing.JFrame{
     }      
     private void registroSelecionado(ListSelectionEvent evt) {
         if (!evt.getValueIsAdjusting()) {
-                registroSelecionado = tab_clientes.getSelectedRow();
+                registroSelecionado = tab_fornecedores.getSelectedRow();
         }
     }
     

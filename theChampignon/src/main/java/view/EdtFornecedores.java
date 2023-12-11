@@ -175,9 +175,9 @@ public class EdtFornecedores extends JFrame {
                 if (!razaoSocial.isEmpty()) {
                     
                     fornecedorEdicao.setRazaoSocial(razaoSocial);
-                    fornecedorEdicao.setCnpj(cnpj);
+                    fornecedorEdicao.setCnpj(cnpj.replaceAll("[^0-9]", ""));
                     fornecedorEdicao.setEmail(email);
-                    fornecedorEdicao.setTelefone(telefone);
+                    fornecedorEdicao.setTelefone(telefone.replaceAll("[^0-9]", ""));
 
                     fornecedorsRN.editarFornecedor(fornecedorEdicao);
                     parent.listarFornecedores();
