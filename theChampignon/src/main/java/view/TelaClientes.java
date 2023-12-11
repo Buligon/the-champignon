@@ -1,11 +1,19 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import model.rn.ClientesRN;
+import model.rn.EnderecoRN;
 import model.vo.Clientes;
 
 public class TelaClientes extends javax.swing.JFrame{
@@ -32,6 +40,13 @@ public class TelaClientes extends javax.swing.JFrame{
         btn_editar = new javax.swing.JButton();
         txtfield_pesquisa = new javax.swing.JTextField();
         combo_filtros = new javax.swing.JComboBox<>();
+        combo_filtros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                atualizaTelaFiltros();
+            }
+        });
+        
         label_pesquisa = new javax.swing.JLabel();
         label_filtros = new javax.swing.JLabel();
         tableModel = new DefaultTableModel();
@@ -66,8 +81,16 @@ public class TelaClientes extends javax.swing.JFrame{
         btn_adicionar.addActionListener(evt -> btn_adicionarPressionado(evt)); 
         
         label_filtros.setText("Filtros:");
+        ComboBoxFiltroClientes();
         
         label_pesquisa.setText("Pesquisa:");
+        txtfield_pesquisa.addKeyListener(new KeyAdapter() {
+        @Override
+            public void keyReleased(KeyEvent e) {
+                atualizaTelaFiltros();
+            }   
+        });
+
         txtfield_pesquisa.setToolTipText("Sua pesquisa");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(panel_tela);
@@ -143,6 +166,26 @@ public class TelaClientes extends javax.swing.JFrame{
         pack();
     }
     
+        
+    private void ComboBoxFiltroClientes(){
+        ClientesRN clientesRN = new ClientesRN();
+        EnderecoRN enderecosRN = new EnderecoRN();
+        
+        Field[] camposEndereco = enderecosRN.listarCamposEndereco();
+        Field[] camposClientes = clientesRN.listarCamposClientes();
+        
+        for (Field campo : camposClientes) {
+            if(campo.getName() != "cancelado" && campo.getName() != "endereco"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+        
+        for (Field campo : camposEndereco) {
+            if(campo.getName() != "numero" && campo.getName() != "idEndereco"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+    }    
     
     void listarClientes() {
         ClientesRN clientesRN = new ClientesRN();
@@ -166,12 +209,37 @@ public class TelaClientes extends javax.swing.JFrame{
         }
     }      
 
+    private void atualizaTelaFiltros(){
+       ClientesRN clientesRN = new ClientesRN();
+       
+       String campo = (String) combo_filtros.getSelectedItem();
+       String filtro = txtfield_pesquisa.getText().trim();
+       
+       List<Clientes> clientes = clientesRN.filtrarCliente(campo, filtro);
+       
+       tableModel.setRowCount(0);
+       
+       for (Clientes cliente : clientes) {
+            Object[] dadosLinha = {
+                cliente.getId(),
+                cliente.getNome(),
+                cliente.getCpf(),
+                cliente.getEmail(),
+                cliente.getTelefone(),
+                cliente.getEndereco().getCidade(),
+                cliente.getEndereco().getRua(),
+                cliente.getEndereco().getNumero()
+                
+            };
+            tableModel.addRow(dadosLinha);
+        }
+    }
+    
     private void btn_adicionarPressionado(java.awt.event.ActionEvent evt) { 
         CadClientes telaClientes = new CadClientes(this);
         telaClientes.setVisible(true);
     }
                                                                               
-
     private void btn_editarPressionado(java.awt.event.ActionEvent evt) {
         if (registroSelecionado >= 0) {
             long id = (long) tableModel.getValueAt(registroSelecionado, 0);
@@ -194,11 +262,11 @@ public class TelaClientes extends javax.swing.JFrame{
         } else {
             JOptionPane.showMessageDialog(this, "Selecione um registro para excluir!", "Nenhum registro selecionado", JOptionPane.WARNING_MESSAGE);
         }
-    }      
+    }   
+    
     private void registroSelecionado(ListSelectionEvent evt) {
         if (!evt.getValueIsAdjusting()) {
                 registroSelecionado = tab_clientes.getSelectedRow();
         }
     }
-    
 }

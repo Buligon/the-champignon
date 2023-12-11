@@ -1,6 +1,8 @@
 package model.dao;
 
 
+import java.lang.reflect.Field;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
@@ -39,6 +41,12 @@ public class EnderecosDAOImpl implements EnderecoDAO {
         }
         
         manager.getTransaction().commit();
+    }
+    
+    public Field[] listarCampos() {
+  
+        Field[] campos = Enderecos.class.getDeclaredFields();
+        return campos;
     }
 
     @Override

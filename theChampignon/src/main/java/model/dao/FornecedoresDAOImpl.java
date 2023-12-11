@@ -45,19 +45,19 @@ public class FornecedoresDAOImpl implements FornecedoresDAO {
 
     @Override
     public List<Fornecedores> listarTodos() {
-        List<Fornecedores> produtos;
+        List<Fornecedores> fornecedores;
         
         try {
             TypedQuery<Fornecedores> query = manager.createQuery("SELECT f FROM Fornecedores f WHERE f.cancelado <> 1", Fornecedores.class);
 
-            produtos = query.getResultList();
+            fornecedores = query.getResultList();
         } catch (NoResultException e) {
-            produtos = new ArrayList<>(); 
+            fornecedores = new ArrayList<>(); 
         } catch (Exception e) {
-            produtos = new ArrayList<>();
+            fornecedores = new ArrayList<>();
         }
         
-        return produtos;
+        return fornecedores;
     }
     
     @Override

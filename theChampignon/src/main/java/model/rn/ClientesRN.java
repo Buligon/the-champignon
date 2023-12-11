@@ -1,5 +1,6 @@
 package model.rn;
 
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
 import model.vo.Clientes;
@@ -18,6 +19,10 @@ public class ClientesRN {
         dao.salvar(novocliente);
     }
     
+    public Field[] listarCamposClientes() {
+        return dao.listarCampos();
+    }
+    
     public List<Clientes> listarClientes() {
         return dao.listarTodos();
     }
@@ -34,4 +39,7 @@ public class ClientesRN {
         dao.excluir(idPessoa);
     }
     
+    public List<Clientes> filtrarCliente(String campo, String filtro){
+        return dao.filtrar(campo, filtro);
+    }
 }
