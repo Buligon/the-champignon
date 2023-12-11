@@ -1,5 +1,6 @@
 package model.rn;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import model.vo.Produtos;
 import model.dao.ProdutosDAOImpl;
@@ -21,6 +22,10 @@ public class ProdutosRN {
         dao.salvar(novoProduto);
     }
     
+    public Field[] listarCamposProdutos() {
+        return dao.listarCampos();
+    }
+    
     public List<Produtos> listarProdutos() {
         return dao.listarTodos();
     }
@@ -35,6 +40,10 @@ public class ProdutosRN {
     
     public void excluirProduto(long idProduto){
         dao.excluir(idProduto);
+    }
+    
+        public List<Produtos> filtrarProduto(String campo, String filtro){
+        return dao.filtrar(campo, filtro);
     }
     
 }

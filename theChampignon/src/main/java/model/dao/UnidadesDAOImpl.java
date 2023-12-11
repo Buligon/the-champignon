@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import model.connector.ConexaoJPQL;
@@ -59,9 +60,37 @@ public class UnidadesDAOImpl implements UnidadesDAO {
         return query.getResultList();
     }
     
+    @Override
+    public Field[] listarCampos() {
+
+        Field[] campos = Unidades.class.getDeclaredFields();      
+        return campos;
+    }
     
     @Override
-    public List<Unidades> filtrar() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public List<Unidades> filtrar(String campo, String filtro) {
+        
+        String stringQuery = "";
+        List<Unidades> unidades = new ArrayList<>();
+              
+        stringQuery = "SELECT u FROM Unidades u WHERE u."+campo+" LIKE '"+filtro+"%'";
+                
+        if(filtro.length() != 0){
+            try {
+                TypedQuery<Unidades> query = (TypedQuery<Unidades>) manager.createQuery(stringQuery);
+
+                unidades = query.getResultList();
+            } catch (NoResultException e) {
+                unidades = new ArrayList<>(); 
+            } catch (Exception e) {
+                unidades = new ArrayList<>();
+            }
+            
+        }
+        else{
+             unidades = listarTodos();}
+        
+        return unidades;
+        
     }
 }

@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import model.connector.ConexaoJPQL;
@@ -7,6 +8,8 @@ import model.vo.Produtos;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import model.vo.Especies;
+import model.vo.Unidades;
 
 public class ProdutosDAOImpl implements ProdutosDAO {
     EntityManager manager;
@@ -63,6 +66,11 @@ public class ProdutosDAOImpl implements ProdutosDAO {
         return produtos;
     }
     
+    public Field[] listarCampos() {
+        Field[] campos = Produtos.class.getDeclaredFields();      
+        return campos;
+    }
+    
     @Override
     public Produtos obterPorId(long idProduto) {
         TypedQuery<Produtos> query = manager.createQuery(
@@ -75,7 +83,37 @@ public class ProdutosDAOImpl implements ProdutosDAO {
     }
     
     @Override
-    public List<Produtos> filtrar() {
-        throw new UnsupportedOperationException("Not supported yet."); 
+    public List<Produtos> filtrar(String campo, String filtro) {
+        
+        String stringQuery = "";
+        List<Produtos> produtos = new ArrayList<>();
+               
+        if(campo == "especie"){             
+            stringQuery = "SELECT p FROM Produtos p INNER JOIN p.especie e WHERE e.descricao LIKE '"+filtro+"%'";    
+        }
+        else if(campo == "unidade"){             
+            stringQuery = "SELECT p FROM Produtos p INNER JOIN p.unidade u WHERE u.descricao LIKE '"+filtro+"%'";
+        }
+        else{            
+            stringQuery = "SELECT p FROM Produtos p WHERE p."+campo+" LIKE '"+filtro+"%'";
+        }
+                
+        if(filtro.length() != 0){
+            try {
+                TypedQuery<Produtos> query = (TypedQuery<Produtos>) manager.createQuery(stringQuery);
+
+                produtos = query.getResultList();
+            } catch (NoResultException e) {
+                produtos = new ArrayList<>(); 
+            } catch (Exception e) {
+                produtos = new ArrayList<>();
+            }
+            
+        }
+        else{
+             produtos = listarTodos();}
+        
+        return produtos;
+        
     }
 }

@@ -11,17 +11,18 @@ public class Especies {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
+    private String descricao;
+
     public Especies(String descricao) {
         this.descricao = descricao;
     }
     
+    private int cancelado;
+
     public Especies() {
         
     }
-    
-    private String descricao;
-    private int cancelado;
-    
+        
     public Long getId() {
         return id;
     }

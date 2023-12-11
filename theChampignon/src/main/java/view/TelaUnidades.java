@@ -1,5 +1,10 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -31,6 +36,12 @@ public class TelaUnidades extends javax.swing.JFrame{
         btn_editar = new javax.swing.JButton();
         txtfield_pesquisa = new javax.swing.JTextField();
         combo_filtros = new javax.swing.JComboBox<>();
+        combo_filtros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                atualizaTelaFiltros();
+            }
+        });
         label_pesquisa = new javax.swing.JLabel();
         label_filtros = new javax.swing.JLabel();
         tableModel = new DefaultTableModel();
@@ -59,10 +70,17 @@ public class TelaUnidades extends javax.swing.JFrame{
         btn_adicionar.addActionListener(evt -> btn_adicionarPressionado(evt)); 
         
         label_filtros.setText("Filtros:");
+        PreencheComboFiltro();
         
         label_pesquisa.setText("Pesquisa:");
         txtfield_pesquisa.setToolTipText("Sua pesquisa");
-
+        txtfield_pesquisa.addKeyListener(new KeyAdapter() {
+        @Override
+            public void keyReleased(KeyEvent e) {
+                atualizaTelaFiltros();
+            }   
+        });
+        
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(panel_tela);
         panel_tela.setLayout(jPanel1Layout);
         
@@ -136,6 +154,18 @@ public class TelaUnidades extends javax.swing.JFrame{
         pack();
     }
     
+    private void PreencheComboFiltro(){
+        UnidadesRN unidadesRN = new UnidadesRN();
+        
+        Field[] camposUnidade = unidadesRN.listarCamposUnidade();
+        
+        for (Field campo : camposUnidade) {
+            if(campo.getName() != "cancelado"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+    }
+    
     void listarUnidades() {
         UnidadesRN unidadesRN = new UnidadesRN();
 
@@ -143,11 +173,27 @@ public class TelaUnidades extends javax.swing.JFrame{
         tableModel.setRowCount(0);
 
         List<Unidades> unidades = unidadesRN.listarUnidades();
-        for (Unidades especie : unidades) {
-            Object[] dadosLinha = {especie.getId(), especie.getDescricao()};
+        for (Unidades unidade : unidades) {
+            Object[] dadosLinha = {unidade.getId(), unidade.getDescricao()};
             tableModel.addRow(dadosLinha);
         }
-    }           
+    }
+    
+    private void atualizaTelaFiltros(){
+       UnidadesRN unidadesRN = new UnidadesRN();
+       
+       String campo = (String) combo_filtros.getSelectedItem();
+       String filtro = txtfield_pesquisa.getText().trim();
+       
+       List<Unidades> unidades = unidadesRN.filtrarUnidade(campo, filtro);
+       
+       tableModel.setRowCount(0);
+       
+       for (Unidades unidade : unidades) {
+            Object[] dadosLinha = {unidade.getId(), unidade.getDescricao()};
+            tableModel.addRow(dadosLinha);
+        }
+    }
     
     private void btn_adicionarPressionado(java.awt.event.ActionEvent evt) { 
         CadUnidades telaUnidades = new CadUnidades(this);

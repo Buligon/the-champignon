@@ -1,5 +1,6 @@
 package model.rn;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import model.vo.Especies;
 import model.dao.EspeciesDAOImpl;
@@ -11,6 +12,10 @@ public class EspeciesRN {
         Especies novaEspecie = new Especies(descricao);
 
         dao.salvar(novaEspecie);
+    }
+    
+    public Field[] listarCamposEspecies() {
+        return dao.listarCampos();
     }
     
     public void editarEspecie(long idEspecie, String descricaoNova) {
@@ -36,5 +41,8 @@ public class EspeciesRN {
 
         return null;
     }
-
+    
+    public List<Especies> filtrarEspecie(String campo, String filtro){
+        return dao.filtrar(campo, filtro);
+    }
 }

@@ -1,11 +1,18 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
+import model.rn.EspeciesRN;
 import model.rn.ProdutosRN;
+import model.rn.UnidadesRN;
 import model.vo.Produtos;
 
 public class TelaProdutos extends javax.swing.JFrame{
@@ -31,6 +38,12 @@ public class TelaProdutos extends javax.swing.JFrame{
         btn_editar = new javax.swing.JButton();
         txtfield_pesquisa = new javax.swing.JTextField();
         combo_filtros = new javax.swing.JComboBox<>();
+        combo_filtros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                atualizaTelaFiltros();
+            }
+        });
         label_pesquisa = new javax.swing.JLabel();
         label_filtros = new javax.swing.JLabel();
         tableModel = new DefaultTableModel();
@@ -66,9 +79,16 @@ public class TelaProdutos extends javax.swing.JFrame{
         btn_adicionar.addActionListener(evt -> btn_adicionarPressionado(evt)); 
         
         label_filtros.setText("Filtros:");
+        PreencheComboFiltro();
         
         label_pesquisa.setText("Pesquisa:");
         txtfield_pesquisa.setToolTipText("Sua pesquisa");
+        txtfield_pesquisa.addKeyListener(new KeyAdapter() {
+        @Override
+            public void keyReleased(KeyEvent e) {
+                atualizaTelaFiltros();
+            }   
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(panel_tela);
         panel_tela.setLayout(jPanel1Layout);
@@ -143,6 +163,22 @@ public class TelaProdutos extends javax.swing.JFrame{
         pack();
     }
     
+    private void PreencheComboFiltro(){
+        ProdutosRN produtosRN = new ProdutosRN();
+        EspeciesRN especiesRN = new EspeciesRN();
+        UnidadesRN unidadesRN = new UnidadesRN();
+        
+        Field[] camposEspecie = especiesRN.listarCamposEspecies();
+        Field[] camposUnidade = unidadesRN.listarCamposUnidade();
+        Field[] camposProdutos = produtosRN.listarCamposProdutos();
+        
+        for (Field campo : camposProdutos) {
+            if(campo.getName() != "cancelado" && campo.getName() != "endereco"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+    } 
+    
     void listarProdutos() {
         ProdutosRN produtosRN = new ProdutosRN();
 
@@ -164,6 +200,30 @@ public class TelaProdutos extends javax.swing.JFrame{
         }
     }
     
+    private void atualizaTelaFiltros(){
+       ProdutosRN produtosRN = new ProdutosRN();
+       
+       String campo = (String) combo_filtros.getSelectedItem();
+       String filtro = txtfield_pesquisa.getText().trim();
+       
+       List<Produtos> produtos = produtosRN.filtrarProduto(campo, filtro);
+       
+       tableModel.setRowCount(0);
+       
+       for (Produtos produto : produtos) {
+            Object[] dadosLinha = {
+                produto.getId(),
+                produto.getDescricao(),
+                produto.getQuantidade(),
+                produto.getCusto(),
+                produto.getValor(),
+                produto.getEspecie().getDescricao(),
+                produto.getUnidade().getDescricao()
+                
+            };
+            tableModel.addRow(dadosLinha);
+        }
+    }
     
     private void btn_adicionarPressionado(java.awt.event.ActionEvent evt) { 
         CadProdutos telaProdutos = new CadProdutos(this);

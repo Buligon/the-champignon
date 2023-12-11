@@ -16,6 +16,7 @@ public class Unidades {
     public Unidades(String descricao) {
         this.descricao = descricao;
     }
+    
     private int cancelado;
     
     public Unidades() {

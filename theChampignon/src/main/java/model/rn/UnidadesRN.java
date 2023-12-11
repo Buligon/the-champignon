@@ -1,5 +1,6 @@
 package model.rn;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import model.vo.Unidades;
 import model.dao.UnidadesDAOImpl;
@@ -11,6 +12,10 @@ public class UnidadesRN {
         Unidades novaUnidade = new Unidades(descricao);
 
         dao.salvar(novaUnidade);
+    }
+    
+    public Field[] listarCamposUnidade() {
+        return dao.listarCampos();
     }
     
     public void editarUnidade(long idUnidade, String descricaoNova) {
@@ -35,5 +40,9 @@ public class UnidadesRN {
         }
 
         return null;
+    }
+    
+    public List<Unidades> filtrarUnidade(String campo, String filtro){
+        return dao.filtrar(campo, filtro);
     }
 }

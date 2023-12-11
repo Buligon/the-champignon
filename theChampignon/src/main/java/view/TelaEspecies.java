@@ -1,5 +1,10 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -31,6 +36,12 @@ public class TelaEspecies extends javax.swing.JFrame{
         btn_editar = new javax.swing.JButton();
         txtfield_pesquisa = new javax.swing.JTextField();
         combo_filtros = new javax.swing.JComboBox<>();
+        combo_filtros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                atualizaTelaFiltros();
+            }
+        });
         label_pesquisa = new javax.swing.JLabel();
         label_filtros = new javax.swing.JLabel();
         tableModel = new DefaultTableModel();
@@ -59,9 +70,16 @@ public class TelaEspecies extends javax.swing.JFrame{
         btn_adicionar.addActionListener(evt -> btn_adicionarPressionado(evt)); 
         
         label_filtros.setText("Filtros:");
-        
+        PreencheComboFiltro();
+
         label_pesquisa.setText("Pesquisa:");
         txtfield_pesquisa.setToolTipText("Sua pesquisa");
+        txtfield_pesquisa.addKeyListener(new KeyAdapter() {
+        @Override
+            public void keyReleased(KeyEvent e) {
+                atualizaTelaFiltros();
+            }   
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(panel_tela);
         panel_tela.setLayout(jPanel1Layout);
@@ -136,6 +154,18 @@ public class TelaEspecies extends javax.swing.JFrame{
         pack();
     }
     
+    private void PreencheComboFiltro(){
+        EspeciesRN especiesRN = new EspeciesRN();
+        
+        Field[] camposEspecie = especiesRN.listarCamposEspecies();
+        
+        for (Field campo : camposEspecie) {
+            if(campo.getName() != "cancelado"){
+                combo_filtros.addItem(campo.getName());
+            }
+        }
+    } 
+    
     void listarEspecies() {
         EspeciesRN especiesRN = new EspeciesRN();
 
@@ -148,6 +178,22 @@ public class TelaEspecies extends javax.swing.JFrame{
             tableModel.addRow(dadosLinha);
         }
     }           
+    
+    private void atualizaTelaFiltros(){
+       EspeciesRN especiesRN = new EspeciesRN();
+       
+       String campo = (String) combo_filtros.getSelectedItem();
+       String filtro = txtfield_pesquisa.getText().trim();
+       
+       List<Especies> especies = especiesRN.filtrarEspecie(campo, filtro);
+       
+       tableModel.setRowCount(0);
+       
+       for (Especies especie : especies) {
+            Object[] dadosLinha = {especie.getId(), especie.getDescricao()};
+            tableModel.addRow(dadosLinha);
+        }
+    }
     
     private void btn_adicionarPressionado(java.awt.event.ActionEvent evt) { 
         CadEspecies telaEspecies = new CadEspecies(this);
