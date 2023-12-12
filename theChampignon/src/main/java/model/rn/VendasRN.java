@@ -37,14 +37,17 @@ public class VendasRN {
             VendaProdutos vendaProduto = new VendaProdutos(novaVenda, produto, preco, quantidade.intValue());
             vendaProdutosRN.adicionarVendaProduto(vendaProduto);
         }
-        
+
         return 1;
     }
-    
+
     public float calcularValorTotal(Vendas venda) {
+        VendaProdutosRN vendaProdutosRN = new VendaProdutosRN();
         float total = 0.0f;
 
-        for (VendaProdutos vendaProduto : venda.getProdutos()) {
+        List<VendaProdutos> vendaProdutosList = vendaProdutosRN.mostraProdutos(venda.getId());
+
+        for (VendaProdutos vendaProduto : vendaProdutosList) {
             float precoProduto = vendaProduto.getPreco();
             int quantidadeProduto = vendaProduto.getQuantidade();
             total += precoProduto * quantidadeProduto;
@@ -52,7 +55,7 @@ public class VendasRN {
 
         return total;
     }
-    
+
     public List<Vendas> listarVendas() {
         return dao.listarTodos();
     }
@@ -62,6 +65,8 @@ public class VendasRN {
     }
 
     public void excluirVenda(long id) {
+        VendaProdutosRN vendaProdutosRN = new VendaProdutosRN();
+        vendaProdutosRN.devolverProdutos(id);
         dao.excluir(id);
     }
 

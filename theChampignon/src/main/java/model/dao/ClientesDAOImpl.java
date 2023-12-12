@@ -12,27 +12,25 @@ import model.vo.Enderecos;
 import model.vo.Pessoas;
 
 public class ClientesDAOImpl implements ClientesDAO {
+
     EntityManager manager;
-    
+
     public ClientesDAOImpl() {
         manager = ConexaoJPQL.getInstance();
     }
-    
+
     @Override
     public Clientes obterClientePorNome(String nome) {
         String jpql = "SELECT c FROM Clientes c WHERE c.nome = :nome";
         TypedQuery<Clientes> query = manager.createQuery(jpql, Clientes.class);
         query.setParameter("nome", nome);
-
         try {
             return query.getSingleResult();
         } catch (Exception e) {
-            // Handle the case where no Cliente is found with the given name
             return null;
         }
     }
 
-    
     @Override
     public void salvar(Clientes cliente) {
         manager.getTransaction().begin();
@@ -50,14 +48,14 @@ public class ClientesDAOImpl implements ClientesDAO {
     @Override
     public void excluir(long idPessoa) {
         manager.getTransaction().begin();
-        
+
         Clientes cliente = manager.find(Clientes.class, idPessoa);
 
         if (cliente != null) {
             cliente.setCancelado(1);
             manager.merge(cliente);
         }
-        
+
         manager.getTransaction().commit();
     }
 
@@ -70,74 +68,71 @@ public class ClientesDAOImpl implements ClientesDAO {
 
             clientes = query.getResultList();
         } catch (NoResultException e) {
-            clientes = new ArrayList<>(); 
+            clientes = new ArrayList<>();
         } catch (Exception e) {
             clientes = new ArrayList<>();
         }
 
         return clientes;
     }
-    
+
     @Override
     public Field[] listarCampos() {
 
-        Field[] campos = Pessoas.class.getDeclaredFields();      
+        Field[] campos = Pessoas.class.getDeclaredFields();
         return campos;
     }
-    
+
     @Override
     public Clientes obterPorId(long idPessoa) {
         TypedQuery<Clientes> query = manager.createQuery(
-            "SELECT e FROM Clientes e WHERE e.id = :idPessoa", Clientes.class
+                "SELECT e FROM Clientes e WHERE e.id = :idPessoa", Clientes.class
         );
 
         query.setParameter("idPessoa", idPessoa);
 
         return query.getSingleResult();
     }
-    
+
     @Override
     public List<Clientes> filtrar(String campo, String filtro) {
-        
+
         String stringQuery = "";
         List<Clientes> clientes = new ArrayList<>();
-        Field[] camposEndereco = Enderecos.class.getDeclaredFields(); 
+        Field[] camposEndereco = Enderecos.class.getDeclaredFields();
         List<String> camposEnd = new ArrayList<>();
-        
+
         // Cria o array com os campos em endereco
-        for(Field campoEnd : camposEndereco) {
+        for (Field campoEnd : camposEndereco) {
             camposEnd.add(campoEnd.getName());
         }
-       
+
         String stringCampos = String.join(" ", camposEnd);
-        
-        
+
         //verifica se algum campo de endereco esta sendo filtrado
-        if(stringCampos.contains(campo) == false || campo == "id"){            
-            stringQuery = "SELECT c FROM Clientes c WHERE c."+campo+" LIKE '"+filtro+"%'";
+        if (stringCampos.contains(campo) == false || campo == "id") {
+            stringQuery = "SELECT c FROM Clientes c WHERE c." + campo + " LIKE '" + filtro + "%'";
+        } else if (stringCampos.contains(campo) == true && campo != "id") {
+            stringQuery = "SELECT c FROM Clientes c INNER JOIN c.endereco e WHERE e." + campo + " LIKE '" + filtro + "%'";
+
         }
-        else if(stringCampos.contains(campo) == true && campo != "id"){             
-            stringQuery = "SELECT c FROM Clientes c INNER JOIN c.endereco e WHERE e."+campo+" LIKE '"+filtro+"%'";
-            
-        }
-                
-        if(filtro.length() != 0){
+
+        if (filtro.length() != 0) {
             try {
                 TypedQuery<Clientes> query = (TypedQuery<Clientes>) manager.createQuery(stringQuery);
 
                 clientes = query.getResultList();
             } catch (NoResultException e) {
-                clientes = new ArrayList<>(); 
+                clientes = new ArrayList<>();
             } catch (Exception e) {
                 clientes = new ArrayList<>();
             }
-            
+
+        } else {
+            clientes = listarTodos();
         }
-        else{
-             clientes = listarTodos();}
-        
+
         return clientes;
-        
+
     }
 }
-

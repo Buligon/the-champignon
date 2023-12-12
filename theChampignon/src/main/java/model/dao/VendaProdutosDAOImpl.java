@@ -1,5 +1,6 @@
 package model.dao;
 
+import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 import model.connector.ConexaoJPQL;
@@ -31,7 +32,7 @@ public class VendaProdutosDAOImpl implements VendaProdutosDAO {
     public void excluir(long idVendaProduto) {
         manager.getTransaction().begin();
         VendaProdutos vendaProduto = manager.find(VendaProdutos.class, idVendaProduto);
-        manager.remove(vendaProduto);
+        vendaProduto.setCancelado(1);
         manager.getTransaction().commit();
     }
 
@@ -39,4 +40,18 @@ public class VendaProdutosDAOImpl implements VendaProdutosDAO {
     public List<VendaProdutos> listarTodos() {
         return manager.createQuery("SELECT vp FROM VendaProdutos vp WHERE vp.cancelado <> 1", VendaProdutos.class).getResultList();
     }
+
+    @Override
+    public List<VendaProdutos> retornarProdutos(long idVenda) {
+        try {
+            String jpql = "SELECT vp FROM VendaProdutos vp WHERE vp.cancelado <> 1 AND vp.venda.id = :idVenda";
+            return manager.createQuery(jpql, VendaProdutos.class)
+                    .setParameter("idVenda", idVenda)
+                    .getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
+    }
+
 }

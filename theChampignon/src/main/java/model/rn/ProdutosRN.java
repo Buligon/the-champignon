@@ -45,5 +45,18 @@ public class ProdutosRN {
         public List<Produtos> filtrarProduto(String campo, String filtro){
         return dao.filtrar(campo, filtro);
     }
+        
+    public void adicionarQuantidade(long idProduto, int quantidade) {
+        try {
+            Produtos produto = dao.obterPorId(idProduto);
+            if (produto != null) {
+                int novaQuantidade = produto.getQuantidade() + quantidade;
+                produto.setQuantidade(novaQuantidade);
+                dao.atualizar(produto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
 }

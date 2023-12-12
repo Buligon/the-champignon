@@ -21,7 +21,7 @@ public class VendasDAOImpl implements VendasDAO {
         manager.persist(venda);
         manager.getTransaction().commit();
     }
-
+    
     @Override
     public void atualizar(Vendas venda) {
         manager.getTransaction().begin();

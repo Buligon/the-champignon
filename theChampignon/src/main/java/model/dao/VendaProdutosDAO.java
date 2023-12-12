@@ -8,4 +8,5 @@ public interface VendaProdutosDAO {
     void atualizar(VendaProdutos vendaProduto);
     void excluir(long idVendaProduto);
     List<VendaProdutos> listarTodos();
+    List<VendaProdutos> retornarProdutos(long idVenda);
 }

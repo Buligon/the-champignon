@@ -15,7 +15,6 @@ import model.vo.Vendas;
 
 public class TelaVendas extends javax.swing.JFrame {
     private JButton btn_adicionar;
-    private JButton btn_editar;
     private JButton btn_excluir;
     private javax.swing.JComboBox<String> combo_filtros;
     private javax.swing.JPanel panel_tela;
@@ -33,7 +32,6 @@ public class TelaVendas extends javax.swing.JFrame {
         scrollpanel_tabela = new JScrollPane();
         tab_vendas = new JTable();
         btn_excluir = new JButton();
-        btn_editar = new JButton();
         txtfield_pesquisa = new javax.swing.JTextField();
         combo_filtros = new javax.swing.JComboBox<>();
         label_pesquisa = new javax.swing.JLabel();
@@ -61,9 +59,6 @@ public class TelaVendas extends javax.swing.JFrame {
         
         btn_adicionar = new JButton("Adicionar");
         btn_adicionar.addActionListener(evt -> btn_adicionarPressionado(evt)); 
-
-        btn_editar = new JButton("Editar");
-        btn_editar.addActionListener(evt -> btn_editarPressionado(evt));
 
         btn_excluir = new JButton("Excluir");
         btn_excluir.addActionListener(evt -> btn_excluirPressionado(evt));
@@ -104,7 +99,6 @@ public class TelaVendas extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(btn_excluir)
-                                        .addComponent(btn_editar)
                                         .addComponent(btn_adicionar)
                                 )
                         )
@@ -129,7 +123,6 @@ public class TelaVendas extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup()
                                 .addComponent(btn_adicionar)
                                 .addComponent(btn_excluir)
-                                .addComponent(btn_editar)
                         )
                         .addGap(10)
                 )
@@ -199,15 +192,6 @@ public class TelaVendas extends javax.swing.JFrame {
     private void btn_adicionarPressionado(ActionEvent evt) {
         CadVendas telaVendas = new CadVendas(this);
         telaVendas.setVisible(true);
-    }
-
-    private void btn_editarPressionado(ActionEvent evt) {
-        if (registroSelecionado >= 0) {
-            long id = (long) tableModel.getValueAt(registroSelecionado, 0);
-
-            // EdtVendas telaEditar = new EdtVendas(this, id);
-            // telaEditar.setVisible(true);
-        }
     }
 
     private void btn_excluirPressionado(ActionEvent evt) {

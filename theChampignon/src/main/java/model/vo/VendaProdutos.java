@@ -18,8 +18,13 @@ public class VendaProdutos {
     @ManyToOne
     private Produtos produto;
 
+    public void setCancelado(int cancelado) {
+        this.cancelado = cancelado;
+    }
+
     private float preco;
     private int quantidade;
+    private int cancelado;
 
     public Long getId() {
         return id;
