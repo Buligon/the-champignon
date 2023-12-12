@@ -19,6 +19,21 @@ public class ClientesDAOImpl implements ClientesDAO {
     }
     
     @Override
+    public Clientes obterClientePorNome(String nome) {
+        String jpql = "SELECT c FROM Clientes c WHERE c.nome = :nome";
+        TypedQuery<Clientes> query = manager.createQuery(jpql, Clientes.class);
+        query.setParameter("nome", nome);
+
+        try {
+            return query.getSingleResult();
+        } catch (Exception e) {
+            // Handle the case where no Cliente is found with the given name
+            return null;
+        }
+    }
+
+    
+    @Override
     public void salvar(Clientes cliente) {
         manager.getTransaction().begin();
         manager.persist(cliente);

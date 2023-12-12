@@ -11,8 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class Vendas {
@@ -20,8 +18,7 @@ public class Vendas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataVenda;
+    private String dataVenda;
 
     @ManyToOne
     private Funcionarios funcionario;
@@ -31,7 +28,13 @@ public class Vendas {
 
     @OneToMany(mappedBy = "venda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VendaProdutos> produtos = new ArrayList<>();;
-
+    
+    private int cancelado;
+    
+    public void setCancelado(int cancelado) {
+        this.cancelado = cancelado;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -40,11 +43,11 @@ public class Vendas {
         this.id = id;
     }
 
-    public Date getDataVenda() {
+    public String getDataVenda() {
         return dataVenda;
     }
 
-    public void setDataVenda(Date dataVenda) {
+    public void setDataVenda(String dataVenda) {
         this.dataVenda = dataVenda;
     }
 

@@ -50,7 +50,19 @@ public class FuncionariosDAOImpl implements FuncionariosDAO {
         
         manager.getTransaction().commit();
     }
-
+    
+    @Override
+    public Funcionarios obterFuncionarioPorNome(String nome) {
+        try {
+            String jpql = "SELECT f FROM Funcionarios f WHERE f.nome = :nome";
+            TypedQuery<Funcionarios> query = manager.createQuery(jpql, Funcionarios.class);
+            query.setParameter("nome", nome);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
     @Override
     public List<Funcionarios> listarTodos() {
         List<Funcionarios> funcionarios;

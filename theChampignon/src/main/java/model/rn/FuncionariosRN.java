@@ -30,6 +30,10 @@ public class FuncionariosRN {
         return dao.obterPorId(idPessoa);
     }
     
+    public Funcionarios obterFuncionarioPorNome(String nome) {
+        return dao.obterFuncionarioPorNome(nome);
+    }
+    
     public void editarFuncionario(Funcionarios funcionario) {
         dao.atualizar(funcionario);
     }

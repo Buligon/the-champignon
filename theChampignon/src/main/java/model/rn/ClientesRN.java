@@ -39,6 +39,10 @@ public class ClientesRN {
         dao.excluir(idPessoa);
     }
     
+    public Clientes obterClientePorNome(String nome) {
+        return dao.obterClientePorNome(nome);
+    }
+    
     public List<Clientes> filtrarCliente(String campo, String filtro){
         return dao.filtrar(campo, filtro);
     }

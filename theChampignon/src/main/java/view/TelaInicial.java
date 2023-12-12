@@ -111,6 +111,10 @@ public class TelaInicial {
             abreTela(5, frameTela);
         });
         
+        vendaMenuItem.addActionListener((ActionEvent e) -> {
+            abreTela(6, frameTela);
+        });
+        
         frameTela.setVisible(true);
     }
     
@@ -139,6 +143,10 @@ public class TelaInicial {
                 }
                 case 5 -> {
                     TelaFornecedores tela = new TelaFornecedores(frameTela);
+                    tela.setVisible(true);
+                }
+                case 6 -> {
+                    TelaVendas tela = new TelaVendas(frameTela);
                     tela.setVisible(true);
                 }
                 

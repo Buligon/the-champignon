@@ -12,5 +12,5 @@ public interface ClientesDAO {
     List<Clientes> filtrar(String campo, String filtro);
     Clientes obterPorId(long idPessoa);
     Field[] listarCampos();
-
+    public Clientes obterClientePorNome(String nome);
 }

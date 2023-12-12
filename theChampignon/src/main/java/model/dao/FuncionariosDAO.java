@@ -13,5 +13,5 @@ public interface FuncionariosDAO{
     List<Funcionarios> filtrar(String campo, String filtro);
     Funcionarios obterPorId(long idPessoa);
     Field[] listarCampos();
-    
+    public Funcionarios obterFuncionarioPorNome(String nome);
 }

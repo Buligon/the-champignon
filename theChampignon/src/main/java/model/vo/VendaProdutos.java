@@ -18,7 +18,7 @@ public class VendaProdutos {
     @ManyToOne
     private Produtos produto;
 
-    private double preco;
+    private float preco;
     private int quantidade;
 
     public Long getId() {
@@ -45,11 +45,11 @@ public class VendaProdutos {
         this.produto = produto;
     }
 
-    public double getPreco() {
+    public float getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(float preco) {
         this.preco = preco;
     }
 
@@ -61,7 +61,7 @@ public class VendaProdutos {
         this.quantidade = quantidade;
     }
 
-    public VendaProdutos(Vendas venda, Produtos produto, double preco, int quantidade) {
+    public VendaProdutos(Vendas venda, Produtos produto, float preco, int quantidade) {
         this.venda = venda;
         this.produto = produto;
         this.preco = preco;
