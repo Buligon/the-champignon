@@ -27,7 +27,7 @@ public class ComprasProdutosRN {
         for (ComprasProdutos compraProduto : compraProdutosList) {
             Produtos produto = compraProduto.getProduto();
             int quantidadeDevolver = compraProduto.getQuantidade();
-            produtosRN.removerQuantidade(produto.getId(), quantidadeDevolver);
+            produtosRN.adicionarQuantidade(produto.getId(), -quantidadeDevolver);
             dao.excluir(compraProduto.getId());
         }
     }
