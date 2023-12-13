@@ -12,4 +12,5 @@ public interface FornecedoresDAO {
     List<Fornecedores> filtrar(String campo, String filtro);;
     Fornecedores obterPorId(long idPessoa);
     Field[] listarCampos();
+    public Fornecedores obterFornecedorPorNome(String nome);
 }

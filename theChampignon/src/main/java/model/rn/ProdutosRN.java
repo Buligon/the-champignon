@@ -59,4 +59,17 @@ public class ProdutosRN {
         }
     }
     
+    public void removerQuantidade(long idProduto, int quantidade) {
+        try {
+            Produtos produto = dao.obterPorId(idProduto);
+            if (produto != null) {
+                int novaQuantidade = produto.getQuantidade() + quantidade;
+                produto.setQuantidade(novaQuantidade);
+                dao.atualizar(produto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

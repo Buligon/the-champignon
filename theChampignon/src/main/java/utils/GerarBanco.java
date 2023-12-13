@@ -5,10 +5,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import model.vo.EntradaProdutos;
+import model.vo.ComprasProdutos;
 import model.vo.Fornecedores;
 import model.vo.Funcionarios;
-import model.vo.Entradas;
+import model.vo.Compras;
 import model.vo.Produtos;
 
 public class GerarBanco {

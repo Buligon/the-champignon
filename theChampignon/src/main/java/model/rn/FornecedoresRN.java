@@ -5,6 +5,7 @@ import java.util.List;
 import model.vo.Fornecedores;
 import model.dao.FornecedoresDAOImpl;
 import model.vo.Enderecos;
+import model.vo.Funcionarios;
 
 public class FornecedoresRN {
     FornecedoresDAOImpl dao = new FornecedoresDAOImpl();
@@ -27,6 +28,10 @@ public class FornecedoresRN {
     
     public Fornecedores obterFornecedorPorId(long idPessoa) {
         return dao.obterPorId(idPessoa);
+    }
+    
+    public Fornecedores obterFornecedorPorNome(String nome) {
+        return dao.obterFornecedorPorNome(nome);
     }
     
     public void editarFornecedor(Fornecedores funcionario) {

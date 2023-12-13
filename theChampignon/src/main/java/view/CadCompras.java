@@ -8,23 +8,23 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 import model.rn.FuncionariosRN;
-import model.rn.ClientesRN;
-import model.rn.VendasRN;
+import model.rn.FornecedoresRN;
+import model.rn.ComprasRN;
 import model.vo.Funcionarios;
-import model.vo.Clientes;
+import model.vo.Fornecedores;
 import model.vo.Produtos;
 
-public class CadVendas extends JFrame {
+public class CadCompras extends JFrame {
 
-    private JLabel label_dataVenda;
-    private JFormattedTextField txtfield_dataVenda;
+    private JLabel label_dataCompra;
+    private JFormattedTextField txtfield_dataCompra;
     private JLabel label_funcionario;
     private JComboBox<String> comboFuncionario;
     private JLabel label_cliente;
-    private JComboBox<String> comboCliente;
+    private JComboBox<String> comboFornecedor;
     private JButton btn_adicionar;
     private JButton btn_cancelar;
-    private TelaVendas parent;
+    private TelaCompras parent;
     private DefaultTableModel produtosTableModel;
     private JTable tableProducts;
     private JScrollPane scrollPaneProducts;
@@ -33,18 +33,19 @@ public class CadVendas extends JFrame {
     private List<Produtos> produtosSelecionados;
     private List<Float> quantidade;
 
-    public CadVendas(TelaVendas parent) {
+    public CadCompras(TelaCompras parent) {
         this.parent = parent;
-        label_dataVenda = new JLabel();
+        label_dataCompra = new JLabel();
         MaskFormatter dateFormatter;
         try {
             dateFormatter = new MaskFormatter("##/##/####");
-            txtfield_dataVenda = new JFormattedTextField(dateFormatter);
-        } catch (ParseException e) {}
+            txtfield_dataCompra = new JFormattedTextField(dateFormatter);
+        } catch (ParseException e) {
+        }
         label_funcionario = new JLabel();
         comboFuncionario = new javax.swing.JComboBox<>();
         label_cliente = new JLabel();
-        comboCliente = new javax.swing.JComboBox<>();
+        comboFornecedor = new javax.swing.JComboBox<>();
         btn_adicionar = new JButton();
         btn_cancelar = new JButton();
         produtosTableModel = new DefaultTableModel();
@@ -55,19 +56,19 @@ public class CadVendas extends JFrame {
         produtosSelecionados = new ArrayList<>();
         quantidade = new ArrayList<>();
 
-        setTitle("Cadastro de Vendas");
+        setTitle("Cadastro de Compras");
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        label_dataVenda.setText("Data da Venda:");
-        txtfield_dataVenda.setColumns(10);
-        
+        label_dataCompra.setText("Data da Compra:");
+        txtfield_dataCompra.setColumns(10);
+
         label_funcionario.setText("Funcionário:");
         prencheComboBoxFuncionarios();
 
-        label_cliente.setText("Cliente:");
-        prencheComboBoxClientes();
+        label_cliente.setText("Fornecedor:");
+        prencheComboBoxFornecedores();
 
         btn_adicionar.setText("Adicionar");
         btn_cancelar.setText("Cancelar");
@@ -79,7 +80,7 @@ public class CadVendas extends JFrame {
         produtosTableModel.addColumn("Valor Total");
 
         btn_addProduct.addActionListener((ActionEvent e) -> {
-            CadSelecionarProduto dialog = new CadSelecionarProduto(CadVendas.this);
+            CadSelecionarProdutoCompras dialog = new CadSelecionarProdutoCompras(CadCompras.this);
             dialog.setVisible(true);
         });
 
@@ -97,20 +98,20 @@ public class CadVendas extends JFrame {
         });
 
         btn_adicionar.addActionListener((ActionEvent e) -> {
-            String dataVenda = txtfield_dataVenda.getText().trim();
+            String dataCompra = txtfield_dataCompra.getText().trim();
             String selectedFuncionario = (String) comboFuncionario.getSelectedItem();
-            String selectedCliente = (String) comboCliente.getSelectedItem();
-            
-            if (!dataVenda.isEmpty() && selectedFuncionario != null && selectedCliente != null) {
-                VendasRN vendasRN = new VendasRN();
-                
-                if (vendasRN.adicionarVenda(dataVenda, selectedFuncionario, selectedCliente, produtosSelecionados, quantidade) == 1) {
-                    parent.listarVendas();
+            String selectedFornecedor = (String) comboFornecedor.getSelectedItem();
+
+            if (!dataCompra.isEmpty() && selectedFuncionario != null && selectedFornecedor != null) {
+                ComprasRN comprasRN = new ComprasRN();
+
+                if (comprasRN.adicionarCompras(dataCompra, selectedFuncionario, selectedFornecedor, produtosSelecionados, quantidade) == 1) {
+                    parent.listarCompras();
                     dispose();
                 }
             } else {
                 JOptionPane.showMessageDialog(
-                        CadVendas.this,
+                        CadCompras.this,
                         "Por favor, preencha todos os campos!",
                         "Atenção",
                         JOptionPane.WARNING_MESSAGE
@@ -124,12 +125,12 @@ public class CadVendas extends JFrame {
         layout.setHorizontalGroup(layout.createSequentialGroup()
                 .addContainerGap(35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(label_dataVenda)
-                        .addComponent(txtfield_dataVenda)
+                        .addComponent(label_dataCompra)
+                        .addComponent(txtfield_dataCompra)
                         .addComponent(label_funcionario)
                         .addComponent(comboFuncionario)
                         .addComponent(label_cliente)
-                        .addComponent(comboCliente)
+                        .addComponent(comboFornecedor)
                         .addComponent(scrollPaneProducts)
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(btn_addProduct)
@@ -147,12 +148,12 @@ public class CadVendas extends JFrame {
 
         layout.setVerticalGroup(layout.createSequentialGroup()
                 .addContainerGap(20, Short.MAX_VALUE)
-                .addComponent(label_dataVenda)
-                .addComponent(txtfield_dataVenda)
+                .addComponent(label_dataCompra)
+                .addComponent(txtfield_dataCompra)
                 .addComponent(label_funcionario)
                 .addComponent(comboFuncionario)
                 .addComponent(label_cliente)
-                .addComponent(comboCliente)
+                .addComponent(comboFornecedor)
                 .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(scrollPaneProducts)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -196,13 +197,13 @@ public class CadVendas extends JFrame {
         comboFuncionario.setModel(new DefaultComboBoxModel<>(descricaoList.toArray(String[]::new)));
     }
 
-    private void prencheComboBoxClientes() {
-        ClientesRN clientesRN = new ClientesRN();
-        List<Clientes> clientesList = clientesRN.listarClientes();
+    private void prencheComboBoxFornecedores() {
+        FornecedoresRN fornecedoresRN = new FornecedoresRN();
+        List<Fornecedores> fornecedoresList = fornecedoresRN.listarFornecedores();
 
-        List<String> descricaoList = clientesList.stream().map(Clientes::getNome).toList();
+        List<String> descricaoList = fornecedoresList.stream().map(Fornecedores::getRazaoSocial).toList();
 
-        comboCliente.setModel(new DefaultComboBoxModel<>(descricaoList.toArray(String[]::new)));
+        comboFornecedor.setModel(new DefaultComboBoxModel<>(descricaoList.toArray(String[]::new)));
     }
 
 }

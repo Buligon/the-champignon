@@ -8,19 +8,24 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class EntradaProdutos {
+public class ComprasProdutos {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private Entradas entrada;
+    private Compras compra;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Produtos produto;
 
-    private double preco;
+    private float preco;
     private int quantidade;
+    private int cancelado;
+
+    public void setCancelado(int cancelado) {
+        this.cancelado = cancelado;
+    }
 
     public Long getId() {
         return id;
@@ -30,12 +35,12 @@ public class EntradaProdutos {
         this.id = id;
     }
 
-    public Entradas getEntrada() {
-        return entrada;
+    public Compras getCompra() {
+        return compra;
     }
 
-    public void setEntrada(Entradas entrada) {
-        this.entrada = entrada;
+    public void setCompra(Compras compra) {
+        this.compra = compra;
     }
 
     public Produtos getProduto() {
@@ -46,11 +51,11 @@ public class EntradaProdutos {
         this.produto = produto;
     }
 
-    public double getPreco() {
+    public float getPreco() {
         return preco;
     }
 
-    public void setPreco(double preco) {
+    public void setPreco(float preco) {
         this.preco = preco;
     }
 
@@ -62,14 +67,14 @@ public class EntradaProdutos {
         this.quantidade = quantidade;
     }
 
-    public EntradaProdutos(Entradas entrada, Produtos produto, double preco, int quantidade) {
-        this.entrada = entrada;
+    public ComprasProdutos(Compras entrada, Produtos produto, float preco, int quantidade) {
+        this.compra = entrada;
         this.produto = produto;
         this.preco = preco;
         this.quantidade = quantidade;
     }
     
-    public EntradaProdutos() {
+    public ComprasProdutos() {
     }
     
 }

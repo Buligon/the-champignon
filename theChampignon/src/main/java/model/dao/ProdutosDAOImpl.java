@@ -8,8 +8,6 @@ import model.vo.Produtos;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
-import model.vo.Especies;
-import model.vo.Unidades;
 
 public class ProdutosDAOImpl implements ProdutosDAO {
     EntityManager manager;

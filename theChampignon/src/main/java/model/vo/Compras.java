@@ -10,17 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-public class Entradas {
+public class Compras {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; 
     
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataEntrada;
+    private String dataCompra;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Funcionarios funcionario;
@@ -29,9 +26,15 @@ public class Entradas {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Fornecedores fornecedor;
     
-    @OneToMany(mappedBy = "entrada", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<EntradaProdutos> produtos = new ArrayList<>();
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComprasProdutos> produtos = new ArrayList<>();
+    
+    private int cancelado;
 
+    public void setCancelado(int cancelado) {
+        this.cancelado = cancelado;
+    }
+    
     public Long getId() {
         return id;
     }
@@ -40,12 +43,12 @@ public class Entradas {
         this.id = id;
     }
 
-    public Date getDataEntrada() {
-        return dataEntrada;
+    public String getDataCompras() {
+        return dataCompra;
     }
 
-    public void setDataEntrada(Date dataEntrada) {
-        this.dataEntrada = dataEntrada;
+    public void setDataCompras(String dataCompra) {
+        this.dataCompra = dataCompra;
     }
 
     public Funcionarios getFuncionario() {
@@ -64,17 +67,17 @@ public class Entradas {
         this.fornecedor = fornecedor;
     }
 
-    public List<EntradaProdutos> getProdutos() {
+    public List<ComprasProdutos> getProdutos() {
         return produtos;
     }
 
-    public Entradas(Date dataEntrada, Funcionarios funcionario, Fornecedores fornecedor) {
-        this.dataEntrada = dataEntrada;
+    public Compras(String dataCompra, Funcionarios funcionario, Fornecedores fornecedor) {
+        this.dataCompra = dataCompra;
         this.funcionario = funcionario;
         this.fornecedor = fornecedor;
     }
     
-    public Entradas() {
+    public Compras() {
         
     }
     

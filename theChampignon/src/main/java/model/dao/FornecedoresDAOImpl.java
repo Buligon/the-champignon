@@ -81,6 +81,18 @@ public class FornecedoresDAOImpl implements FornecedoresDAO {
     }
     
     @Override
+    public Fornecedores obterFornecedorPorNome(String nome) {
+        try {
+            String jpql = "SELECT f FROM Fornecedores f WHERE f.razaoSocial = :nome";
+            TypedQuery<Fornecedores> query = manager.createQuery(jpql, Fornecedores.class);
+            query.setParameter("nome", nome);
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+    
+    @Override
     public List<Fornecedores> filtrar(String campo, String filtro) {
         
         String stringQuery = "";
